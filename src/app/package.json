@@ -1,0 +1,42 @@
+{
+  "name": "inshapardaz-desktop",
+  "version": "1.0.0",
+  "description": "Inshapardaz Desktop Application",
+  "main": "main.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dist": "build"  
+  },
+  "build": {
+    "appId": "cross-platform-desktop",
+    "directories": {
+      "buildResources": "../../assets",
+      "output": "../../dist"
+    },
+    "extraResources": {
+      "from": "../api/bin/dist/",
+      "to": "api/bin/dist/",
+      "filter": [
+        "**/*"
+      ]
+    },
+    "mac": {
+      "category": "cross-platform-desktop"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^1.6.11",
+    "electron-builder": "^19.16.0"
+  },
+  "dependencies": {
+    "angular": "^1.6.5"
+  }
+}
