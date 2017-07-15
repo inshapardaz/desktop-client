@@ -11,16 +11,35 @@ const url = require('url')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-function createWindow () {
+function createWindow() {
+
+  const WEB_FOLDER = 'dist';
+  const PROTOCOL = 'file';
+
+  electron.protocol.interceptFileProtocol(PROTOCOL, (request, callback) => {
+      // // Strip protocol
+      let url = request.url.substr(PROTOCOL.length + 1);
+
+      // Build complete path for node require function
+      url = path.join(__dirname, WEB_FOLDER, url);
+
+      // Replace backslashes by forward slashes (windows)
+      // url = url.replace(/\\/g, '/');
+      url = path.normalize(url);
+
+      console.log(url);
+      callback({path: url});
+  });
+
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({ width: 800, height: 600 })
   var dist = path.join(__dirname, 'dist');
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
-    pathname: path.join(dist, 'index.html'),
-    protocol: 'file:',
+    pathname: 'index.html',
+    protocol: PROTOCOL + ':',
     slashes: true
-  }))
+  }));
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
@@ -85,6 +104,6 @@ process.on('exit', function () {
   apiProcess.kill();
 });
 
-function writeLog(msg){
+function writeLog(msg) {
   console.log(msg);
 }

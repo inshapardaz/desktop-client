@@ -9,9 +9,9 @@ const rootDir = path.resolve(__dirname, '..');
 
 module.exports = {
     entry: {
-        'polyfills': './polyfills.ts',
-        'vendor': './vendor.ts',
-        'app': './app.ts'
+        'polyfills': './src/polyfills.ts',
+        'vendor': './src/vendor.ts',
+        'app': './src/app.ts'
     },
 
     resolve: {
@@ -35,15 +35,11 @@ module.exports = {
             }, {
                 test: /\.scss$/,
                 exclude: /node_modules/,
-                loaders: ['raw-loader', 'sass-loader'] // sass-loader not scss-loader
+                loaders: ['raw-loader', 'sass-loader']
             }, {
                 test: /\.css$/,
-                //loaders: ['to-string-loader', 'css-loader']
-                use: [ 'style-loader', 'css-loader' ]
+                use: ['style-loader', 'css-loader']
             }
-            //,{
-            //     test: /[\/\\]node_modules[\/\\]some-module[\/\\]index\.js$/,
-            //     loader: "imports-loader?this=>window"}
         ]
     },
 
@@ -52,13 +48,15 @@ module.exports = {
             name: ['app', 'vendor', 'polyfills']
         }),
         new HtmlWebpackPlugin({
-            template: 'index.html'
+            template: 'src/index.html'
         }),
-        //new CopyWebpackPlugin([{
-        //    from: 'src/assets/img',
-        //    to: './images'
-        //}]),
-        //new FaviconsWebpackPlugin('./src/assets/img/favicons/favicon.png'),
+        new CopyWebpackPlugin([{
+            from: 'src/assets/img',
+            to: './images'
+        },{
+            from: 'src/i18n',
+            to: './i18n'
+        }]),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
