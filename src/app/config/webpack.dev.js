@@ -3,7 +3,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var commonConfig = require('./webpack.common.js');
 
 const path = require('path');
-const rootDir = __dirname;
+const rootDir = path.resolve(__dirname, '..');
 
 module.exports = webpackMerge(commonConfig, {
 
