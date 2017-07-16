@@ -11,6 +11,9 @@ const url = require('url')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+
+require('electron-reload')(path.join(__dirname, 'dist'));
+
 function createWindow() {
 
   const WEB_FOLDER = 'dist';
@@ -41,14 +44,9 @@ function createWindow() {
     slashes: true
   }));
 
-  // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
-  // Emitted when the window is closed.
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null
   })
 }
@@ -84,9 +82,9 @@ var apiProcess = null;
 function startApi() {
   var proc = require('child_process').spawn;
   //  run server
-  var apipath = path.join(__dirname, '..\\api\\bin\\dist\\win\\api.exe')
+  var apipath = path.join(__dirname, '..\\api\\bin\\dist\\win\\Inshapardaz.Desktop.API.exe')
   if (os.platform() === 'darwin') {
-    apipath = path.join(__dirname, '..//api//bin//dist//osx//Api')
+    apipath = path.join(__dirname, '..//api//bin//dist//osx//Inshapardaz.Desktop.API')
   }
   apiProcess = proc(apipath)
 
