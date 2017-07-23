@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Inshapardaz.Desktop.Api.Models;
-using Inshapardaz.Desktop.Api.Queries;
+using Inshapardaz.Desktop.Common.Models;
+using Inshapardaz.Desktop.Common.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Paramore.Darker;
 

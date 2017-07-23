@@ -6,10 +6,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.2" />
+    <PackageReference Include="Paramore.Darker" Version="0.10.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Entities\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Inshapardaz.Desktop.Common\Inshapardaz.Desktop.Common.csproj" />
   </ItemGroup>
 
 </Project>

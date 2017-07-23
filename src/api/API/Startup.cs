@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Reflection;
 using Inshapardaz.Desktop.Api.Infrastructure;
-using Inshapardaz.Desktop.Api.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +17,8 @@ namespace Inshapardaz.Desktop.Api
 {
     public class Startup
     {
+        private bool _useApi = false;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder();
@@ -32,34 +33,21 @@ namespace Inshapardaz.Desktop.Api
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
 
-            services.AddTransient<GetEntryQueryHandler>();
-            services.AddTransient<GetDictionariesQueryHandler>();
-            services.AddTransient<GetDictionaryByIdQueryHandler>();
-
-            services.AddTransient<GetWordsByDictionaryIdQueryHandler>();
-            services.AddTransient<GetWordByIdQueryHandler>();
-            services.AddTransient<SearchWordsByDictionaryIdQueryHandler>();
-            services.AddTransient<GetWordsStartingWithQueryHandler>();
-            services.AddTransient<SearchWordsByTitleQueryHandler>();
-            services.AddTransient<GetDetailsByWordIdQueryHandler>();
-            services.AddTransient<GetDetailByIdQueryHandler>();
-            services.AddTransient<GetMeaningByIdQueryHandler>();
-            services.AddTransient<GetMeaningsByWordIdQueryHandler>();
-            services.AddTransient<GetMeaningByContextQueryHandler>();
-            services.AddTransient<GetRelationshipsByWordIdQueryHandler>();
-            services.AddTransient<GetRelationshipByIdQueryHandler>();
-            services.AddTransient<GetTranslationByIdQueryHandler>();
-            services.AddTransient<GetTranslationsByWordIdQueryHandler>();
-            services.AddTransient<GetTranslationsByLanguageQueryHandler>();
-            services.AddTransient<GetAlternatesByWordIdQueryHandler>();
-
-            services.AddTransient<GetLanguagesQueryHandler>();
-            services.AddTransient<GetAttributesQueryHandler>();
-            services.AddTransient<GetRelationshipTypesQueryHandler>();
+            Assembly handlerResolvingAssebly = null;
+            if (_useApi)
+            {
+                Client.Module.RegisterQueryHandlers(services);
+                handlerResolvingAssebly = typeof(Client.Module).GetTypeInfo().Assembly;
+            }
+            else
+            {
+                Domain.Module.RegisterQueryHandlers(services);
+                handlerResolvingAssebly = typeof(Domain.Module).GetTypeInfo().Assembly;
+            }
 
             var config = new DarkerConfig(services, services.BuildServiceProvider());
             config.RegisterDefaultDecorators();
-            config.RegisterQueriesAndHandlersFromAssembly(typeof(Startup).GetTypeInfo().Assembly);
+            config.RegisterQueriesAndHandlersFromAssembly(handlerResolvingAssebly);
 
             var queryProcessor = QueryProcessorBuilder.With()
                 .Handlers(config.HandlerRegistry, config, config)

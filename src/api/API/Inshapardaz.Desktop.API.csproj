@@ -20,4 +20,9 @@
     <PackageReference Include="Paramore.Darker.Policies" Version="0.6.0" />
     <PackageReference Include="Paramore.Darker.QueryLogging" Version="0.3.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Inshapardaz.Desktop.Domain.csproj" />
+    <ProjectReference Include="..\Inshapardaz.Desktop.Api.Client\Inshapardaz.Desktop.Api.Client.csproj" />
+    <ProjectReference Include="..\Inshapardaz.Desktop.Common\Inshapardaz.Desktop.Common.csproj" />
+  </ItemGroup>
 </Project>
