@@ -42,3 +42,6 @@ typings
 dist
 **/bin
 **/obj
+
+*.suo
+*.user
