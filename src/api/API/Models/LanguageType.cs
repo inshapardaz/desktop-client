@@ -2,7 +2,7 @@
 
 namespace Inshapardaz.Desktop.Api.Models
 {
-    public enum Languages
+    public enum LanguageType
     {
         [Description("نامعلوم")] None,
 
