@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Inshapardaz.Desktop.Common.Models
 {
@@ -7,7 +6,6 @@ namespace Inshapardaz.Desktop.Common.Models
     {
         public int Id { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
         public int Language { get; set; }

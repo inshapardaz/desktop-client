@@ -10,7 +10,7 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
 {
     public class GetRelationshipsByWordIdQueryHandler : QueryHandlerAsync<GetRelationshipsByWordIdQuery, IEnumerable<RelationshipView>>
     {
-        public override async Task<IEnumerable<RelationshipView>> ExecuteAsync(GetRelationshipsByWordIdQuery query, CancellationToken cancellationToken = new CancellationToken())
+        public override Task<IEnumerable<RelationshipView>> ExecuteAsync(GetRelationshipsByWordIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }

@@ -1,17 +1,23 @@
 using System;
 using System.IO;
 using System.Reflection;
+using AutoMapper;
 using Inshapardaz.Desktop.Api.Infrastructure;
+using Inshapardaz.Desktop.Domain;
+using Inshapardaz.Desktop.Domain.Command;
+using Inshapardaz.Desktop.Domain.CommandHandlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using Paramore.Brighter;
 using Paramore.Darker.Builder;
 using Paramore.Darker.Policies;
 using Paramore.Darker.QueryLogging;
 using Polly;
+using PolicyRegistry = Paramore.Darker.Policies.PolicyRegistry;
 
 namespace Inshapardaz.Desktop.Api
 {
@@ -33,35 +39,17 @@ namespace Inshapardaz.Desktop.Api
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
 
-            Assembly handlerResolvingAssebly = null;
-            if (_useApi)
-            {
-                Client.Module.RegisterQueryHandlers(services);
-                handlerResolvingAssebly = typeof(Client.Module).GetTypeInfo().Assembly;
-            }
-            else
-            {
-                Domain.Module.RegisterQueryHandlers(services);
-                handlerResolvingAssebly = typeof(Domain.Module).GetTypeInfo().Assembly;
-            }
+            services.AddTransient<IDatabase, Database>();
 
-            var config = new DarkerConfig(services, services.BuildServiceProvider());
-            config.RegisterDefaultDecorators();
-            config.RegisterQueriesAndHandlersFromAssembly(handlerResolvingAssebly);
-
-            var queryProcessor = QueryProcessorBuilder.With()
-                .Handlers(config.HandlerRegistry, config, config)
-                .InMemoryQueryContextFactory()
-                .JsonQueryLogging()
-                .Policies(ConfigurePolicies())
-                .Build();
-
-            services.AddSingleton(queryProcessor);
+            RegisterBrighter(services); 
+            RegisterDarker(services);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
+
+            ConfigureObjectMappings(app);
 
             app.Use(async (context, next) =>
             {
@@ -81,6 +69,59 @@ namespace Inshapardaz.Desktop.Api
                 .AllowCredentials());
 
             app.UseMvc();
+
+            Domain.Module.UpdateDatabase();
+        }
+
+        private static void RegisterBrighter(IServiceCollection services)
+        {
+            var registry = new SubscriberRegistry();
+            registry.RegisterAsync<UpdateSettingsCommand, UpdateSettingsCommandHandler>();
+            services.AddTransient<UpdateSettingsCommandHandler>();
+
+            var commandProcessor = CommandProcessorBuilder.With()
+                .Handlers(new HandlerConfiguration(registry,
+                    new ServiceHandlerFactory(services.BuildServiceProvider())))
+                .DefaultPolicy()
+                .NoTaskQueues()
+                .RequestContextFactory(new InMemoryRequestContextFactory())
+                .Build();
+            services.AddSingleton<IAmACommandProcessor>(commandProcessor);
+        }
+
+        private void RegisterDarker(IServiceCollection services)
+        {
+            Assembly handlerResolvingAssembly = null;
+            if (_useApi)
+            {
+                Client.Module.RegisterQueryHandlers(services);
+                handlerResolvingAssembly = typeof(Client.Module).GetTypeInfo().Assembly;
+            }
+            else
+            {
+                Domain.Module.RegisterQueryHandlers(services);
+                handlerResolvingAssembly = typeof(Domain.Module).GetTypeInfo().Assembly;
+            }
+
+            Domain.Module.RegisterLocalDatabaseHandlers(services);
+            var config = new DarkerConfig(services, services.BuildServiceProvider());
+            config.RegisterDefaultDecorators();
+            config.RegisterQueriesAndHandlersFromAssembly(handlerResolvingAssembly);
+
+            var queryProcessor = QueryProcessorBuilder.With()
+                .Handlers(config.HandlerRegistry, config, config)
+                .InMemoryQueryContextFactory()
+                .JsonQueryLogging()
+                .Policies(ConfigurePolicies())
+                .Build();
+
+            services.AddSingleton(queryProcessor);
+        }
+
+        public static void ConfigureObjectMappings(IApplicationBuilder app)
+        {
+            Mapper.Initialize(c => c.AddProfile(new MappingProfile()));
+            Mapper.AssertConfigurationIsValid();
         }
 
         private IPolicyRegistry ConfigurePolicies()

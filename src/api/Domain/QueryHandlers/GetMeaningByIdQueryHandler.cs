@@ -9,7 +9,7 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
 {
     public class GetMeaningByIdQueryHandler : QueryHandlerAsync<GetMeaningByIdQuery, MeaningView>
     {
-        public override async Task<MeaningView> ExecuteAsync(GetMeaningByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
+        public override Task<MeaningView> ExecuteAsync(GetMeaningByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }

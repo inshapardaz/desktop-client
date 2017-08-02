@@ -9,7 +9,7 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
 {
     public class GetDictionaryByIdQueryHandler : QueryHandlerAsync<GetDictionaryByIdQuery, DictionaryView>
     {
-        public override async Task<DictionaryView> ExecuteAsync(GetDictionaryByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
+        public override Task<DictionaryView> ExecuteAsync(GetDictionaryByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }

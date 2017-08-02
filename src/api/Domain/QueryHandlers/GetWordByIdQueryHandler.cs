@@ -9,7 +9,7 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
 {
     public class GetWordByIdQueryHandler : QueryHandlerAsync<GetWordByIdQuery, WordView>
     {
-        public override async Task<WordView> ExecuteAsync(GetWordByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
+        public override Task<WordView> ExecuteAsync(GetWordByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }

@@ -1,7 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <AssemblyName>Inshapardaz.Desktop.Client</AssemblyName>
+    <PackageId>Client</PackageId>
+    <RootNamespace>Inshapardaz.Desktop.Client</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Inshapardaz.Desktop.Common\Inshapardaz.Desktop.Common.csproj" />
+    <ProjectReference Include="..\Common\Inshapardaz.Desktop.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,18 @@
 ﻿using Inshapardaz.Desktop.Domain.QueryHandlers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Inshapardaz.Desktop.Domain
 {
     public static class Module
     {
+        public static void UpdateDatabase(){
+            using (var context = new Database())
+            {
+                context.Database.Migrate();
+            }
+        }
+
         public static void RegisterQueryHandlers(IServiceCollection services)
         {
             services.AddTransient<GetEntryQueryHandler>();
@@ -31,6 +39,11 @@ namespace Inshapardaz.Desktop.Domain
             services.AddTransient<GetLanguagesQueryHandler>();
             services.AddTransient<GetAttributesQueryHandler>();
             services.AddTransient<GetRelationshipTypesQueryHandler>();
+        }
+
+        public static void RegisterLocalDatabaseHandlers(IServiceCollection services)
+        {
+            services.AddTransient<GetSettingsQueryHandler>();            
         }
     }
 }
