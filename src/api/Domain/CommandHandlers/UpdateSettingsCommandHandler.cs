@@ -2,25 +2,26 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Inshapardaz.Desktop.Domain.Command;
+using Inshapardaz.Desktop.Domain.Contexts;
 using Paramore.Brighter;
 
 namespace Inshapardaz.Desktop.Domain.CommandHandlers
 {
     public class UpdateSettingsCommandHandler : RequestHandlerAsync<UpdateSettingsCommand>
     {
-        private readonly IDatabase _database;
+        private readonly IApplicationDatabase _applicationDatabase;
 
-        public UpdateSettingsCommandHandler(IDatabase database)
+        public UpdateSettingsCommandHandler(IApplicationDatabase applicationDatabase)
         {
-            _database = database;
+            _applicationDatabase = applicationDatabase;
         }
 
         public override async Task<UpdateSettingsCommand> HandleAsync(UpdateSettingsCommand command, CancellationToken cancellationToken = new CancellationToken())
         {
-            var setting = _database.Setting.FirstOrDefault();
+            var setting = _applicationDatabase.Setting.FirstOrDefault();
             if (setting == null)
             {
-                _database.Setting.Add(command.Setting);
+                _applicationDatabase.Setting.Add(command.Setting);
                 command.HasAdded = true;
             }
             else
@@ -30,7 +31,7 @@ namespace Inshapardaz.Desktop.Domain.CommandHandlers
                 command.HasAdded = false;
             }
 
-            _database.SaveChanges();
+            _applicationDatabase.SaveChanges();
             return await base.HandleAsync(command, cancellationToken);
         }
     }

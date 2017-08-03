@@ -25,20 +25,6 @@ namespace Inshapardaz.Desktop.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Setting",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    UseOffline = table.Column<bool>(nullable: false),
-                    UserInterfaceLanguage = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Setting", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Word",
                 columns: table => new
                 {
@@ -194,9 +180,6 @@ namespace Inshapardaz.Desktop.Domain.Migrations
 
             migrationBuilder.DropTable(
                 name: "WordRelation");
-
-            migrationBuilder.DropTable(
-                name: "Setting");
 
             migrationBuilder.DropTable(
                 name: "WordDetail");

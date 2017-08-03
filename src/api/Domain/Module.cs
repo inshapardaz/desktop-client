@@ -1,4 +1,5 @@
-﻿using Inshapardaz.Desktop.Domain.QueryHandlers;
+﻿using Inshapardaz.Desktop.Domain.Contexts;
+using Inshapardaz.Desktop.Domain.QueryHandlers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,7 +8,11 @@ namespace Inshapardaz.Desktop.Domain
     public static class Module
     {
         public static void UpdateDatabase(){
-            using (var context = new Database())
+            using (var context = new ApplicationDatabase())
+            {
+                context.Database.Migrate();
+            }
+            using (var context = new DictionaryDatabase())
             {
                 context.Database.Migrate();
             }
@@ -44,6 +49,12 @@ namespace Inshapardaz.Desktop.Domain
         public static void RegisterLocalDatabaseHandlers(IServiceCollection services)
         {
             services.AddTransient<GetSettingsQueryHandler>();            
+        }
+
+        public static void RegisterDatabases(IServiceCollection services)
+        {
+            services.AddTransient<IApplicationDatabase, ApplicationDatabase>();
+            services.AddTransient<IDictionaryDatabase, DictionaryDatabase>();
         }
     }
 }

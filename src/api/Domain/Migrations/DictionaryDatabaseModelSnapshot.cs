@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Inshapardaz.Desktop.Domain;
+using Inshapardaz.Desktop.Domain.Contexts;
 using Inshapardaz.Desktop.Domain.Entities.Dictionary;
 
 namespace Inshapardaz.Desktop.Domain.Migrations
 {
-    [DbContext(typeof(Database))]
-    partial class DatabaseModelSnapshot : ModelSnapshot
+    [DbContext(typeof(DictionaryDatabase))]
+    partial class DictionaryDatabaseModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -134,20 +134,6 @@ namespace Inshapardaz.Desktop.Domain.Migrations
                     b.HasIndex("SourceWordId");
 
                     b.ToTable("WordRelation");
-                });
-
-            modelBuilder.Entity("Inshapardaz.Desktop.Domain.Entities.Setting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("UseOffline");
-
-                    b.Property<string>("UserInterfaceLanguage");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Setting");
                 });
 
             modelBuilder.Entity("Inshapardaz.Desktop.Domain.Entities.Dictionary.Meaning", b =>

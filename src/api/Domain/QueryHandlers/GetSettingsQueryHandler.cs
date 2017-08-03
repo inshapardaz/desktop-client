@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Inshapardaz.Desktop.Domain.Contexts;
 using Inshapardaz.Desktop.Domain.Entities;
 using Inshapardaz.Desktop.Domain.Queries;
 using Microsoft.EntityFrameworkCore;
@@ -10,16 +10,16 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
 {
     public class GetSettingsQueryHandler : QueryHandlerAsync<GetSettingsQuery, Setting>
     {
-        private readonly IDatabase _database;
+        private readonly IApplicationDatabase _applicationDatabase;
 
-        public GetSettingsQueryHandler(IDatabase database)
+        public GetSettingsQueryHandler(IApplicationDatabase applicationDatabase)
         {
-            _database = database;
+            _applicationDatabase = applicationDatabase;
         }
 
         public override async Task<Setting> ExecuteAsync(GetSettingsQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await _database.Setting.FirstOrDefaultAsync(cancellationToken);
+            return await _applicationDatabase.Setting.FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

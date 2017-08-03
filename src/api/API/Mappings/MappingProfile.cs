@@ -10,8 +10,11 @@ namespace Inshapardaz.Desktop.Api.Mappings
         {
             CreateMap<Setting, SettingsModel>()
                 .ForMember(d => d.UserInterfaceLanguage, o => o.MapFrom(s => s.UserInterfaceLanguage))
-                .ForMember(d => d.UseOfflineCollection, o => o.MapFrom(s => s.UseOffline))
-                .ReverseMap();
+                .ForMember(d => d.UseOffline, o => o.MapFrom(s => s.UseOffline))
+                .ReverseMap()
+                .ForMember(d => d.UserInterfaceLanguage, o => o.MapFrom(s => s.UserInterfaceLanguage))
+                .ForMember(d => d.UseOffline, o => o.MapFrom(s => s.UseOffline));
+
         }
     }
 }

@@ -1,12 +1,10 @@
-using Inshapardaz.Desktop.Domain.Entities;
 using Inshapardaz.Desktop.Domain.Entities.Dictionary;
 using Microsoft.EntityFrameworkCore;
 
-namespace Inshapardaz.Desktop.Domain
+namespace Inshapardaz.Desktop.Domain.Contexts
 {
-    public interface IDatabase
+    public interface IDictionaryDatabase
     {
-        DbSet<Setting> Setting { get; set; }
         DbSet<Dictionary> Dictionary { get; set; }
         DbSet<Meaning> Meaning { get; set; }
         DbSet<Translation> Translation { get; set; }

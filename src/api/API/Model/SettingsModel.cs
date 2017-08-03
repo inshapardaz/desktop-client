@@ -6,6 +6,6 @@ namespace Inshapardaz.Desktop.Api.Model
     {
         public string UserInterfaceLanguage { get; set; }
 
-        public bool UseOfflineCollection { get; set; }
+        public bool UseOffline { get; set; }
     }
 }

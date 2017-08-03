@@ -32,7 +32,7 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(SettingsModel model)
+        public async Task<IActionResult> Put([FromBody]SettingsModel model)
         {
             var updateSettingsCommand = new UpdateSettingsCommand { Setting = model.Map<SettingsModel, Setting>() };
             await _commandProcessor.SendAsync(updateSettingsCommand);

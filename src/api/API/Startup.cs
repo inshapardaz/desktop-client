@@ -8,6 +8,7 @@ using Inshapardaz.Desktop.Api.Mappings;
 using Inshapardaz.Desktop.Domain;
 using Inshapardaz.Desktop.Domain.Command;
 using Inshapardaz.Desktop.Domain.CommandHandlers;
+using Inshapardaz.Desktop.Domain.Contexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -41,8 +42,8 @@ namespace Inshapardaz.Desktop.Api
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
 
-            services.AddTransient<IDatabase, Database>();
-
+            Domain.Module.RegisterDatabases(services);
+            
             CommandProcessorConfigurator
                     .Configure()
                     .UsingServices(services)

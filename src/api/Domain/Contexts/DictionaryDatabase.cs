@@ -3,12 +3,10 @@ using Inshapardaz.Desktop.Domain.Entities.Dictionary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Inshapardaz.Desktop.Domain
+namespace Inshapardaz.Desktop.Domain.Contexts
 {
-    public class Database : DbContext, IDatabase
+    public class DictionaryDatabase : DbContext, IDictionaryDatabase
     {
-        public DbSet<Setting> Setting { get; set; }
-
         public virtual DbSet<Dictionary> Dictionary { get; set; }
         public virtual DbSet<Meaning> Meaning { get; set; }
         public virtual DbSet<Translation> Translation { get; set; }
@@ -18,7 +16,7 @@ namespace Inshapardaz.Desktop.Domain
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=inshapardaz.db");
+            optionsBuilder.UseSqlite("Data Source=dictionary.dat");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
