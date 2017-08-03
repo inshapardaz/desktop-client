@@ -21,11 +21,13 @@ namespace Inshapardaz.Desktop.Domain.CommandHandlers
             if (setting == null)
             {
                 _database.Setting.Add(command.Setting);
+                command.HasAdded = true;
             }
             else
             {
                 setting.UseOffline = command.Setting.UseOffline;
                 setting.UserInterfaceLanguage = command.Setting.UserInterfaceLanguage;
+                command.HasAdded = false;
             }
 
             _database.SaveChanges();

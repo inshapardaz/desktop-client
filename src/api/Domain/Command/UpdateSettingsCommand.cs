@@ -4,6 +4,8 @@ namespace Inshapardaz.Desktop.Domain.Command
 {
     public class UpdateSettingsCommand : Command
     {
-        public Setting Setting { get; set; }   
+        public Setting Setting { get; set; }
+
+        public bool HasAdded { get; set; }
     }
 }

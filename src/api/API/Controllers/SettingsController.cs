@@ -34,8 +34,15 @@ namespace Inshapardaz.Desktop.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put(SettingsModel model)
         {
-            await _commandProcessor.SendAsync(new UpdateSettingsCommand { Setting = model.Map<SettingsModel, Setting>() });
-            return Ok();
+            var updateSettingsCommand = new UpdateSettingsCommand { Setting = model.Map<SettingsModel, Setting>() };
+            await _commandProcessor.SendAsync(updateSettingsCommand);
+
+            if (updateSettingsCommand.HasAdded)
+            {
+                return Created(string.Empty, model);
+            }
+
+            return Ok(model);
         }
     }
 }
