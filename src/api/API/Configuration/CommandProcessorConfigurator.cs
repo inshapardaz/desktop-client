@@ -9,10 +9,10 @@ namespace API.Configuration
 {
     public interface IConfigureCommandProcessor
     {
-        INeedRegistry UsingServices(IServiceCollection services);
+        INeedRegistryToResolveHandlers UsingServices(IServiceCollection services);
     }
     
-    public interface INeedRegistry
+    public interface INeedRegistryToResolveHandlers
     {
         INeedHandlerRegistration WithRegistry();
     }
@@ -27,14 +27,13 @@ namespace API.Configuration
         void Build();
     }
     
-    public class CommandProcessorConfigurator : IConfigureCommandProcessor, INeedRegistry, INeedHandlerRegistration, IBuildCommandProcessor
+    public class CommandProcessorConfigurator : IConfigureCommandProcessor, INeedRegistryToResolveHandlers, INeedHandlerRegistration, IBuildCommandProcessor
     {
         private SubscriberRegistry _subscriberRegistry;
         private IServiceCollection _services;
 
         private CommandProcessorConfigurator()
         {
-
         }
 
         public static IConfigureCommandProcessor Configure()
@@ -42,7 +41,7 @@ namespace API.Configuration
             return new CommandProcessorConfigurator();
         }
 
-        public INeedRegistry UsingServices(IServiceCollection services)
+        public INeedRegistryToResolveHandlers UsingServices(IServiceCollection services)
         {
             _services = services;
             return this;

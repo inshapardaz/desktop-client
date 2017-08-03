@@ -49,7 +49,13 @@ namespace Inshapardaz.Desktop.Api
                     .WithRegistry()
                     .RegisteringHandlers()
                     .Build();  
-            RegisterDarker(services);
+            
+            QueryProcessorConfigurator
+                    .Configure()
+                    .UsingServices(services)
+                    .WithHandlers(_useApi)
+                    .AndLocalHandlers()
+                    .Build();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -80,61 +86,10 @@ namespace Inshapardaz.Desktop.Api
             Domain.Module.UpdateDatabase();
         }
 
-        private void RegisterDarker(IServiceCollection services)
-        {
-            Assembly handlerResolvingAssembly = null;
-            if (_useApi)
-            {
-                Client.Module.RegisterQueryHandlers(services);
-                handlerResolvingAssembly = typeof(Client.Module).GetTypeInfo().Assembly;
-            }
-            else
-            {
-                Domain.Module.RegisterQueryHandlers(services);
-                handlerResolvingAssembly = typeof(Domain.Module).GetTypeInfo().Assembly;
-            }
-
-            Domain.Module.RegisterLocalDatabaseHandlers(services);
-            var config = new DarkerConfig(services, services.BuildServiceProvider());
-            config.RegisterDefaultDecorators();
-            config.RegisterQueriesAndHandlersFromAssembly(handlerResolvingAssembly);
-
-            var queryProcessor = QueryProcessorBuilder.With()
-                .Handlers(config.HandlerRegistry, config, config)
-                .InMemoryQueryContextFactory()
-                .JsonQueryLogging()
-                .Policies(ConfigurePolicies())
-                .Build();
-
-            services.AddSingleton(queryProcessor);
-        }
-
         public static void ConfigureObjectMappings(IApplicationBuilder app)
         {
             Mapper.Initialize(c => c.AddProfile(new MappingProfile()));
             Mapper.AssertConfigurationIsValid();
-        }
-
-        private IPolicyRegistry ConfigurePolicies()
-        {
-            var defaultRetryPolicy = Policy
-                .Handle<Exception>()
-                .WaitAndRetryAsync(new[]
-                {
-                    TimeSpan.FromMilliseconds(50),
-                    TimeSpan.FromMilliseconds(100),
-                    TimeSpan.FromMilliseconds(150)
-                });
-
-            var circuitBreakerPolicy = Policy
-                .Handle<Exception>()
-                .CircuitBreakerAsync(1, TimeSpan.FromMilliseconds(500));
-
-            return new PolicyRegistry
-            {
-                { Paramore.Darker.Policies.Constants.RetryPolicyName, defaultRetryPolicy },
-                { Paramore.Darker.Policies.Constants.CircuitBreakerPolicyName, circuitBreakerPolicy }
-            };
         }
     }
 }
