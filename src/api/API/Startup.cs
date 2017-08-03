@@ -1,8 +1,10 @@
 using System;
 using System.IO;
 using System.Reflection;
+using API.Configuration;
 using AutoMapper;
 using Inshapardaz.Desktop.Api.Infrastructure;
+using Inshapardaz.Desktop.Api.Mappings;
 using Inshapardaz.Desktop.Domain;
 using Inshapardaz.Desktop.Domain.Command;
 using Inshapardaz.Desktop.Domain.CommandHandlers;
@@ -29,7 +31,7 @@ namespace Inshapardaz.Desktop.Api
         {
             var builder = new ConfigurationBuilder();
             builder.AddJsonFile("appsettings.json", false, true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
+                   .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -41,7 +43,12 @@ namespace Inshapardaz.Desktop.Api
 
             services.AddTransient<IDatabase, Database>();
 
-            RegisterBrighter(services); 
+            CommandProcessorConfigurator
+                    .Configure()
+                    .UsingServices(services)
+                    .WithRegistry()
+                    .RegisteringHandlers()
+                    .Build();  
             RegisterDarker(services);
         }
 
@@ -71,22 +78,6 @@ namespace Inshapardaz.Desktop.Api
             app.UseMvc();
 
             Domain.Module.UpdateDatabase();
-        }
-
-        private static void RegisterBrighter(IServiceCollection services)
-        {
-            var registry = new SubscriberRegistry();
-            registry.RegisterAsync<UpdateSettingsCommand, UpdateSettingsCommandHandler>();
-            services.AddTransient<UpdateSettingsCommandHandler>();
-
-            var commandProcessor = CommandProcessorBuilder.With()
-                .Handlers(new HandlerConfiguration(registry,
-                    new ServiceHandlerFactory(services.BuildServiceProvider())))
-                .DefaultPolicy()
-                .NoTaskQueues()
-                .RequestContextFactory(new InMemoryRequestContextFactory())
-                .Build();
-            services.AddSingleton<IAmACommandProcessor>(commandProcessor);
         }
 
         private void RegisterDarker(IServiceCollection services)

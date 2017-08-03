@@ -2,7 +2,7 @@
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Domain.Entities;
 
-namespace Inshapardaz.Desktop.Api.Infrastructure
+namespace Inshapardaz.Desktop.Api.Mappings
 {
     public class MappingProfile : Profile
     {

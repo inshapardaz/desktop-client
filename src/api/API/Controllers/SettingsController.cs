@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Inshapardaz.Desktop.Api.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Inshapardaz.Desktop.Api.Model;
+using Inshapardaz.Desktop.Api.Mappings;
 using Inshapardaz.Desktop.Domain.Command;
 using Inshapardaz.Desktop.Domain.Entities;
 using Inshapardaz.Desktop.Domain.Queries;
