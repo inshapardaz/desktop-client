@@ -11,6 +11,7 @@ import { Translation } from './models/Translation';
 import { MeaningContext } from './models/MeaningContext';
 import { Meaning } from './models/Meaning';
 import { Relation } from './models/relation';
+import { Settings } from './models/settings';
 
 export class Mapper{
     public static MapEntry(source : any) : Entry{
@@ -220,5 +221,12 @@ export class Mapper{
         meaning.relatedWordLink =  _.find<string[], Link>(source.links, ['rel', 'related-word']).href;
         
         return meaning;
+    }
+
+    public static MapSettings(source: any) : Settings{
+        let settings = new Settings();
+        settings.useOffline = source.useOffline;
+        settings.userInterfaceLanguage = source.userInterfaceLanguage;
+        return settings;
     }
 }

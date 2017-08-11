@@ -1,4 +1,5 @@
-﻿using Inshapardaz.Desktop.Domain.Contexts;
+﻿using Inshapardaz.Data;
+using Inshapardaz.Desktop.Domain.Contexts;
 using Inshapardaz.Desktop.Domain.QueryHandlers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,10 +13,11 @@ namespace Inshapardaz.Desktop.Domain
             {
                 context.Database.Migrate();
             }
-            using (var context = new DictionaryDatabase())
-            {
-                context.Database.Migrate();
-            }
+
+            //using (var context = new DictionaryDatabase(new DbContextOptions<DictionaryDatabase>()))
+            //{
+            //    context.Database.Migrate();
+            //}
         }
 
         public static void RegisterQueryHandlers(IServiceCollection services)

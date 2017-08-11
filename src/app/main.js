@@ -11,10 +11,14 @@ const url = require('url')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+function isDebug() {
+    return process.env.NODE_ENV !== 'production';
+};
 
 require('electron-reload')(path.join(__dirname, 'dist'));
 
 function createWindow() {
+  console.log('Creating window ...');
 
   const WEB_FOLDER = 'dist';
   const PROTOCOL = 'file';
@@ -38,6 +42,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({ width: 800, height: 600 })
   var dist = path.join(__dirname, 'dist');
   // and load the index.html of the app.
+  console.log('Window created. Loading main page ...');
+  
   mainWindow.loadURL(url.format({
     pathname: 'index.html',
     protocol: PROTOCOL + ':',
@@ -47,7 +53,8 @@ function createWindow() {
   mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', function () {
-    mainWindow = null
+    console.log('Window closing down ...');
+    mainWindow = null;
   })
 }
 
@@ -61,6 +68,7 @@ app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
+    console.log('All windows closed. Shutting down ...');
     app.quit()
   }
 })
@@ -80,12 +88,22 @@ const os = require('os');
 var apiProcess = null;
 
 function startApi() {
+  if (isDebug()){
+    console.log(`Running in debug mode. Start apis manually.`);
+    if (mainWindow == null) {
+      createWindow();
+    }
+
+    return;
+  }
+
   var proc = require('child_process').spawn;
   //  run server
   var apipath = path.join(__dirname, '..\\api\\bin\\dist\\win\\Inshapardaz.Desktop.API.exe')
   if (os.platform() === 'darwin') {
     apipath = path.join(__dirname, '..//api//bin//dist//osx//Inshapardaz.Desktop.API')
   }
+  console.log(`API Starting from path ${apipath}`);
   apiProcess = proc(apipath)
 
   apiProcess.stdout.on('data', (data) => {

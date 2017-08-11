@@ -6,6 +6,7 @@
     <RootNamespace>Inshapardaz.Desktop.Domain</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Inshapardaz.Data" Version="1.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.2" />
     <PackageReference Include="Paramore.Brighter" Version="7.1.5" />

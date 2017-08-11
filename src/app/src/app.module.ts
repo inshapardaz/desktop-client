@@ -9,6 +9,7 @@ import {TranslateModule} from "ng2-translate/ng2-translate";
 
 import { AuthService } from './services/auth.service';
 import { DictionaryService } from './services/dictionary.service';
+import { ApplicationService } from './services/application.service';
 
 import { UIToggleDirective } from './directives/ui-toggle.directive';
 import { SideBarToggleDirective } from './directives/side-bar-toggle.directive';
@@ -51,7 +52,8 @@ import { routing  } from './app.routes';
     Title,
     AUTH_PROVIDERS,
     AuthService,
-    DictionaryService
+    DictionaryService,
+    ApplicationService
   ],
   declarations: [
     UIToggleDirective,

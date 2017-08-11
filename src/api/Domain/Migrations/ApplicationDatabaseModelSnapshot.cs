@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Inshapardaz.Desktop.Domain.Contexts;
 
-namespace Inshapardaz.Desktop.Domain.Migrations.ApplicationDatabaseMigrations
+namespace Inshapardaz.Desktop.Domain.Migrations
 {
     [DbContext(typeof(ApplicationDatabase))]
     partial class ApplicationDatabaseModelSnapshot : ModelSnapshot

@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Inshapardaz.Desktop.Domain.Contexts;
 
-namespace Inshapardaz.Desktop.Domain.Migrations.ApplicationDatabaseMigrations
+namespace Inshapardaz.Desktop.Domain.Migrations
 {
     [DbContext(typeof(ApplicationDatabase))]
-    [Migration("20170803212246_Initial")]
+    [Migration("20170810201633_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

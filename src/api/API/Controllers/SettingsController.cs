@@ -1,6 +1,4 @@
-using System;
 using System.Threading.Tasks;
-using Inshapardaz.Desktop.Api.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Mappings;
@@ -27,7 +25,7 @@ namespace Inshapardaz.Desktop.Api.Controllers
         [HttpGet]
         public async Task<SettingsModel> Get()
         {
-            var result = await _queryProcessor.ExecuteAsync(new GetSettingsQuery());
+            var result = await _queryProcessor.ExecuteAsync(new GetSettingsQuery()) ?? new Setting();
             return result.Map<Setting,SettingsModel>();
         }
 

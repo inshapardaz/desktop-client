@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Inshapardaz.Desktop.Domain.Migrations.ApplicationDatabaseMigrations
+namespace Inshapardaz.Desktop.Domain.Migrations
 {
     public partial class Initial : Migration
     {
