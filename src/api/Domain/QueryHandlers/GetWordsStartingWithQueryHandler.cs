@@ -7,9 +7,9 @@ using Paramore.Darker;
 
 namespace Inshapardaz.Desktop.Domain.QueryHandlers
 {
-    public class GetWordsStartingWithQueryHandler : QueryHandlerAsync<GetWordsStartingWithQuery, PageView<WordView>>
+    public class GetWordsStartingWithQueryHandler : QueryHandlerAsync<GetWordsStartingWithQuery, PageModel<WordModel>>
     {
-        public override Task<PageView<WordView>> ExecuteAsync(GetWordsStartingWithQuery query, CancellationToken cancellationToken = new CancellationToken())
+        public override Task<PageModel<WordModel>> ExecuteAsync(GetWordsStartingWithQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }

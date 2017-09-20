@@ -1,33 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Inshapardaz.Desktop.Api.Renderers;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Paramore.Darker;
+using WordDetailView = Inshapardaz.Desktop.Api.Model.WordDetailView;
 
 namespace Inshapardaz.Desktop.Api.Controllers
 {
     public class WordDetailController : Controller
     {
         private readonly IQueryProcessor _queryProcessor;
+        private readonly IRenderResponseFromObject<WordDetailModel, WordDetailView> _wordDetailRenderer;
 
-        public WordDetailController(IQueryProcessor queryProcessor)
+        public WordDetailController(IQueryProcessor queryProcessor, IRenderResponseFromObject<WordDetailModel, WordDetailView> wordDetailRenderer)
         {
             _queryProcessor = queryProcessor;
+            _wordDetailRenderer = wordDetailRenderer;
         }
 
-        [HttpGet]
-        [Route("/api/words/{id}/details", Name = "GetWordDetailsById")]
+        [HttpGet("/api/words/{id}/details", Name = "GetWordDetailsById")]
         public async Task<IEnumerable<WordDetailView>> GetForWord(int id)
         {
-            return await _queryProcessor.ExecuteAsync(new GetDetailsByWordIdQuery { Id = id });
+            var result =  await _queryProcessor.ExecuteAsync(new GetDetailsByWordIdQuery { Id = id });
+            return result.Select(x => _wordDetailRenderer.Render(x));
         }
 
-        [HttpGet]
-        [Route("/api/details/{id}", Name = "GetDetailsById")]
+        [HttpGet("/api/details/{id}", Name = "GetDetailsById")]
         public async Task<WordDetailView> Get(int id)
         {
-            return await _queryProcessor.ExecuteAsync(new GetDetailByIdQuery { Id = id });
+            var result = await _queryProcessor.ExecuteAsync(new GetDetailByIdQuery { Id = id });
+            return _wordDetailRenderer.Render(result);
         }
     }
 }

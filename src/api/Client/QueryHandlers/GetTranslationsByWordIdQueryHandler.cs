@@ -7,11 +7,11 @@ using Paramore.Darker;
 
 namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
 {
-    public class GetTranslationsByWordIdQueryHandler : QueryHandlerAsync<GetTranslationsByWordIdQuery, IEnumerable<TranslationView>>
+    public class GetTranslationsByWordIdQueryHandler : QueryHandlerAsync<GetTranslationsByWordIdQuery, IEnumerable<TranslationModel>>
     {
-        public override async Task<IEnumerable<TranslationView>> ExecuteAsync(GetTranslationsByWordIdQuery query, CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<IEnumerable<TranslationModel>> ExecuteAsync(GetTranslationsByWordIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await ApiClient.Get<IEnumerable<TranslationView>>($"api/words/{query.Id}/translations");
+            return await ApiClient.Get<IEnumerable<TranslationModel>>($"api/words/{query.Id}/translations");
         }
     }
 }

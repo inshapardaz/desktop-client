@@ -6,11 +6,11 @@ using Paramore.Darker;
 
 namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
 {
-    public class GetTranslationByIdQueryHandler : QueryHandlerAsync<GetTranslationByIdQuery, TranslationView>
+    public class GetTranslationByIdQueryHandler : QueryHandlerAsync<GetTranslationByIdQuery, TranslationModel>
     {
-        public override async Task<TranslationView> ExecuteAsync(GetTranslationByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<TranslationModel> ExecuteAsync(GetTranslationByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await ApiClient.Get<TranslationView>($"api/translations/{query.Id}");
+            return await ApiClient.Get<TranslationModel>($"api/translations/{query.Id}");
         }
     }
 }

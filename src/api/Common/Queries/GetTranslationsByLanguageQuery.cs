@@ -4,7 +4,7 @@ using Paramore.Darker;
 
 namespace Inshapardaz.Desktop.Common.Queries
 {
-    public class GetTranslationsByLanguageQuery : IQuery<IEnumerable<TranslationView>>
+    public class GetTranslationsByLanguageQuery : IQuery<IEnumerable<TranslationModel>>
     {
         public int Id { get; set; }
         public LanguageType Language { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Inshapardaz.Desktop.Common.Models
 {
-    public class WordView
+    public class WordModel
     {
         public long Id { get; set; }
 
@@ -12,7 +12,7 @@ namespace Inshapardaz.Desktop.Common.Models
 
         public string Description { get; set; }
 
-        public IEnumerable<LinkView> Links { get; set; }
+        public IEnumerable<LinkModel> Links { get; set; }
 
         public string Pronunciation { get; set; }
     }

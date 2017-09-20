@@ -48,19 +48,18 @@ namespace API.Configuration
             return this;
         }
 
-        public INeedLocalQueryHandlers WithHandlers(bool online)
+        public INeedLocalQueryHandlers WithHandlers(bool offline)
         {
-            if (online)
-            {
-                Inshapardaz.Desktop.Api.Client.Module.RegisterQueryHandlers(_services);
-                _handlerResolvingAssembly = typeof(Inshapardaz.Desktop.Api.Client.Module).GetTypeInfo().Assembly;
-            }
-            else
+            if (offline)
             {
                 Inshapardaz.Desktop.Domain.Module.RegisterQueryHandlers(_services);
                 _handlerResolvingAssembly = typeof(Inshapardaz.Desktop.Domain.Module).GetTypeInfo().Assembly;
             }
-
+            else
+            {
+                Inshapardaz.Desktop.Api.Client.Module.RegisterQueryHandlers(_services);
+                _handlerResolvingAssembly = typeof(Inshapardaz.Desktop.Api.Client.Module).GetTypeInfo().Assembly;
+            }
             return this;
         }
 

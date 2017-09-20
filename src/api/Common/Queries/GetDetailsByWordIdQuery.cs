@@ -4,7 +4,7 @@ using Paramore.Darker;
 
 namespace Inshapardaz.Desktop.Common.Queries
 {
-    public class GetDetailsByWordIdQuery : IQuery<IEnumerable<WordDetailView>>
+    public class GetDetailsByWordIdQuery : IQuery<IEnumerable<WordDetailModel>>
     {
         public int Id { get; set; }
     }

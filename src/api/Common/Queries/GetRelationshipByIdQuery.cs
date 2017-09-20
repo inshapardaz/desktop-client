@@ -3,7 +3,7 @@ using Paramore.Darker;
 
 namespace Inshapardaz.Desktop.Common.Queries
 {
-    public class GetRelationshipByIdQuery : IQuery<RelationshipView>
+    public class GetRelationshipByIdQuery : IQuery<RelationshipModel>
     {
         public int Id { get; set; }
     }

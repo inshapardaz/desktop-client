@@ -7,6 +7,8 @@ namespace Inshapardaz.Desktop.Domain.Contexts
     {
         DbSet<Setting> Setting { get; set; }
 
+        DbSet<Dictionary> Dictionaries { get; set; }
+
         int SaveChanges();
 
     }

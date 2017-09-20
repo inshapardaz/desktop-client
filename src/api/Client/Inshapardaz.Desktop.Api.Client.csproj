@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <AssemblyName>Inshapardaz.Desktop.Client</AssemblyName>
+    <AssemblyName>Inshapardaz.Desktop.Api.Client</AssemblyName>
     <PackageId>Client</PackageId>
-    <RootNamespace>Inshapardaz.Desktop.Client</RootNamespace>
+    <RootNamespace>Inshapardaz.Desktop.Api.Client</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Inshapardaz.Desktop.Common.Models
+namespace Inshapardaz.Desktop.Api.Model
 {
     public class TranslationView
     {
@@ -14,6 +14,6 @@ namespace Inshapardaz.Desktop.Common.Models
 
         public string Value { get; set; }
 
-        public long WordId { get; set; }
+        public long WordDetailId { get; set; }
     }
 }

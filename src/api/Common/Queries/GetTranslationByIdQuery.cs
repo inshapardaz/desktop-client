@@ -3,7 +3,7 @@ using Paramore.Darker;
 
 namespace Inshapardaz.Desktop.Common.Queries
 {
-    public class GetTranslationByIdQuery : IQuery<TranslationView>
+    public class GetTranslationByIdQuery : IQuery<TranslationModel>
     {
         public int Id { get; set; }
     }

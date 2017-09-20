@@ -31,4 +31,9 @@
     <ProjectReference Include="..\Client\Inshapardaz.Desktop.Api.Client.csproj" />
     <ProjectReference Include="..\Common\Inshapardaz.Desktop.Common.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

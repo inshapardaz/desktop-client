@@ -2,8 +2,8 @@
 
 namespace Inshapardaz.Desktop.Common.Models
 {
-    public class EntryView
+    public class EntryModel
     {
-        public IEnumerable<LinkView> Links { get; set; }
+        public IEnumerable<LinkModel> Links { get; set; }
     }
 }

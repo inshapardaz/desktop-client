@@ -8,16 +8,15 @@ namespace Inshapardaz.Desktop.Domain
 {
     public static class Module
     {
+        public static void RegisterMappings()
+        {
+        }
+
         public static void UpdateDatabase(){
             using (var context = new ApplicationDatabase())
             {
                 context.Database.Migrate();
             }
-
-            //using (var context = new DictionaryDatabase(new DbContextOptions<DictionaryDatabase>()))
-            //{
-            //    context.Database.Migrate();
-            //}
         }
 
         public static void RegisterQueryHandlers(IServiceCollection services)
@@ -35,11 +34,13 @@ namespace Inshapardaz.Desktop.Domain
             services.AddTransient<GetDetailByIdQueryHandler>();
             services.AddTransient<GetMeaningByIdQueryHandler>();
             services.AddTransient<GetMeaningsByWordIdQueryHandler>();
+            services.AddTransient<GetMeaningsByWordDetailIdQueryHandler>();
             services.AddTransient<GetMeaningByContextQueryHandler>();
             services.AddTransient<GetRelationshipsByWordIdQueryHandler>();
             services.AddTransient<GetRelationshipByIdQueryHandler>();
             services.AddTransient<GetTranslationByIdQueryHandler>();
             services.AddTransient<GetTranslationsByWordIdQueryHandler>();
+            services.AddTransient<GetTranslationsByWordDetailIdQueryHandler>();
             services.AddTransient<GetTranslationsByLanguageQueryHandler>();
             services.AddTransient<GetAlternatesByWordIdQueryHandler>();
 

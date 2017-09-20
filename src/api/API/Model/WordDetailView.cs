@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Inshapardaz.Data.Entities;
 
-namespace Inshapardaz.Desktop.Common.Models
+namespace Inshapardaz.Desktop.Api.Model
 {
     public class WordDetailView
     {

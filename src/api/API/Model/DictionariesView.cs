@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Inshapardaz.Desktop.Common.Models
+namespace Inshapardaz.Desktop.Api.Model
 {
     public class DictionariesView
     {

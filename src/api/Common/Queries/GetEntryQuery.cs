@@ -3,7 +3,7 @@ using Paramore.Darker;
 
 namespace Inshapardaz.Desktop.Common.Queries
 {
-    public class GetEntryQuery : IQuery<EntryView>
+    public class GetEntryQuery : IQuery<EntryModel>
     {
     }
 }

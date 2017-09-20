@@ -3,7 +3,7 @@ using Paramore.Darker;
 
 namespace Inshapardaz.Desktop.Common.Queries
 {
-    public class GetWordsStartingWithQuery : IQuery<PageView<WordView>>
+    public class GetWordsStartingWithQuery : IQuery<PageModel<WordModel>>
     {
         public int Id { get; set; }
         public int PageNumber { get; set; } = 1;

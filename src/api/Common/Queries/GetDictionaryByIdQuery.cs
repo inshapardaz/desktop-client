@@ -3,7 +3,7 @@ using Paramore.Darker;
 
 namespace Inshapardaz.Desktop.Common.Queries
 {
-    public class GetDictionaryByIdQuery : IQuery<DictionaryView>
+    public class GetDictionaryByIdQuery : IQuery<DictionaryModel>
     {
         public int Id { get; set; }
     }

@@ -6,11 +6,11 @@ using Paramore.Darker;
 
 namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
 {
-    public class SearchWordsByDictionaryIdQueryHandler : QueryHandlerAsync<SearchWordsByDictionaryIdQuery, PageView<WordView>>
+    public class SearchWordsByDictionaryIdQueryHandler : QueryHandlerAsync<SearchWordsByDictionaryIdQuery, PageModel<WordModel>>
     {
-        public override async Task<PageView<WordView>> ExecuteAsync(SearchWordsByDictionaryIdQuery query, CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<PageModel<WordModel>> ExecuteAsync(SearchWordsByDictionaryIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await ApiClient.Get<PageView<WordView>>($"api/dictionaries/{query.Id}/Search?query={query.Query}pageNumber={query.PageNumber}&pageSize={query.PageSize}");
+            return await ApiClient.Get<PageModel<WordModel>>($"api/dictionaries/{query.Id}/Search?query={query.Query}pageNumber={query.PageNumber}&pageSize={query.PageSize}");
         }
     }
 }

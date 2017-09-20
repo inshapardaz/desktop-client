@@ -1,5 +1,6 @@
 using Inshapardaz.Desktop.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace Inshapardaz.Desktop.Domain.Contexts
 {
@@ -7,9 +8,18 @@ namespace Inshapardaz.Desktop.Domain.Contexts
     {
         public DbSet<Setting> Setting { get; set; }
 
+        public DbSet<Dictionary> Dictionaries { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=inshapardaz.dat");
+            var sqliteOptionsExtension = optionsBuilder.Options.FindExtension<SqliteOptionsExtension>();
+            string connectionString = "Data Source=inshapardaz.dat";
+            if (sqliteOptionsExtension != null)
+            {
+                connectionString = sqliteOptionsExtension.ConnectionString;
+            }
+
+            optionsBuilder.UseSqlite(connectionString);
         }
     }
 }
