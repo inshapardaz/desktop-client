@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import {TranslateService} from 'ng2-translate/ng2-translate';
+import {TranslateService} from '@ngx-translate/core';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -21,13 +21,7 @@ export class HeaderComponent {
     }
 
     ngOnInit() {
-        if (this.auth.userProfile) {
-            this.profile = this.auth.userProfile;
-        } else {
-            this.auth.getProfile((err, profile) => {
-                this.profile = profile;
-            });
-        }
+        
     }
     onSearch(event: any): void {
         if (event.keyCode == 13) {

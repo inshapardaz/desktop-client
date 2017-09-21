@@ -1,4 +1,4 @@
-﻿export class Word {
+export class Word {
     public id: number;
     public title: string;
     public titleWithMovements: string;
@@ -10,4 +10,7 @@
     public detailsLink : string;
     public updateLink :string;
     public deleteLink : string;
+    public dictionaryLink : string;
+    public addDetailLink : string;
+    public addRelationLink : string;
 }

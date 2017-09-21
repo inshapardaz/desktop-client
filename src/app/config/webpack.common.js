@@ -11,7 +11,7 @@ module.exports = {
     entry: {
         'polyfills': './src/polyfills.ts',
         'vendor': './src/vendor.ts',
-        'app': './src/app.ts'
+        'app': './src/main.ts'
     },
 
     resolve: {
@@ -55,7 +55,7 @@ module.exports = {
             to: './images'
         },{
             from: 'src/i18n',
-            to: './i18n'
+            to: './assets/i18n'
         }]),
         new webpack.ProvidePlugin({
             $: 'jquery',

@@ -1,38 +1,35 @@
+import { start } from 'repl';
 import * as _ from 'lodash';
 
 import { Entry } from './models/entry';
 import { Link } from './models/link';
 import { Dictionaries } from './models/dictionaries';
 import { Dictionary, DictionaryIndex } from './models/Dictionary';
-import { Word } from './models/word';
+import { Word } from './models/Word';
 import { WordPage } from './models/wordpage';
 import { WordDetail } from './models/WordDetail';
 import { Translation } from './models/Translation';
 import { MeaningContext } from './models/MeaningContext';
 import { Meaning } from './models/Meaning';
 import { Relation } from './models/relation';
-import { Settings } from './models/settings';
 
 export class Mapper{
     public static MapEntry(source : any) : Entry{
         let entry = new Entry();
-        entry.selfLink = _.find<string[], Link>(source.links, ['rel', 'self']).href;
-        entry.dictionariesLink = _.find<string[], Link>(source.links, ['rel', 'dictionaries']).href;
-        entry.thesaurusLink = _.find<string[], Link>(source.links, ['rel', 'thesaurus']).href;
-        entry.languagesLink = _.find<string[], Link>(source.links, ['rel', 'languages']).href;
-        entry.attributesLink = _.find<string[], Link>(source.links, ['rel', 'attributes']).href;
-        entry.relationshipTypesLink = _.find<string[], Link>(source.links, ['rel', 'relationshiptypes']).href;
+        entry.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
+        entry.dictionariesLink = Mapper.findHrefWithRel(source.links, RelTypes.Dictionaries);
+        entry.thesaurusLink = Mapper.findHrefWithRel(source.links, RelTypes.Thesaurus);
+        entry.languagesLink = Mapper.findHrefWithRel(source.links, RelTypes.Languages);
+        entry.attributesLink = Mapper.findHrefWithRel(source.links, RelTypes.Attributes);
+        entry.relationshipTypesLink = Mapper.findHrefWithRel(source.links, RelTypes.RelationshipTypes);
         return entry;
     }
 
     public static MapDictionaries(source : any) : Dictionaries{
         let dictionaries = new Dictionaries();
-        dictionaries.selfLink = _.find<string[], Link>(source.links, ['rel', 'self']).href;
-         var createLink = _.find<string[], Link>(source.links, ['rel', 'create']);
-         if (createLink){
-             dictionaries.createLink = createLink.href;
-         }
-         dictionaries.dictionaries = Mapper.MapDictionaryList(source.items);
+        dictionaries.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
+        dictionaries.createLink = Mapper.findHrefWithRel(source.links, RelTypes.Create);
+        dictionaries.dictionaries = Mapper.MapDictionaryList(source.items);
         return dictionaries;
     }
 
@@ -45,13 +42,19 @@ export class Mapper{
     public static MapDictionary(source : any) : Dictionary{
         let dictionary = new Dictionary();
         dictionary.id = source.id;
-        dictionary.selfLink = _.find<string[], Link>(source.links, ['rel', 'self']).href;
         dictionary.name = source.name;
         dictionary.isPublic = source.isPublic;
         dictionary.wordCount = source.wordCount;
         dictionary.language  = source.language;
-        dictionary.searchLink = _.find<string[], Link>(source.links, ['rel', 'search']).href;
-        dictionary.indexLink = _.find<string[], Link>(source.links, ['rel', 'index']).href;
+
+        dictionary.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
+        dictionary.searchLink = Mapper.findHrefWithRel(source.links, RelTypes.Search);
+        dictionary.indexLink = Mapper.findHrefWithRel(source.links, RelTypes.Index);
+        dictionary.updateLink = Mapper.findHrefWithRel(source.links, RelTypes.Update);
+        dictionary.deleteLink = Mapper.findHrefWithRel(source.links, RelTypes.Delete);
+        dictionary.createWordLink = Mapper.findHrefWithRel(source.links, RelTypes.CreateWord);
+        dictionary.createDownloadLink = Mapper.findHrefWithRel(source.links, RelTypes.CreateDownload);
+
         var indexes = new Array<DictionaryIndex>();
         _.forEach(source.indexes, (i) => indexes.push(Mapper.MapDictionaryIndex(i)));
         dictionary.indexes = indexes;
@@ -71,14 +74,9 @@ export class Mapper{
         page.currentPageIndex = source.currentPageIndex;
         page.pageSize = source.pageSize;
         page.pageCount = source.pageCount;
-        page.selfLink = _.find<string[], Link>(source.links, ['rel', 'self']).href;        
-        
-        var nextLink = _.find<string[], Link>(source.links, ['rel', 'next']);
-        page.nextLink = nextLink ? nextLink.href : null;
-
-        var prevLink = _.find<string[], Link>(source.links, ['rel', 'previous']);
-        page.prevLink = prevLink ? prevLink.href : null ;
-        
+        page.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
+        page.nextLink = Mapper.findHrefWithRel(source.links, RelTypes.Next);
+        page.prevLink = Mapper.findHrefWithRel(source.links, RelTypes.Previous);
         page.words = Mapper.MapWords(source.data);
         return page;
     }
@@ -97,19 +95,14 @@ export class Mapper{
         word.pronunciation = source.pronunciation;
         word.description = source.description;
 
-        word.selfLink = _.find<string[], Link>(source.links, ['rel', 'self']).href;
-        word.relationsLink = _.find<string[], Link>(source.links, ['rel', 'relations']).href;
-        word.detailsLink = _.find<string[], Link>(source.links, ['rel', 'details']).href;
-
-        var updateLink = _.find<string[], Link>(source.links, ['rel', 'update']);
-        if (updateLink != null){
-            word.updateLink = updateLink.href;
-        }
-
-        var deleteLink = _.find<string[], Link>(source.links, ['rel', 'delete']);
-        if (deleteLink != null){
-            word.deleteLink = deleteLink.href;
-        }
+        word.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
+        word.relationsLink = Mapper.findHrefWithRel(source.links, RelTypes.Relations);
+        word.detailsLink = Mapper.findHrefWithRel(source.links, RelTypes.Details);
+        word.dictionaryLink = Mapper.findHrefWithRel(source.links, RelTypes.Dictionary);
+        word.updateLink = Mapper.findHrefWithRel(source.links, RelTypes.Update);
+        word.deleteLink = Mapper.findHrefWithRel(source.links, RelTypes.Delete);
+        word.addDetailLink = Mapper.findHrefWithRel(source.links, RelTypes.AddDetail);
+        word.addRelationLink = Mapper.findHrefWithRel(source.links, RelTypes.AddRelation);
 
         return word;
     }
@@ -121,23 +114,25 @@ export class Mapper{
     }
 
     public static MapWordDetail(source : any) : WordDetail{
-        let word = new WordDetail();
-        word.id = source.id;
-        word.wordId = source.wordId;
+        let detail = new WordDetail();
+        detail.id = source.id;
+        detail.wordId = source.wordId;
+        detail.attributes = source.attributes;
+        detail.attributeValue = source.attributeValue;
+        detail.language = source.language;
+        detail.languageId = source.languageId;
+                
+        detail.translations = Mapper.MapTranslations(source.translations);
+        detail.meaningContexts = Mapper.MapMeaningContexts(source.meanings);
 
-        word.attributes = source.attributes;
-        word.attributeValue = source.attributeValue;
-        word.language = source.language;
-        word.languageId = source.languageId;
-        
-        
-        word.translations = Mapper.MapTranslations(source.translations);
-        word.meaningContexts = Mapper.MapMeaningContexts(source.meanings);
-
-        word.selfLink = _.find<string[], Link>(source.links, ['rel', 'self']).href;
-        word.translationsLink = _.find<string[], Link>(source.links, ['rel', 'translations']).href;
-        word.meaningsLink = _.find<string[], Link>(source.links, ['rel', 'meanings']).href;
-        return word;
+        detail.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
+        detail.translationsLink = Mapper.findHrefWithRel(source.links, RelTypes.Translations);
+        detail.meaningsLink = Mapper.findHrefWithRel(source.links, RelTypes.Meanings)
+        detail.updateLink = Mapper.findHrefWithRel(source.links, RelTypes.Update);
+        detail.deleteLink = Mapper.findHrefWithRel(source.links, RelTypes.Delete);
+        detail.createMeaningLink = Mapper.findHrefWithRel(source.links, RelTypes.AddMeaning);
+        detail.createTranslationLink = Mapper.findHrefWithRel(source.links, RelTypes.AddTranslation);
+        return detail;
     }
 
     public static MapTranslations(source: any) : Translation[]{
@@ -149,13 +144,16 @@ export class Mapper{
     public static MapTranslation(source: any) : Translation{
         let translation = new Translation();
         translation.id = source.id;
-        translation.lanuage = source.lanuage;
-        translation.languageValue = source.lanuageId;
+        translation.language = source.language;
+        translation.languageId = source.languageId;
         translation.value = source.value;
         translation.wordId = source.wordId;
 
-        translation.selfLink = _.find<string[], Link>(source.links, ['rel', 'self']).href;
-        translation.parentLink = _.find<string[], Link>(source.links, ['rel', 'worddetail']).href;
+        translation.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
+        translation.parentLink = Mapper.findHrefWithRel(source.links, RelTypes.WordDetail);
+        translation.updateLink = Mapper.findHrefWithRel(source.links, RelTypes.Update);
+        translation.deleteLink = Mapper.findHrefWithRel(source.links, RelTypes.Delete);
+
         return translation;
     }
 
@@ -170,11 +168,10 @@ export class Mapper{
         ct.context = source.context;
         ct.meanings = Mapper.MapMeanings(source.meanings);
         
-        ct.selfLink = _.find<string[], Link>(source.links, ['rel', 'self']).href;
+        ct.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
         
         return ct;
     }
-
     
     public static MapMeanings(source: any) : Meaning[]{
         var meanings = [];
@@ -188,18 +185,10 @@ export class Mapper{
         meaning.wordDetailId = source.wordDetailId;
         meaning.value = source.value;
         meaning.example = source.example;
-        meaning.selfLink =  _.find<string[], Link>(source.links, ['rel', 'self']).href;
-        meaning.parentLink =  _.find<string[], Link>(source.links, ['rel', 'worddetail']).href;
-        
-
-        var linkUpd = _.find<string[], Link>(source.links, ['rel', 'update']);
-        if (linkUpd != null){
-            meaning.updateLink = linkUpd.href;
-        }
-        var linkDel = _.find<string[], Link>(source.links, ['rel', 'delete']);
-        if (linkDel != null){
-            meaning.deleteLink = linkDel.href;
-        }
+        meaning.selfLink =  Mapper.findHrefWithRel(source.links, RelTypes.Self);
+        meaning.parentLink =  Mapper.findHrefWithRel(source.links, RelTypes.WordDetail);
+        meaning.updateLink = Mapper.findHrefWithRel(source.links, RelTypes.Update);
+        meaning.deleteLink = Mapper.findHrefWithRel(source.links, RelTypes.Delete);
 
         return meaning;
     }
@@ -211,22 +200,62 @@ export class Mapper{
     }
 
     public static MapRelation(source: any) : Relation{
-        let meaning = new Relation();
-        meaning.id = source.id;
-        meaning.relatedWord = source.relatedWord;
-        meaning.relatedWordId = source.relatedWordId;
-        meaning.relationType = source.relationType;
-        meaning.relationTypeId = source.relationTypeId;
-        meaning.selfLink =  _.find<string[], Link>(source.links, ['rel', 'self']).href;
-        meaning.relatedWordLink =  _.find<string[], Link>(source.links, ['rel', 'related-word']).href;
-        
-        return meaning;
+        let relation = new Relation();
+        relation.id = source.id;
+        relation.sourceWord = source.sourceWord;
+        relation.sourceWordId = source.sourceWordId;
+        relation.relatedWord = source.relatedWord;
+        relation.relatedWordId = source.relatedWordId;
+        relation.relationType = source.relationType;
+        relation.relationTypeId = source.relationTypeId;
+
+        relation.selfLink =  Mapper.findHrefWithRel(source.links, RelTypes.Self);
+        relation.relatedWordLink =  Mapper.findHrefWithRel(source.links, RelTypes.RelatedWord);
+        relation.updateLink = Mapper.findHrefWithRel(source.links, RelTypes.Update);
+        relation.deleteLink = Mapper.findHrefWithRel(source.links, RelTypes.Delete);
+
+        return relation;
     }
 
-    public static MapSettings(source: any) : Settings{
-        let settings = new Settings();
-        settings.useOffline = source.useOffline;
-        settings.userInterfaceLanguage = source.userInterfaceLanguage;
-        return settings;
+    private static findHrefWithRel(links : any, rel : string){
+        var link : any = _.find(links, ['rel', rel]);
+        if (link != null){
+            return link.href;
+        }
+
+        return null;
     }
+}
+
+export class RelTypes{
+    public static readonly Self = "self";
+    public static readonly Update = "update";
+    public static readonly Delete = "delete";
+    public static readonly RelatedWord = "related-word";
+    public static readonly WordDetail = "worddetail";
+    public static readonly Translations = "translations";
+    public static readonly Meanings = "meanings";
+    public static readonly AddMeaning = "addMeaning";
+    public static readonly AddTranslation = "addTranslation";
+    public static readonly Relations = "relations";
+
+    public static readonly Details = "details";
+    public static readonly Dictionary = "dictionary";
+    public static readonly AddDetail = "add-detail";
+    public static readonly AddRelation = "add-relation";
+
+    public static readonly Next = "next";
+    public static readonly Previous = "previous";
+
+    public static readonly Create = "create";
+    public static readonly Search = "search";
+    public static readonly Index = "index";
+    public static readonly CreateWord = "create-word";
+    public static readonly CreateDownload = "create-download";
+
+    public static readonly Dictionaries = "dictionaries";
+    public static readonly Thesaurus = "thesaurus";
+    public static readonly Languages = "languages";
+    public static readonly Attributes = "attributes";
+    public static readonly RelationshipTypes = "relationshiptypes";
 }

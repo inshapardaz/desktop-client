@@ -1,4 +1,4 @@
-﻿import { Word } from './word';
+import { Word } from './word';
 
 export class WordPage{
     public currentPageIndex : number;

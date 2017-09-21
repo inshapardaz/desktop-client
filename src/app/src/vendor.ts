@@ -11,8 +11,18 @@ import 'rxjs';
 import 'jquery';
 import 'bootstrap/dist/js/bootstrap';
 
-import './lib/jquery.appear.min';
+import './lib/jquery.appear.min.js';
+import './lib/jquery.countTo.min.js';
+import './lib/jquery.placeholder.min.js';
+import './lib/jquery.scrollLock.min.js';
+import './lib/jquery.slimscroll.min.js';
+import './lib/js.cookie.min.js';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import './assets/js/app.js';
+
+import 'sweetalert2/dist/sweetalert2.min.css';
+import 'sweetalert2/dist/sweetalert2.min';
+import 'bootstrap-notify/bootstrap-notify';
 import './assets/css/oneui.css';
 import './assets/css/styles.css';

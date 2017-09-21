@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+import { AlertService } from '../../../services/alert.service';
 import { Component, Input  } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -17,6 +19,10 @@ export class MeaningsComponent {
     public errorMessage: string;
     public meanings : Array<Meaning>;
 
+    showEditDialog : boolean = false;
+    selectedMeaning : Meaning = null;
+    @Input() createLink : string;
+    @Input() wordDetailId : number;
     @Input()
     set meaningsLink(relationsLink: string) {
         this._meaningsLink = (relationsLink) || '';
@@ -26,6 +32,8 @@ export class MeaningsComponent {
 
     constructor(private route: ActivatedRoute,
         private router: Router,
+        private alertService: AlertService,
+        private translate: TranslateService,
         private dictionaryService: DictionaryService){
     }
 
@@ -38,19 +46,37 @@ export class MeaningsComponent {
                 this.isLoading = false;
             },
             error => {
+                this.alertService.error(this.translate.instant('MEANING.MESSAGES.LOAD_FAILURE'));                
                 this.errorMessage = <any>error;
             });
     }
-
-    editMeaning(meaning) {
-        console.log("Edit meaning not implemented");
+    
+    addMeaning(){
+        this.selectedMeaning = null;
+        this.showEditDialog = true;
     }
 
-    deleteMeaning(meaning) {
-        if (meaning.deleteLink == null){
-            return;
-        }
+    editMeaning(meaning : Meaning) {
+        this.selectedMeaning = meaning;
+        this.showEditDialog = true;
+    }
 
-        console.log("Delete meaning not implemented");
+    deleteMeaning(meaning : Meaning) {
+        this.dictionaryService.deleteMeaning(meaning.deleteLink)
+        .subscribe(r => {
+            this.alertService.success(this.translate.instant('MEANING.MESSAGES.DELETE_SUCCESS'));            
+            this.getMeanings();
+        }, error => {
+            this.errorMessage = <any>error;
+            this.isLoading = false;
+            this.alertService.error(this.translate.instant('MEANING.MESSAGES.DELETE_FAILURE'));            
+        });
+    }
+
+    onEditClosed(created : boolean){
+        this.showEditDialog = false;
+        if (created){
+            this.getMeanings();
+        }
     }
 }

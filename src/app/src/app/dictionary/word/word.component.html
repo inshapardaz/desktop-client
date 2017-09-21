@@ -1,41 +1,58 @@
 <div class="content">
-    <div class="block block-bordered" *ngIf="!isLoading">
+    <div class="block block-bordered" [class.block-opt-refresh]="isBusy" *ngIf="isBusy"></div>
+    <div class="block block-bordered" *ngIf="!isBusy">
         <div class="block-header" *ngIf="word.updateLink || word.deleteLink">
             <ul class="block-options">
                 <li *ngIf="word.deleteLink">
-                    <button type="button" title="{{'ACTIONS.DELETE'|translate}}">
-                        <i class="si si-trash"></i>
+                    <button type="button" 
+                            title="{{'WORD.ACTIONS.DELETE'|translate}}" 
+                            [swal]="{title :translate.instant('WORD.ACTIONS.DELETE'), 
+                                text : translate.instant('WORD.ACTIONS.DELETE_MESSAGE', { word : word.title }),  
+                                type : 'warning',
+                                confirmButtonText : translate.instant('ACTIONS.YES'),
+                                cancelButtonText : translate.instant('ACTIONS.NO'),
+                                confirmButtonColor: '#d26a5c',
+                                html: false,
+                                allowOutsideClick : false,
+                                showCancelButton: true}" (confirm)="deleteWord()">
+                        <i class="si si-trash text-danger"></i>
                     </button>
                 </li>
                 <li *ngIf="word.updateLink">
-                    <button type="button" title="{{'ACTIONS.EDIT'|translate}}">
+                    <button type="button" (click)="editWord()" title="{{'WORD.ACTIONS.EDIT'|translate}}">
                         <i class="si si-note"></i>
                     </button>
                 </li>
             </ul>
         </div>
-        <div class="block-content block-content-full text-center">
+        <div class="block-content block-content-full text-center ribbon ribbon-modern ribbon-success">
+            <div class="ribbon-box font-w600 text-uppercase">
+                <a class="text-white" [routerLink]="['/dictionaryLink', word.dictionaryLink]">{{'DICTIONARY.BACKTODICTIONARY'|translate}}</a></div>
             <div class="row items-push text-center">
-                <h2 class="h4 font-s64 push-5 urdu">{{word.title}}</h2>
+                <h2 class="h4 font-s64 push-5">{{word.title}}</h2>
             </div>
         </div>
         <div class="block-content block-content-mini block-content-full bg-gray-lighter">
             <div class="text-center text-muted">
-                <h3 class="h4 font-w300 urdu">{{word.description}}</h3>
+                <h3 class="h4 font-w300" >{{word.description}}</h3>
             </div>
         </div>
         <div class="block-content border-t">
             <div class="row items-push text-center">
                 <div class="col-xs-6 border-r" *ngIf="word.pronunciation">
-                    <a class="h4 font-w300 push-5 urdu" href="javascript:void(0)" data-tooltip="Pronunciation">{{word.pronunciation}}</a>
+                    <span class="h4 font-w300 push-5" href="javascript:void(0)">{{word.pronunciation}}</span>
                 </div>
                 <div class="col-xs-6" *ngIf="word.titleWithMovements">
-                    <a class="h4 font-w300 push-5 urdu" href="javascript:void(0)">{{word.titleWithMovements}}</a>
+                    <span class="h4 font-w300 push-5" href="javascript:void(0)">{{word.titleWithMovements}}</span>
                 </div>
             </div>
         </div>
     </div>
-
-    <word-detail *ngIf="word" [wordDetailLink]="word.detailsLink"> </word-detail>
-    <word-relations *ngIf="word" [relationsLink]="word.relationsLink"> </word-relations>
+    <word-detail *ngIf="word" [wordDetailLink]="word.detailsLink" [createLink]="word.addDetailLink"></word-detail>
+    <word-relations *ngIf="word" 
+        [relationsLink]="word.relationsLink" 
+        [dictionaryLink]="word.dictionaryLink" 
+        [createRelationLink]="word.addRelationLink"
+        [sourceWord]="word"></word-relations>
 </div>
+<edit-word [modalId]="'edit-word'" [visible]="showEditDialog" [word]="word" (onClosed)="onEditClosed($event)"></edit-word>
