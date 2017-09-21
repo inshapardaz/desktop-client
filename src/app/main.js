@@ -12,7 +12,14 @@ const url = require('url')
 let mainWindow
 
 function isDebug() {
-    return process.env.NODE_ENV !== 'production';
+  try {
+    const appEnv = require('./env.json');
+    if (appEnv.env === 'dev') {
+        return true;
+    }
+  }
+  finally{}
+  return false;
 };
 
 require('electron-reload')(path.join(__dirname, 'dist'));

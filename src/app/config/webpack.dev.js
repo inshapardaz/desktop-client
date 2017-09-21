@@ -14,11 +14,7 @@ output: {
     filename: '[name].js',
         chunkFilename: '[id].chunk.js'
     },
-
-    plugins: [
-        new ExtractTextPlugin('[name].css')
-    ],
-
+    plugins: [],
     devServer: {
         historyApiFallback: true,
         stats: 'minimal'
