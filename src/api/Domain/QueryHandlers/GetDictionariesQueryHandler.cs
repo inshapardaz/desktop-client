@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
-using Inshapardaz.Desktop.Domain.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Paramore.Darker;
 
@@ -11,17 +14,33 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
 {
     public class GetDictionariesQueryHandler : QueryHandlerAsync<GetDictionariesQuery, DictionariesModel>
     {
-        private readonly IApplicationDatabase _applicationDatabase;
+        private readonly IProvideUserSettings _userSettings;
 
-        public GetDictionariesQueryHandler(IApplicationDatabase applicationDatabase)
+        public GetDictionariesQueryHandler(IProvideUserSettings userSettings)
         {
-            _applicationDatabase = applicationDatabase;
-            //_dictionaryRenderer = dictionaryRenderer;
+            _userSettings = userSettings;
         }
         public override async Task<DictionariesModel> ExecuteAsync(GetDictionariesQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            throw new NotImplementedException();
-            //return _dictionaryRenderer.Render(await _applicationDatabase.Dictionaries.ToListAsync(cancellationToken));
+            var dictionaryFiles = Directory.GetFiles(_userSettings.DictionariesFolder, "*.dat");
+            var dictionaries = new List<DictionaryModel>();
+            foreach (var dictionaryFile in dictionaryFiles)
+            {
+                dictionaries.Add(await GetDictionary(dictionaryFile));
+            }
+
+            return new DictionariesModel{ Items = dictionaries};
+        }
+
+        private async Task<DictionaryModel> GetDictionary(string dbPath)
+        {
+            using (var db = DatabaseConnection.Connect(dbPath))
+            {
+                var dictionary = await db.Dictionary.FirstOrDefaultAsync();
+                var result =  dictionary.Map<Data.Entities.Dictionary, DictionaryModel>();
+                result.WordCount = db.Word.Count();
+                return result;
+            }
         }
     }
 }

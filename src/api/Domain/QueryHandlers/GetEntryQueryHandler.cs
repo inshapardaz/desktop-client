@@ -9,9 +9,9 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
 {
     public class GetEntryQueryHandler : QueryHandlerAsync<GetEntryQuery, EntryModel>
     {
-        public override Task<EntryModel> ExecuteAsync(GetEntryQuery query, CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<EntryModel> ExecuteAsync(GetEntryQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            throw new NotImplementedException();
+           return await Task.FromResult<EntryModel>(null);
         }
     }
 }

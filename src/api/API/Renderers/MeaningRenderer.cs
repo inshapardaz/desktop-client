@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
+using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
-using Inshapardaz.Desktop.Domain.Helpers;
 
 namespace Inshapardaz.Desktop.API.Renderers
 {

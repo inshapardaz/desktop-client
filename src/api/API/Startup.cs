@@ -1,12 +1,13 @@
 using System.IO;
 using API.Configuration;
 using AutoMapper;
+using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Api.Mappings;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
 using Inshapardaz.Desktop.API.Renderers;
+using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
-using Inshapardaz.Desktop.Domain.Mappings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -44,7 +45,8 @@ namespace Inshapardaz.Desktop.Api
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
-            
+            services.AddSingleton<IProvideUserSettings, UserSettings>();
+
             Domain.Module.RegisterDatabases(services);
             RegisterRenderers(services);
             
@@ -95,11 +97,19 @@ namespace Inshapardaz.Desktop.Api
 
         public void ConfigureObjectMappings(IApplicationBuilder app)
         {
-            Mapper.Initialize(c => c.AddProfile(new MappingProfile()));
 
             if (UseOffline)
             {
-                Mapper.Initialize(c => c.AddProfile(new DomainMappings()));
+                Mapper.Initialize(c =>
+                    {
+                        c.AddProfile(new MappingProfile());
+                        c.AddProfile(new DomainMappings());
+                    }
+                );
+            }
+            else
+            {
+                Mapper.Initialize(c => c.AddProfile(new MappingProfile()));
             }
 
             Mapper.AssertConfigurationIsValid();

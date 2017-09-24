@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Common.Models;
-using Inshapardaz.Desktop.Domain.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -34,7 +33,7 @@ namespace Inshapardaz.Desktop.Api.Renderers
 
         public LinkView RenderOrReRoute(IEnumerable<LinkModel> source, string methodName, string rel, object data = null)
         {
-            var linkModel = source.WithRel(rel);
+            var linkModel = source?.WithRel(rel);
 
             if (linkModel != null)
             {

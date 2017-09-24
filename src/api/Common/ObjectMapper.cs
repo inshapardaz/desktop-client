@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using AutoMapper;
 
-namespace Inshapardaz.Desktop.Domain.Helpers
+namespace Inshapardaz.Desktop.Common
 {
     public static class ObjectMapper
     {

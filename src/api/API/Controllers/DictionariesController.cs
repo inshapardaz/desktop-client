@@ -27,13 +27,19 @@ namespace Inshapardaz.Desktop.Api.Controllers
         [HttpGet("/api/dictionaries", Name = "GetDictionaries")]
         public async Task<DictionariesView> Get()
         {
-            return  _dictionariesRenderer.Render(await _queryProcessor.ExecuteAsync(new GetDictionariesQuery()));
+            return _dictionariesRenderer.Render(await _queryProcessor.ExecuteAsync(new GetDictionariesQuery()));
         }
 
         [HttpGet("/api/dictionaries/{id}", Name = "GetDictionaryById")]
         public async Task<DictionaryView> Get(int id)
         {
-            return _dictionaryRenderer.Render(await _queryProcessor.ExecuteAsync(new GetDictionaryByIdQuery { Id = id }));
+            return _dictionaryRenderer.Render(await _queryProcessor.ExecuteAsync(new GetDictionaryByIdQuery {Id = id}));
+        }
+
+        [HttpGet("/api/dictionary/{id}/download", Name = "DownloadDictionary")]
+        public async Task<IActionResult> DownloadDictionary(int id, [FromHeader(Name = "Accept")] string accept = "")
+        {
+            return await Task.FromResult(StatusCode(405));
         }
     }
 }
