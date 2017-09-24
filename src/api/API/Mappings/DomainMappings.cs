@@ -17,6 +17,9 @@ namespace Inshapardaz.Desktop.Api.Mappings
                 .ForMember(d => d.UserId, o => o.MapFrom(s => s.UserId))
                 .ForMember(d => d.Links, o => o.Ignore())
                 .ForMember(d => d.Indexes, o => o.Ignore());
+            CreateMap<Word, WordModel>()
+                .ForMember(d => d.Links, o => o.Ignore());
+
         }
     }
 }

@@ -26,19 +26,19 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
             var dictionaries = new List<DictionaryModel>();
             foreach (var dictionaryFile in dictionaryFiles)
             {
-                dictionaries.Add(await GetDictionary(dictionaryFile));
+                dictionaries.Add(await GetDictionary(dictionaryFile, cancellationToken));
             }
 
             return new DictionariesModel{ Items = dictionaries};
         }
 
-        private async Task<DictionaryModel> GetDictionary(string dbPath)
+        private async Task<DictionaryModel> GetDictionary(string dbPath, CancellationToken cancellationToken)
         {
             using (var db = DatabaseConnection.Connect(dbPath))
             {
-                var dictionary = await db.Dictionary.FirstOrDefaultAsync();
+                var dictionary = await db.Dictionary.FirstOrDefaultAsync(cancellationToken);
                 var result =  dictionary.Map<Data.Entities.Dictionary, DictionaryModel>();
-                result.WordCount = db.Word.Count();
+                result.WordCount = await db.Word.CountAsync(cancellationToken);
                 return result;
             }
         }

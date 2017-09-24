@@ -22,12 +22,12 @@ namespace Inshapardaz.Desktop.Api.Helpers
 
         public static LinkModel WithRel(this IEnumerable<LinkModel> links, string relType)
         {
-            return links.SingleOrDefault(l => l.Rel == relType);
+            return links?.SingleOrDefault(l => l.Rel == relType);
         }
 
         public static bool HasLinkWithRel(this IEnumerable<LinkModel> links, string relType)
         {
-            return links.SingleOrDefault(l => l.Rel == relType) != null;
+            return links?.SingleOrDefault(l => l.Rel == relType) != null;
         }
     }
 }

@@ -38,6 +38,8 @@ namespace Inshapardaz.Desktop.Api.Renderers
                 links.Add(LinkRenderer.Render(source.RouteName, RelTypes.Previous, CreateRouteParameters(source, page.CurrentPageIndex - 1, page.PageSize)));
             }
 
+            page.Links = links;
+
             return page;
         }
 
