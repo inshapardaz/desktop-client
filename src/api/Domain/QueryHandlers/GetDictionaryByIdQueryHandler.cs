@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Inshapardaz.Data;
 using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
@@ -11,21 +12,18 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
 {
     public class GetDictionaryByIdQueryHandler : QueryHandlerAsync<GetDictionaryByIdQuery, DictionaryModel>
     {
-        private readonly IProvideUserSettings _userSettings;
+        private readonly IDictionaryDatabase _database;
 
-        public GetDictionaryByIdQueryHandler(IProvideUserSettings userSettings)
+        public GetDictionaryByIdQueryHandler(IDictionaryDatabase database)
         {
-            _userSettings = userSettings;
+            _database = database;
         }
         public override async Task<DictionaryModel> ExecuteAsync(GetDictionaryByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            using (var db = DatabaseConnection.ConnectToId(_userSettings, query.Id))
-            {
-                var dictionary = await db.Dictionary.FirstOrDefaultAsync(cancellationToken);
-                var result = dictionary.Map<Data.Entities.Dictionary, DictionaryModel>();
-                result.WordCount = await db.Word.CountAsync(cancellationToken);
-                return result;
-            }
+            var dictionary = await _database.Dictionary.FirstOrDefaultAsync(d => d.Id == query.Id, cancellationToken);
+            var result = dictionary.Map<Data.Entities.Dictionary, DictionaryModel>();
+            result.WordCount = await _database.Word.CountAsync(w => w.DictionaryId == dictionary.Id, cancellationToken);
+            return result;
         }
     }
 }

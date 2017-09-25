@@ -16,6 +16,8 @@ namespace Inshapardaz.Desktop.Api.Model
 
         public long WordCount { get; set; }
 
+        public bool IsOffline { get; set; }
+
         public IEnumerable<LinkView> Links { get; set; }
 
         public IEnumerable<LinkView> Indexes { get; set; }

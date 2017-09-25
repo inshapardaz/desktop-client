@@ -21,6 +21,10 @@ namespace Inshapardaz.Desktop.API.Renderers
 
         public WordDetailView Render(WordDetailModel source)
         {
+            if (source == null)
+            {
+                return null;
+            }
             WordDetailView result = source.Map<WordDetailModel, WordDetailView>();
             result.Language = _enumRenderer.Render((Languages)source.LanguageId);
             var links = new List<LinkView>

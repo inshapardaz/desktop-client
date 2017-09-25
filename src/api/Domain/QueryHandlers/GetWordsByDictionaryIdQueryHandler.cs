@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Inshapardaz.Data;
 using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
@@ -12,18 +13,17 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
 {
     public class GetWordsByDictionaryIdQueryHandler : QueryHandlerAsync<GetWordsByDictionaryIdQuery, PageModel<WordModel>>
     {
-        private readonly IProvideUserSettings _userSettings;
+        private readonly IDictionaryDatabase _database;
 
-        public GetWordsByDictionaryIdQueryHandler(IProvideUserSettings userSettings)
+        public GetWordsByDictionaryIdQueryHandler(IDictionaryDatabase database)
         {
-            _userSettings = userSettings;
+            _database = database;
         }
 
         public override async Task<PageModel<WordModel>> ExecuteAsync(GetWordsByDictionaryIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            using (var db = DatabaseConnection.ConnectToId(_userSettings, query.Id))
-            {
-                var data = await db.Word
+                var data = await _database.Word
+                    .Where(w => w.DictionaryId == query.Id)
                     .OrderBy(x => x.Title)
                     .Paginate(query.PageNumber, query.PageSize)
                     .ToListAsync(cancellationToken);
@@ -32,9 +32,9 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
                     Data = data.Select(w => w.Map<Data.Entities.Word, WordModel>()),
                     PageNumber = query.PageNumber,
                     PageSize = query.PageSize,
-                    TotalCount = await db.Word.CountAsync(cancellationToken)
+                    TotalCount = await _database.Word
+                                                .CountAsync(w => w.DictionaryId == query.Id, cancellationToken)
                 };
-            }
         }
     }
 }

@@ -1,6 +1,9 @@
-﻿using Inshapardaz.Data;
+﻿using System.IO;
+using Inshapardaz.Data;
+using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Domain.Contexts;
 using Inshapardaz.Desktop.Domain.QueryHandlers;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -54,8 +57,20 @@ namespace Inshapardaz.Desktop.Domain
             services.AddTransient<GetSettingsQueryHandler>();            
         }
 
-        public static void RegisterDatabases(IServiceCollection services)
+        public static void RegisterDatabases(IServiceCollection services, IProvideUserSettings settings)
         {
+            var dictionariesFile = Path.Combine(settings.DataFolder, "dictionaries.dat");
+            var dictionariesConnectionString = new SqliteConnectionStringBuilder { DataSource = dictionariesFile };
+
+            var applicationDbFile = Path.Combine(settings.DataFolder, "application.dat");
+            var applicationConnectionString = new SqliteConnectionStringBuilder { DataSource = applicationDbFile };
+
+            services.AddEntityFrameworkSqlite()
+                    .AddDbContext<DictionaryDatabase>(
+                        options => options.UseSqlite(dictionariesConnectionString.ConnectionString))
+                    .AddDbContext<ApplicationDatabase>(
+                        options => options.UseSqlite(applicationConnectionString.ConnectionString));
+            
             services.AddTransient<IApplicationDatabase, ApplicationDatabase>();
             services.AddTransient<IDictionaryDatabase, DictionaryDatabase>();
         }

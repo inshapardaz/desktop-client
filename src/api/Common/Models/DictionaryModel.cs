@@ -14,6 +14,8 @@ namespace Inshapardaz.Desktop.Common.Models
 
         public bool IsPublic { get; set; }
 
+        public bool IsOffline { get; set; }
+
         public long WordCount { get; set; }
 
         public IEnumerable<LinkModel> Links { get; set; }

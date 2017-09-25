@@ -46,8 +46,8 @@ namespace Inshapardaz.Desktop.Api
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
             services.AddSingleton<IProvideUserSettings, UserSettings>();
-
-            Domain.Module.RegisterDatabases(services);
+            
+            Domain.Module.RegisterDatabases(services, new UserSettings());
             RegisterRenderers(services);
             
             CommandProcessorConfigurator

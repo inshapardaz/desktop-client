@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Inshapardaz.Data;
+using Inshapardaz.Data.Entities;
 using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
@@ -14,33 +16,29 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
 {
     public class GetDictionariesQueryHandler : QueryHandlerAsync<GetDictionariesQuery, DictionariesModel>
     {
-        private readonly IProvideUserSettings _userSettings;
+        private readonly IDictionaryDatabase _database;
 
-        public GetDictionariesQueryHandler(IProvideUserSettings userSettings)
+        public GetDictionariesQueryHandler(IDictionaryDatabase database)
         {
-            _userSettings = userSettings;
+            _database = database;
         }
+
         public override async Task<DictionariesModel> ExecuteAsync(GetDictionariesQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            var dictionaryFiles = Directory.GetFiles(_userSettings.DictionariesFolder, "*.dat");
             var dictionaries = new List<DictionaryModel>();
-            foreach (var dictionaryFile in dictionaryFiles)
+            foreach (var dictionary in _database.Dictionary)
             {
-                dictionaries.Add(await GetDictionary(dictionaryFile, cancellationToken));
+                dictionaries.Add(await GetDictionary(dictionary, cancellationToken));
             }
 
             return new DictionariesModel{ Items = dictionaries};
         }
 
-        private async Task<DictionaryModel> GetDictionary(string dbPath, CancellationToken cancellationToken)
+        private async Task<DictionaryModel> GetDictionary(Dictionary dictionary, CancellationToken cancellationToken)
         {
-            using (var db = DatabaseConnection.Connect(dbPath))
-            {
-                var dictionary = await db.Dictionary.FirstOrDefaultAsync(cancellationToken);
-                var result =  dictionary.Map<Data.Entities.Dictionary, DictionaryModel>();
-                result.WordCount = await db.Word.CountAsync(cancellationToken);
-                return result;
-            }
+            var result =  dictionary.Map<Dictionary, DictionaryModel>();
+            result.WordCount = await _database.Word.CountAsync(w => w.DictionaryId == dictionary.Id, cancellationToken);
+            return result;
         }
     }
 }

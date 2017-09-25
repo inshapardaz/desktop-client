@@ -29,7 +29,7 @@ namespace Inshapardaz.Desktop.Api.Controllers
         {
             var words = await _queryProcessor.ExecuteAsync(new GetWordsByDictionaryIdQuery { Id = id, PageNumber = pageNumber, PageSize = pageSize });
 
-            return _wordPageRenderer.Render(new PageRendererArgs<WordModel>()
+            return _wordPageRenderer.Render(new PageRendererArgs<WordModel>
             {
                 Page = words,
                 RouteArguments = new PagedRouteArgs{ PageSize = pageSize, PageNumber = pageNumber},
@@ -44,10 +44,10 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpGet("api/dictionaries/{id}/Search", Name = "SearchDictionary")]
-        public async Task<Model.PageView<WordView>> SearchDictionary(int id, string query, int pageNumber = 1, int pageSize = 10)
+        public async Task<PageView<WordView>> SearchDictionary(int id, string query, int pageNumber = 1, int pageSize = 10)
         {
             var words = await _queryProcessor.ExecuteAsync(new SearchWordsByDictionaryIdQuery { Id = id, Query = query, PageNumber = pageNumber, PageSize = pageSize });
-            return _wordPageRenderer.Render(new PageRendererArgs<WordModel>()
+            return _wordPageRenderer.Render(new PageRendererArgs<WordModel>
             {
                 Page = words,
                 RouteArguments = new PagedRouteArgs { PageSize = pageSize, PageNumber = pageNumber },
@@ -71,7 +71,7 @@ namespace Inshapardaz.Desktop.Api.Controllers
         public async Task<Model.PageView<WordView>> Search(string title, int pageNumber = 1, int pageSize = 10)
         {
             var words = await _queryProcessor.ExecuteAsync(new SearchWordsByTitleQuery { Title = title, PageNumber = pageNumber, PageSize = pageSize });
-            return _wordPageRenderer.Render(new PageRendererArgs<WordModel>()
+            return _wordPageRenderer.Render(new PageRendererArgs<WordModel>
             {
                 Page = words,
                 RouteArguments = new PagedRouteArgs { PageSize = pageSize, PageNumber = pageNumber },

@@ -20,6 +20,7 @@ namespace Inshapardaz.Desktop.Api.Helpers
             }
         }
         public string DictionariesFolder => EnsureDirectory(Path.Combine(UserDataFolder, "Dictionaries"));
+        public string DataFolder => EnsureDirectory(Path.Combine(UserDataFolder, "Data"));
 
         private string EnsureDirectory(string path)
         {

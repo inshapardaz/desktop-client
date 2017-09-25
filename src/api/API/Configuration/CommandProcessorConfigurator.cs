@@ -56,6 +56,7 @@ namespace API.Configuration
         public IBuildCommandProcessor RegisteringHandlers()
         {
             _subscriberRegistry.RegisterAsync<UpdateSettingsCommand, UpdateSettingsCommandHandler>();
+            _subscriberRegistry.RegisterAsync<MakeDictionaryOfflineCommand, MakeDictionaryOfflineCommandHandler>();
             _services.AddTransient<UpdateSettingsCommandHandler>();
             return this;
         }

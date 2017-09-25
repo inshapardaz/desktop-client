@@ -21,6 +21,7 @@ namespace Inshapardaz.Desktop.Api.Mappings
                 .ForMember(d => d.Links, o => o.Ignore());
             CreateMap<DictionaryModel, DictionaryView>()
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
+                .ForMember(d => d.IsOffline, o => o.Ignore())
                 .ForMember(d => d.Indexes, o => o.Ignore())
                 .ForMember(d => d.Links, o => o.Ignore());
             CreateMap<WordModel, WordView>()
