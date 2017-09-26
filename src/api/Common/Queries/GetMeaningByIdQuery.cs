@@ -5,6 +5,6 @@ namespace Inshapardaz.Desktop.Common.Queries
 {
     public class GetMeaningByIdQuery : IQuery<MeaningModel>
     {
-        public int Id { get; set; }
+        public int MeaningId { get; set; }
     }
 }

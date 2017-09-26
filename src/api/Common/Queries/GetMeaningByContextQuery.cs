@@ -6,7 +6,7 @@ namespace Inshapardaz.Desktop.Common.Queries
 {
     public class GetMeaningByContextQuery : IQuery<IEnumerable<MeaningModel>>
     {
-        public int Id { get; set; }
+        public int WordId { get; set; }
         public string Context { get; set; }
     }
 }

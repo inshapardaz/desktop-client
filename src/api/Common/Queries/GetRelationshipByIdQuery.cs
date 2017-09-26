@@ -5,6 +5,6 @@ namespace Inshapardaz.Desktop.Common.Queries
 {
     public class GetRelationshipByIdQuery : IQuery<RelationshipModel>
     {
-        public int Id { get; set; }
+        public int RelationshipId { get; set; }
     }
 }

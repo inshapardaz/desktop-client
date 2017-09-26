@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Inshapardaz.Desktop.Api.Renderers;
 using Inshapardaz.Desktop.Common.Models;
@@ -23,17 +22,21 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpGet("/api/words/{id}/relationships", Name = "GetWordRelationsById")]
-        public async Task<IEnumerable<RelationshipView>> GetRelationshipForWord(int id)
+        public async Task<IActionResult> GetRelationshipForWord(int id)
         {
-            var result = await _queryProcessor.ExecuteAsync(new GetRelationshipsByWordIdQuery { Id = id });
-            return result.Select(r => _relationRenderer.Render(r));
+            var result = await _queryProcessor.ExecuteAsync(new GetRelationshipsByWordIdQuery { WordId = id });
+            return Ok(result.Select(r => _relationRenderer.Render(r)));
         }
 
         [HttpGet("/api/relationships/{id}", Name = "GetRelationById")]
-        public async Task<RelationshipView> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var result = await _queryProcessor.ExecuteAsync(new GetRelationshipByIdQuery { Id = id });
-            return _relationRenderer.Render(result);
+            var result = await _queryProcessor.ExecuteAsync(new GetRelationshipByIdQuery { RelationshipId = id });
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(_relationRenderer.Render(result));
         }
     }
 }

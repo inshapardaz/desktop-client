@@ -6,6 +6,6 @@ namespace Inshapardaz.Desktop.Common.Queries
 {
     public class GetRelationshipsByWordIdQuery : IQuery<IEnumerable<RelationshipModel>>
     {
-        public int Id { get; set; }
+        public int WordId { get; set; }
     }
 }

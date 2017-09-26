@@ -10,7 +10,7 @@ namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
     {
         public override async Task<MeaningModel> ExecuteAsync(GetMeaningByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await ApiClient.Get<MeaningModel>($"api/meanings/{query.Id}");
+            return await ApiClient.Get<MeaningModel>($"api/meanings/{query.MeaningId}");
         }
     }
 }

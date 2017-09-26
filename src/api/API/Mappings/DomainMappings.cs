@@ -28,6 +28,11 @@ namespace Inshapardaz.Desktop.Api.Mappings
             CreateMap<Translation, TranslationModel>()
                 .ForMember(d => d.Links, o => o.Ignore())
                 .ForMember(d => d.LanguageId, o => o.MapFrom(s => (int)s.Language));
+            CreateMap<Meaning, MeaningModel>()
+                .ForMember(d => d.Links, o => o.Ignore());
+            CreateMap<WordRelation, RelationshipModel>()
+                .ForMember(d => d.Links, o => o.Ignore())
+                .ForMember(d => d.RelationTypeId, o => o.MapFrom(s => (int)s.RelationType));
 
         }
     }

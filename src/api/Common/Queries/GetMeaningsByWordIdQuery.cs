@@ -6,6 +6,6 @@ namespace Inshapardaz.Desktop.Common.Queries
 {
     public class GetMeaningsByWordIdQuery : IQuery<IEnumerable<MeaningModel>>
     {
-        public int Id { get; set; }
+        public int WordId { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
     {
         public override async Task<IEnumerable<RelationshipModel>> ExecuteAsync(GetRelationshipsByWordIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await ApiClient.Get<IEnumerable<RelationshipModel>>($"/api/words/{query.Id}/relationships");
+            return await ApiClient.Get<IEnumerable<RelationshipModel>>($"/api/words/{query.WordId}/relationships");
         }
     }
 }
