@@ -24,24 +24,24 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpGet("api/words/{id}/translations", Name = "GetWordTranslationsById")]
-        public async Task<IEnumerable<TranslationView>> GetTranslationForWord(int id)
+        public async Task<IActionResult> GetTranslationForWord(int id)
         {
             var result = await _queryProcessor.ExecuteAsync(new GetTranslationsByWordIdQuery { Id = id });
-            return result.Select(t => _translationRenderer.Render(t));
+            return Ok(result.Select(t => _translationRenderer.Render(t)));
         }
 
         [HttpGet("api/detail/{id}/translations", Name = "GetWordTranslationsByDetailId")]
-        public async Task<IEnumerable<TranslationView>> GetTranslationForWordDetail(int id)
+        public async Task<IActionResult> GetTranslationForWordDetail(int id)
         {
             var result = await _queryProcessor.ExecuteAsync(new GetTranslationsByWordDetailIdQuery { DetailId = id });
-            return result.Select(t => _translationRenderer.Render(t));
+            return Ok(result.Select(t => _translationRenderer.Render(t)));
         }
 
         [HttpGet("api/words/{id}/translations/languages/{language}", Name = "GetWordTranslationsByWordIdAndLanguage")]
-        public async Task<IEnumerable<TranslationView>> GetTranslationForWord(int id, LanguageType language)
+        public async Task<IActionResult> GetTranslationForWord(int id, LanguageType language)
         {
             var result = await _queryProcessor.ExecuteAsync(new GetTranslationsByLanguageQuery { Id = id, Language = (Common.Models.LanguageType)language });
-            return result.Select(t => _translationRenderer.Render(t));
+            return Ok(result.Select(t => _translationRenderer.Render(t)));
         }
 
         [HttpGet("api/detail/{id}/translations/languages/{language}", Name = "GetWordTranslationsByDetailIdAndLanguage")]
@@ -51,10 +51,16 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpGet("api/translations/{id}", Name = "GetTranslationById")]
-        public async Task<TranslationView> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var result = await _queryProcessor.ExecuteAsync(new GetTranslationByIdQuery { Id = id });
-            return _translationRenderer.Render(result);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_translationRenderer.Render(result));
         }
     }
 }

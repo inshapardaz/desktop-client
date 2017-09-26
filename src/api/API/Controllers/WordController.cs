@@ -25,7 +25,7 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [Route("api/dictionaries/{id}/words", Name = "GetWords")]
-        public async Task<Model.PageView<WordView>> Get(int id, int pageNumber = 1, int pageSize = 10)
+        public async Task<PageView<WordView>> Get(int id, int pageNumber = 1, int pageSize = 10)
         {
             var words = await _queryProcessor.ExecuteAsync(new GetWordsByDictionaryIdQuery { Id = id, PageNumber = pageNumber, PageSize = pageSize });
 
@@ -38,9 +38,14 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpGet("api/words/{id}", Name = "GetWordById")]
-        public async Task<WordView> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return _wordRenderer.Render(await _queryProcessor.ExecuteAsync(new GetWordByIdQuery { Id = id }));
+            var model = await _queryProcessor.ExecuteAsync(new GetWordByIdQuery { Id = id });
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return Ok(_wordRenderer.Render(model));
         }
 
         [HttpGet("api/dictionaries/{id}/Search", Name = "SearchDictionary")]
@@ -56,10 +61,10 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpGet("api/dictionaries/{id}/words/startWith/{startingWith}", Name = "GetWordsListStartWith")]
-        public async Task<Model.PageView<WordView>> StartsWith(int id, string startingWith, int pageNumber = 1, int pageSize = 10)
+        public async Task<PageView<WordView>> StartsWith(int id, string startingWith, int pageNumber = 1, int pageSize = 10)
         {
             var words = await _queryProcessor.ExecuteAsync(new GetWordsStartingWithQuery { Id = id, StartingWith = startingWith, PageNumber = pageNumber, PageSize = pageSize });
-            return _wordPageRenderer.Render(new PageRendererArgs<WordModel>()
+            return _wordPageRenderer.Render(new PageRendererArgs<WordModel>
             {
                 Page = words,
                 RouteArguments = new PagedRouteArgs { PageSize = pageSize, PageNumber = pageNumber },
@@ -68,7 +73,7 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpGet("api/words/search/{title}", Name = "WordSearch")]
-        public async Task<Model.PageView<WordView>> Search(string title, int pageNumber = 1, int pageSize = 10)
+        public async Task<PageView<WordView>> Search(string title, int pageNumber = 1, int pageSize = 10)
         {
             var words = await _queryProcessor.ExecuteAsync(new SearchWordsByTitleQuery { Title = title, PageNumber = pageNumber, PageSize = pageSize });
             return _wordPageRenderer.Render(new PageRendererArgs<WordModel>

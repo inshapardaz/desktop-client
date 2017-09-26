@@ -25,6 +25,9 @@ namespace Inshapardaz.Desktop.Api.Mappings
                 .ForMember(d => d.LanguageId, o => o.MapFrom(s => (int)s.Language))
                 .ForMember(d => d.WordId, o => o.MapFrom(s => s.WordInstanceId))
                 .ForMember(d => d.Links, o => o.Ignore());
+            CreateMap<Translation, TranslationModel>()
+                .ForMember(d => d.Links, o => o.Ignore())
+                .ForMember(d => d.LanguageId, o => o.MapFrom(s => (int)s.Language));
 
         }
     }

@@ -22,17 +22,22 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpGet("/api/words/{id}/details", Name = "GetWordDetailsById")]
-        public async Task<IEnumerable<WordDetailView>> GetForWord(int id)
+        public async Task<IActionResult> GetForWord(int id)
         {
             var result =  await _queryProcessor.ExecuteAsync(new GetDetailsByWordIdQuery { Id = id });
-            return result.Select(x => _wordDetailRenderer.Render(x));
+            return Ok(result.Select(x => _wordDetailRenderer.Render(x)));
         }
 
         [HttpGet("/api/details/{id}", Name = "GetDetailsById")]
-        public async Task<WordDetailView> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var result = await _queryProcessor.ExecuteAsync(new GetDetailByIdQuery { Id = id });
-            return _wordDetailRenderer.Render(result);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_wordDetailRenderer.Render(result));
         }
     }
 }
