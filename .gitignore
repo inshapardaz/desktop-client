@@ -47,3 +47,11 @@ dist
 *.suo
 *.user
 **/package-lock.json
+
+
+./src/app/assets
+./src/app/dist
+./src/app/images
+./src/app/polyfil.js
+./src/app/app.js
+./src/app/vendor.js
