@@ -11,7 +11,8 @@
     "SEARCH" : "Search..."
   },
   "SIDEBAR" : {
-    "SECTIONS" : "Sections"
+    "SECTIONS" : "Sections",
+    "MISC" : "Miscellaneous"
   },
   "HOME" : {
     "TITLE" : "Home"

@@ -1,7 +1,7 @@
 <div class="content">
     <div class="block block-bordered" [class.block-opt-refresh]="isBusy" *ngIf="isBusy"></div>
-    <div class="block block-bordered" *ngIf="!isBusy">
-        <div class="block-header" *ngIf="word.updateLink || word.deleteLink">
+    <div class="block block-bordered" *ngIf="!isBusy && word!=null">
+        <div class="block-header" *ngIf="word.updateLink || word.deleteLink || word.dictionaryLink">
             <ul class="block-options">
                 <li *ngIf="word.deleteLink">
                     <button type="button" 
@@ -23,11 +23,14 @@
                         <i class="si si-note"></i>
                     </button>
                 </li>
+                <li *ngIf="word.dictionaryLink">
+                        <button type="button" [routerLink]="['/dictionaryLink', word.dictionaryLink]" title="{{'DICTIONARY.BACKTODICTIONARY'|translate}}">
+                            <i class="si si-arrow-left"></i> {{'DICTIONARY.BACKTODICTIONARY'|translate}}
+                        </button>
+                    </li>
             </ul>
         </div>
-        <div class="block-content block-content-full text-center ribbon ribbon-modern ribbon-success">
-            <div class="ribbon-box font-w600 text-uppercase">
-                <a class="text-white" [routerLink]="['/dictionaryLink', word.dictionaryLink]">{{'DICTIONARY.BACKTODICTIONARY'|translate}}</a></div>
+        <div class="block-content block-content-full text-center">
             <div class="row items-push text-center">
                 <h2 class="h4 font-s64 push-5">{{word.title}}</h2>
             </div>
@@ -37,7 +40,7 @@
                 <h3 class="h4 font-w300" >{{word.description}}</h3>
             </div>
         </div>
-        <div class="block-content border-t">
+        <div class="block-content border-t" *ngIf="word.pronunciation || word.titleWithMovements">
             <div class="row items-push text-center">
                 <div class="col-xs-6 border-r" *ngIf="word.pronunciation">
                     <span class="h4 font-w300 push-5" href="javascript:void(0)">{{word.pronunciation}}</span>

@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 
-// import amethyst from './../../assets/css/themes/amethyst.min.css';
-// import city from '../../assets/css/themes/city.min.css';
-// import flat from '../../assets/css/themes/flat.min.css';
-// import modern from '../../assets/css/themes/modern.min.css';
-// import smooth from '../../assets/css/themes/smooth.min.css'  ;
+// import *  as amethyst from '../../assets/css/themes/amethyst';
+// import * as city from '../../assets/css/themes/city';
+// import * as flat from '../../assets/css/themes/flat';
+// import * as modern from '../../assets/css/themes/modern';
+// import * as smooth from '../../assets/css/themes/smooth';
 
 @Component({
     selector: 'settings',
@@ -25,24 +25,16 @@ export class SettingsComponent {
     }
 
     setTheme(theme) : void{
-        // var $cssTheme = $('#css-theme');
-        // if (theme === '') {
-        //         if ($cssTheme.length) {
-        //             $cssTheme.remove();
-        //         }
-        //     } else {
-        //         if ($cssTheme.length) {
-        //             $cssTheme.attr('href', theme);
-        //         } else {
-        //             $('#css-main')
-        //                 .after('<link rel="stylesheet" id="css-theme" href="' + theme + '">');
-        //         }
-        //     }
-        console.log("Themes not implemented");
+        var $cssTheme = $('#css-theme');
+        if (theme === '') {
+            $cssTheme.attr('href', '');
+        } else {
+            $cssTheme.attr('href', theme);
+        }
     }
 }
 
-export class ThemeSetting {
-    constructor(public title : string, public css : string, colorClass : string){
-    }
-}
+// export class ThemeSetting {
+//     constructor(public title : string, public css : string, colorClass : string){
+//     }
+// }

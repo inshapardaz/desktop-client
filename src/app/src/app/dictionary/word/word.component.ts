@@ -43,10 +43,12 @@ export class WordComponent {
         this.dictionaryService.getWordById(this.id)
             .subscribe(
             word => {
+                console.log(word);
                 this.word = word;
                 this.isBusy = false;
             },
             error => {
+                console.log(error);
                 this.isBusy = false;
                 this.alertService.error(this.translate.instant('WORD.MESSAGES.LOAD_FAILURE'));
                 this.errorMessage = <any>error;

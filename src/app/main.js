@@ -47,9 +47,8 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({ width: 800, height: 600 })
-  var dist = path.join(__dirname, 'dist');
-  // and load the index.html of the app.
-  console.log('Window created. Loading main page ...');
+    var dist = path.resolve(__dirname, 'dist');
+    console.log('Window created. Loading main page ...');
   
   mainWindow.loadURL(url.format({
     pathname: 'index.html',
@@ -57,7 +56,9 @@ function createWindow() {
     slashes: true
   }));
 
-  mainWindow.webContents.openDevTools()
+  if (isDebug){
+    mainWindow.webContents.openDevTools();
+  }
 
   mainWindow.on('closed', function () {
     console.log('Window closing down ...');
@@ -124,7 +125,9 @@ function startApi() {
 //Kill process when electron exits
 process.on('exit', function () {
   writeLog('exit');
-  apiProcess.kill();
+  if (apiProcess != null){
+    apiProcess.kill();
+  }
 });
 
 function writeLog(msg) {

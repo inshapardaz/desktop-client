@@ -21,7 +21,8 @@ namespace Inshapardaz.Desktop.Api.Renderers
             {
                 LinkRenderer.RenderOrReRoute(source.Links, "GetWordById", "self", new {id = result.Id}),
                 LinkRenderer.RenderOrReRoute(source.Links, "GetWordRelationsById", "relations", new {id = result.Id}),
-                LinkRenderer.RenderOrReRoute(source.Links, "GetWordDetailsById", "details", new {id = result.Id})
+                LinkRenderer.RenderOrReRoute(source.Links, "GetWordDetailsById", "details", new {id = result.Id}),
+                LinkRenderer.RenderOrReRoute(source.Links, "GetDictionaryById", "dictionary", new {id = source.DictionaryId})
             };
 
             var link = LinkRenderer.ReRoute(source.Links.WithRel(RelTypes.Update));

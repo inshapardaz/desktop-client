@@ -15,5 +15,7 @@ namespace Inshapardaz.Desktop.Common.Models
         public IEnumerable<LinkModel> Links { get; set; }
 
         public string Pronunciation { get; set; }
+
+        public int DictionaryId { get; set;}
     }
 }
