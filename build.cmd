@@ -15,10 +15,12 @@
 @popd
 @popd
 @pushd app
+@Echo ====== Update application version ======
+@call npm version %APPVEYOR_BUILD_VERSION% -m 'v%APPVEYOR_BUILD_VERSION
 @Echo ====== Restore node packages ======
 @call npm install
 @Echo ====== Building SPA ======
-@call webpack -p --config ./config/webpack.prod.js -p
+@call node_modules/.bin/webpack -p --config ./config/webpack.prod.js -p
 @Echo ====== Packaging application ======
 @call npm run dist 
 @popd
