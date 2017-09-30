@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-
+const { version: appVersion } = require('../../../package.json')
 
 @Component({
     selector: 'footer',
@@ -8,7 +8,9 @@ import { Component, Input } from '@angular/core';
 
 export class FooterComponent {
      @Input() miniFooter:boolean = true;
+     public appVersion;
+     
      constructor(){
-
+        this.appVersion = appVersion        
      }
 }

@@ -12,20 +12,22 @@ const url = require('url')
 let mainWindow
 
 function isDebug() {
-  try {
-    const appEnv = require('./env.json');
-    if (appEnv.env === 'dev') {
-        return true;
-    }
+  if (!process.env.NODE_ENV){
+    return false;
   }
-  finally{}
-  return false;
+  
+  var env = process.env.NODE_ENV.trim();
+  return env === "dev";
 };
+
 
 require('electron-reload')(path.join(__dirname, 'dist'));
 
+console.log(`========================================`);
+console.log(`Inshapardaz version ${app.getVersion()}`);
+console.log(`========================================`);
 function createWindow() {
-  console.log('Creating window ...');
+  console.log('INFO : Creating window ...');
 
   const WEB_FOLDER = 'dist';
   const PROTOCOL = 'file';
@@ -46,22 +48,29 @@ function createWindow() {
   });
 
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 800, height: 600 })
-    var dist = path.resolve(__dirname, 'dist');
-    console.log('Window created. Loading main page ...');
+  mainWindow = new BrowserWindow({ 
+    width: 800, 
+    height: 600,
+    icon: path.join(__dirname, 'images/favicons/favicon-96x96.png')
+  })
+  var dist = path.resolve(__dirname, 'dist');
+  console.log('INFO : Window created. Loading main page ...');
   
+  setTimeout(() => 
   mainWindow.loadURL(url.format({
     pathname: 'index.html',
     protocol: PROTOCOL + ':',
     slashes: true
-  }));
+  })), 1000);
 
-  if (isDebug){
+  if (isDebug()){
     mainWindow.webContents.openDevTools();
+  } else {
+    mainWindow.setMenu(null);
   }
 
   mainWindow.on('closed', function () {
-    console.log('Window closing down ...');
+    console.log('INFO : Window closing down...');
     mainWindow = null;
   })
 }
@@ -76,7 +85,7 @@ app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    console.log('All windows closed. Shutting down ...');
+    console.log('INFO : All windows closed. Shutting down ...');
     app.quit()
   }
 })
@@ -97,7 +106,7 @@ var apiProcess = null;
 
 function startApi() {
   if (isDebug()){
-    console.log(`Running in debug mode. Start apis manually.`);
+    console.log(`DEBUG : Running in debug mode. Start apis manually.`);
     if (mainWindow == null) {
       createWindow();
     }
@@ -111,11 +120,11 @@ function startApi() {
   if (os.platform() === 'darwin') {
     apipath = path.join(__dirname, '..//api//bin//dist//osx//Inshapardaz.Desktop.API')
   }
-  console.log(`API Starting from path ${apipath}`);
+  console.log(`INFO : API Starting from path ${apipath}`);
   apiProcess = proc(apipath)
 
   apiProcess.stdout.on('data', (data) => {
-    writeLog(`stdout: ${data}`);
+    writeLog(`API: ${data}`);
     if (mainWindow == null) {
       createWindow();
     }
@@ -124,7 +133,7 @@ function startApi() {
 
 //Kill process when electron exits
 process.on('exit', function () {
-  writeLog('exit');
+  writeLog('INFO : exit');
   if (apiProcess != null){
     apiProcess.kill();
   }

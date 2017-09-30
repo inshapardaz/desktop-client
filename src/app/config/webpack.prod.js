@@ -1,7 +1,6 @@
 var webpackMerge = require('webpack-merge');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var commonConfig = require('./webpack.common.js');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const path = require('path');
@@ -15,10 +14,6 @@ output: {
     },
 
     plugins: [
-        new UglifyJSPlugin(),
-        new CopyWebpackPlugin([{
-            from: 'src/prod.json',
-            to: './env.json'
-        }]),
+        new UglifyJSPlugin()
     ]
 });

@@ -56,9 +56,6 @@ module.exports = {
         },{
             from: 'src/i18n',
             to: './assets/i18n'
-        },{
-            from: 'src/dev.json',
-            to: './env.json'
         }]),
         new ExtractTextPlugin('[name].css'),
         new webpack.ProvidePlugin({

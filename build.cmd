@@ -7,9 +7,9 @@
 @Echo ====== Building local api packages ======
 @dotnet restore
 @Echo ====== Publishing api for windows ======
-@dotnet publish -r win10-x64 --output ../bin/dist/win
+@dotnet publish --configuration release -r win10-x64 --output ../bin/dist/win
 @Echo ====== Publishing api for macos ======
-@dotnet publish -r osx.10.11-x64 --output ../bin/dist/osx
+@dotnet publish --configuration release -r osx.10.11-x64 --output ../bin/dist/osx
 @Echo ====== Finish building local api packages ======
 
 @popd
@@ -18,7 +18,7 @@
 @Echo ====== Restore node packages ======
 @call npm install
 @Echo ====== Building SPA ======
-@call webpack
+@call webpack -p --config ./config/webpack.prod.js -p
 @Echo ====== Packaging application ======
 @call npm run dist 
 @popd
