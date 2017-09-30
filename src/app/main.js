@@ -144,6 +144,10 @@ process.on('exit', function () {
   }
 });
 
+process.on('uncaughtException', function (error) {
+  writeLog(`CRITICAL : ${error}`);
+});
+
 function writeLog(msg) {
   console.log(msg);
 }
