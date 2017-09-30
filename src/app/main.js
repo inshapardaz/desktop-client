@@ -27,17 +27,20 @@ console.log(`========================================`);
 console.log(`Inshapardaz version ${app.getVersion()}`);
 console.log(`========================================`);
 function createWindow() {
-  console.log('INFO : Creating window ...');
+  console.log('INFO : Creating window...');
 
-  const WEB_FOLDER = 'dist';
   const PROTOCOL = 'file';
 
   electron.protocol.interceptFileProtocol(PROTOCOL, (request, callback) => {
       // // Strip protocol
       let url = request.url.substr(PROTOCOL.length + 1);
 
-      // Build complete path for node require function
-      url = path.join(__dirname, WEB_FOLDER, url);
+      if (isDebug()){
+        url = path.join(__dirname, 'dist', url);
+      }
+      else {
+        url = path.join(__dirname, url);
+      }
 
       // Replace backslashes by forward slashes (windows)
       // url = url.replace(/\\/g, '/');
@@ -53,15 +56,17 @@ function createWindow() {
     height: 600,
     icon: path.join(__dirname, 'images/favicons/favicon-96x96.png')
   })
-  var dist = path.resolve(__dirname, 'dist');
+  var dist = path.resolve(__dirname);
   console.log('INFO : Window created. Loading main page ...');
   
   setTimeout(() => 
-  mainWindow.loadURL(url.format({
-    pathname: 'index.html',
-    protocol: PROTOCOL + ':',
-    slashes: true
-  })), 1000);
+  mainWindow.loadURL(
+    url.format({
+      pathname: 'index.html',
+      protocol: PROTOCOL + ':',
+      slashes: true
+    })
+), 1000);
 
   if (isDebug()){
     mainWindow.webContents.openDevTools();
