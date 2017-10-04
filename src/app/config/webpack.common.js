@@ -28,7 +28,18 @@ module.exports = {
                 loaders: ['awesome-typescript-loader', 'angular2-template-loader']
             }, {
                 test: /\.html$/,
-                loader: 'html-loader'
+                loader: 'html-loader',
+                options: {
+                    minimize: true,
+                    removeComments: true,
+                    collapseWhitespace: true,
+              
+                    // angular 2 templates break if these are omitted
+                    removeAttributeQuotes: false,
+                    keepClosingSlash: true,
+                    caseSensitive: true,
+                    conservativeCollapse: true,
+                  }              
             }, {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
                 loader: 'file-loader?name=assets/[name].[hash].[ext]'
