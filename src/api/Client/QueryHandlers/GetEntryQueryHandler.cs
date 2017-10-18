@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Inshapardaz.Desktop.Common.Http;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
 using Paramore.Darker;
@@ -8,9 +9,15 @@ namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
 {
     public class GetEntryQueryHandler : QueryHandlerAsync<GetEntryQuery, EntryModel>
     {
+        private readonly IApiClient _apiClient;
+
+        public GetEntryQueryHandler(IApiClient apiClient)
+        {
+            _apiClient = apiClient;
+        }
         public override async Task<EntryModel> ExecuteAsync(GetEntryQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await ApiClient.Get<EntryModel>("api");
+            return await _apiClient.Get<EntryModel>("api");
         }
     }
 }

@@ -1,22 +1,45 @@
 import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
 
-// import *  as amethyst from '../../assets/css/themes/amethyst';
-// import * as city from '../../assets/css/themes/city';
-// import * as flat from '../../assets/css/themes/flat';
-// import * as modern from '../../assets/css/themes/modern';
-// import * as smooth from '../../assets/css/themes/smooth';
+import { TranslateService } from '@ngx-translate/core';
+
+import { AlertService } from '../../services/alert.service';
+import { SettingsService } from "../../services/settings.service";
+import { SettingModel } from "../../models/setting";
 
 @Component({
-    selector: 'settings',
-    templateUrl: './settings.html'})
+    selector: 'settings-view',
+    templateUrl: './settings-view.html'})
 
 export class SettingsComponent {
-    public selectedTheme : string = "";
+    selectedTheme : string = "";
+    isOffline : boolean;
+
     constructor(
-        public translate: TranslateService
+        public translate: TranslateService,
+        public alertService: AlertService,
+        public settingsService : SettingsService
     ) {
+        this.getSettings();
+    }
+
+    getSettings() {
+        let self = this;
+        this.settingsService.getSettings()
+        .subscribe(s => {
+            if (s.userInterfaceLanguage)
+                self.setLanguage(s.userInterfaceLanguage);
+            self.isOffline = s.useOffline;
+            console.log(s);        
+        },
+        error => {
+            this.alertService.error(this.translate.instant('SETTINGS.MESSAGES.LOADING_FAILURE'));
+        });
+    }
+
+    changeLanguage(language) {
+        this.setLanguage(language);
+        this.saveSettings();
     }
 
     setLanguage(lang) : void{
@@ -32,9 +55,22 @@ export class SettingsComponent {
             $cssTheme.attr('href', theme);
         }
     }
-}
 
-// export class ThemeSetting {
-//     constructor(public title : string, public css : string, colorClass : string){
-//     }
-// }
+    setOffline(offline) : void {
+        this.isOffline = offline;
+        this.saveSettings();    
+    }
+
+    saveSettings() : void {
+        var setting = new SettingModel();
+        setting.useOffline = this.isOffline;
+        setting.userInterfaceLanguage = this.translate.currentLang;
+        this.settingsService.updateSettings(setting)
+        .subscribe(r => {
+            this.alertService.success(this.translate.instant('SETTINGS.MESSAGES.SAVE_SUCCESS'));
+        },
+        error => {
+            this.alertService.error(this.translate.instant('SETTINGS.MESSAGES.SAVE_FAILURE'));
+        });
+    }
+}

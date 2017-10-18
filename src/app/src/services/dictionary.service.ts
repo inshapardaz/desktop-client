@@ -1,3 +1,4 @@
+import { retry } from 'rxjs/operator/retry';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { AuthService } from './auth.service';
@@ -240,6 +241,11 @@ export class DictionaryService {
     deleteRelation(deleteLink : string) : Observable<void>{
         return this.auth.AuthDelete(deleteLink)
             .catch(this.handleError);
+    }
+
+    addDownload(downloadLink : string) : Observable<void>{
+        return this.auth.AuthGet(downloadLink)
+                        .catch(this.handleError);
     }
 
     private extractData(res: Response, converter: Function) {

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { FormsModule , FormBuilder } from '@angular/forms';
+import { Location } from '@angular/common';
 
 import { DictionaryService } from '../../../services/dictionary.service';
 import { Word } from '../../../models/Word';
@@ -25,7 +26,8 @@ export class WordComponent {
         private router: Router,
         private alertService: AlertService,
         private translate: TranslateService,
-        private dictionaryService: DictionaryService){
+        private dictionaryService: DictionaryService,
+        private _location: Location){
     }
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
@@ -78,5 +80,9 @@ export class WordComponent {
         if (created){
             this.getWord();
         }
+    }
+
+    backClicked() {
+        this._location.back();
     }
 }

@@ -125,9 +125,12 @@ export class AuthService {
     if (this.isAuthenticated()) {
       authHeaders = this._setAuthHeaders();
     }
+
     if (options) {
       options.headers.append(authHeaders.keys[0], authHeaders.values[0]);
     } else {
+      authHeaders = new Headers();
+      authHeaders.append('Content-Type', 'application/json');
       options = new RequestOptions({ headers: authHeaders });
     }
 

@@ -1,13 +1,17 @@
 using System.IO;
-using API.Configuration;
+using System.Reflection;
 using AutoMapper;
+using Inshapardaz.Desktop.Api.Client;
 using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Api.Mappings;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
 using Inshapardaz.Desktop.API.Renderers;
 using Inshapardaz.Desktop.Common;
+using Inshapardaz.Desktop.Common.Http;
 using Inshapardaz.Desktop.Common.Models;
+using Inshapardaz.Desktop.Database.Client;
+using Inshapardaz.Desktop.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +21,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using Paramore.Brighter.AspNetCore;
+using Paramore.Darker.AspNetCore;
 using DictionariesView = Inshapardaz.Desktop.Api.Model.DictionariesView;
 using DictionaryView = Inshapardaz.Desktop.Api.Model.DictionaryView;
 
@@ -37,32 +43,51 @@ namespace Inshapardaz.Desktop.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddJsonOptions(options =>
-                {
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                });
-
+            services.AddMvc();
+            services.AddSingleton(provider => Configuration);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
             services.AddSingleton<IProvideUserSettings, UserSettings>();
             
-            Domain.Module.RegisterDatabases(services, new UserSettings());
+            DomainModule.RegisterDatabases(services, new UserSettings());
             RegisterRenderers(services);
-            
-            CommandProcessorConfigurator
-                    .Configure()
-                    .UsingServices(services)
-                    .WithRegistry()
-                    .RegisteringHandlers()
-                    .Build();  
-            
-            QueryProcessorConfigurator
-                    .Configure()
-                    .UsingServices(services)
-                    .WithHandlers(UseOffline)
-                    .AndLocalHandlers()
-                    .Build();
+
+            if (UseOffline)
+            {
+                DatabaseClientModule.RegisterDatabases(services, new UserSettings());
+
+                services.AddBrighter()
+                        .AsyncHandlersFromAssemblies(typeof(DomainModule).GetTypeInfo().Assembly);
+                services.AddDarker()
+                        .AddHandlersFromAssemblies(
+                            typeof(DatabaseClientModule).GetTypeInfo().Assembly,
+                            typeof(DomainModule).GetTypeInfo().Assembly
+                        );
+
+                Mapper.Initialize(c =>
+                    {
+                        c.AddProfile(new MappingProfile());
+                        c.AddProfile(new DatabaseClientMappings());
+                    }
+                );
+            }
+            else
+            {
+                services.AddTransient<IApiClient, ApiClient>();
+                services.AddBrighter()
+                        .AsyncHandlersFromAssemblies(
+                            typeof(ApiClientModule).GetTypeInfo().Assembly,
+                            typeof(DomainModule).GetTypeInfo().Assembly);
+                services.AddDarker()
+                        .AddHandlersFromAssemblies(
+                            typeof(DomainModule).GetTypeInfo().Assembly,
+                            typeof(ApiClientModule).GetTypeInfo().Assembly);
+
+                Mapper.Initialize(c => c.AddProfile(new MappingProfile()));
+            }
+
+            Mapper.AssertConfigurationIsValid();
         }
 
         private bool UseOffline => bool.Parse(Configuration["useOffline"]);
@@ -70,8 +95,6 @@ namespace Inshapardaz.Desktop.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
-
-            ConfigureObjectMappings(app);
 
             app.Use(async (context, next) =>
             {
@@ -92,27 +115,7 @@ namespace Inshapardaz.Desktop.Api
 
             app.UseMvc();
 
-            Domain.Module.UpdateDatabase();
-        }
-
-        public void ConfigureObjectMappings(IApplicationBuilder app)
-        {
-
-            if (UseOffline)
-            {
-                Mapper.Initialize(c =>
-                    {
-                        c.AddProfile(new MappingProfile());
-                        c.AddProfile(new DomainMappings());
-                    }
-                );
-            }
-            else
-            {
-                Mapper.Initialize(c => c.AddProfile(new MappingProfile()));
-            }
-
-            Mapper.AssertConfigurationIsValid();
+            Domain.DomainModule.UpdateDatabase();
         }
 
         public static void RegisterRenderers(IServiceCollection services)

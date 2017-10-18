@@ -1,10 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Inshapardaz.Desktop.Domain.Contexts;
-using Inshapardaz.Data.Entities;
 
 namespace Inshapardaz.Desktop.Domain.Migrations
 {

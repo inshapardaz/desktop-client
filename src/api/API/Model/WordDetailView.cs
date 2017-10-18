@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Inshapardaz.Data.Entities;
 
 namespace Inshapardaz.Desktop.Api.Model
 {

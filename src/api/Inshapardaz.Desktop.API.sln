@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inshapardaz.Desktop.API", "API\Inshapardaz.Desktop.API.csproj", "{12B45C03-8B1A-4A23-9835-08EE12A724A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inshapardaz.Desktop.Domain", "Domain\Inshapardaz.Desktop.Domain.csproj", "{78E03A28-03C9-46A3-93E7-AC4990C7E3A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inshapardaz.Desktop.Api.Client", "Client\Inshapardaz.Desktop.Api.Client.csproj", "{D7BA52BD-2561-4E66-8B7C-65EDAA70642D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inshapardaz.Desktop.Api.Client", "Client\Inshapardaz.Desktop.Api.Client.csproj", "{D7BA52BD-2561-4E66-8B7C-65EDAA70642D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inshapardaz.Desktop.Common", "Common\Inshapardaz.Desktop.Common.csproj", "{FF90E916-497D-44CF-9E5D-3A58CB695EE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inshapardaz.Desktop.Common", "Common\Inshapardaz.Desktop.Common.csproj", "{FF90E916-497D-44CF-9E5D-3A58CB695EE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inshapardaz.Desktop.Database.Client", "Inshapardaz.Desktop.Database.Client\Inshapardaz.Desktop.Database.Client.csproj", "{B548879A-C5D1-4126-A3F7-A442894962A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{FF90E916-497D-44CF-9E5D-3A58CB695EE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF90E916-497D-44CF-9E5D-3A58CB695EE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF90E916-497D-44CF-9E5D-3A58CB695EE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B548879A-C5D1-4126-A3F7-A442894962A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B548879A-C5D1-4126-A3F7-A442894962A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B548879A-C5D1-4126-A3F7-A442894962A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B548879A-C5D1-4126-A3F7-A442894962A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C61F4DDB-BE12-4C8A-9FAD-1493611D27B0}
 	EndGlobalSection
 EndGlobal

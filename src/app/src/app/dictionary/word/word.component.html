@@ -24,8 +24,8 @@
                     </button>
                 </li>
                 <li *ngIf="word.dictionaryLink">
-                        <button type="button" [routerLink]="['/dictionaryLink', word.dictionaryLink]" title="{{'DICTIONARY.BACKTODICTIONARY'|translate}}">
-                            <i class="si si-arrow-left"></i> {{'DICTIONARY.BACKTODICTIONARY'|translate}}
+                        <button type="button" (click)="backClicked()" title="{{'DICTIONARY.BACKTODICTIONARY'|translate}}">
+                            <i class="si si-arrow-left"></i> {{'ACTIONS.BACK'|translate}}
                         </button>
                     </li>
             </ul>

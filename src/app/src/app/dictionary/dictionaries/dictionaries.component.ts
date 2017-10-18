@@ -101,6 +101,18 @@ export class DictionariesComponent {
         }
     }
 
+    downloadDictionary(dictionary : Dictionary){
+        this.isLoading = true;
+        this.dictionaryService.addDownload(dictionary.downloadLink)
+        .subscribe(data => {
+            this.isLoading = false;
+            this.alertService.success(this.translate.instant('DICTIONARY.MESSAGES.DOWNLOAD_STARTED'));
+        }, e => {
+            this.handlerError(); 
+            this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_REQUEST_FAILURE'));
+        });
+    }
+
     handlerError() {
         this.isLoading = false;
     }

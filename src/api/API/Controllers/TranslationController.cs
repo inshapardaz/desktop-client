@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Inshapardaz.Desktop.Api.Renderers;
@@ -7,7 +6,6 @@ using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Paramore.Darker;
-using LanguageType = Inshapardaz.Desktop.Api.Model.LanguageType;
 using TranslationView = Inshapardaz.Desktop.Api.Model.TranslationView;
 
 namespace Inshapardaz.Desktop.Api.Controllers

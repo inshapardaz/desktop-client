@@ -68,10 +68,14 @@
     "ADD_WORD" : "Add Word",
     "INDEX" : "Index",
     "BACKTODICTIONARY" : "Back to Dictionary",
+    "ACTIONS" : {
+      "DOWNLOAD" : "Download Dictionary"
+    },
     "MESSAGES" : {
       "LOADING_FAILURE" : "Error loading dictionary. Please try again.",
       "WORDS_LOADING_FAILURE" : "Unable to load word list. Please try again",
-      "SEARCH_LOADING_FAILURE" : "Unable to complete search. Please try again"
+      "SEARCH_LOADING_FAILURE" : "Unable to complete search. Please try again",
+      "DOWNLOAD_STARTED" : "Download of dictionary has started. Once it is completed this dictionary is available for offline use."
     }
   },
   "WORD":{
@@ -208,7 +212,14 @@
     "TITLE" : "Settings",
     "SUB_TITLE" : "Configure application to your own liking!",
     "USER_INTERFACE_LANGUAGES" : "User interface language",
-    "COLOR_THEMES" : "Color Themes"
+    "COLOR_THEMES" : "Color Themes",
+    "OFFLINE" : "Use application offline",
+    "REQUIRE_RESTART" : "Requires restart",
+    "MESSAGES": {
+      "LOAD_FAILURE" : "Error loading settings. Please try again.",      
+      "SAVE_SUCCESS" : "Settings saved successfully. Please restart the application before settings are applied completely",
+      "SAVE_FAILURE" : "Error saving settings. Please try again."
+    }
   },
   "ACTIONS":{
     "REFRESH" : "Refresh",
@@ -222,6 +233,7 @@
     "UPDATE" : "Update",
     "SEARCH" : "Search",
     "YES" : "Yes",
-    "NO" : "No"
+    "NO" : "No",
+    "BACK" : "Back"
   }
 }

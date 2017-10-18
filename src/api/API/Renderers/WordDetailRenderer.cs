@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Inshapardaz.Data.Entities;
 using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
@@ -26,7 +25,7 @@ namespace Inshapardaz.Desktop.API.Renderers
                 return null;
             }
             WordDetailView result = source.Map<WordDetailModel, WordDetailView>();
-            result.Language = _enumRenderer.Render((Languages)source.LanguageId);
+            result.Language = _enumRenderer.Render((LanguageType)source.LanguageId);
             var links = new List<LinkView>
             {
                 LinkRenderer.Render("GetDetailsById", RelTypes.Self, new {id = source.Id}),

@@ -16,6 +16,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { AuthService } from './services/auth.service';
 import { DictionaryService } from './services/dictionary.service';
 import { AlertService } from './services/alert.service';
+import { SettingsService } from './services/settings.service';
 
 // Directives
 import { UIToggleDirective } from './directives/ui-toggle.directive';
@@ -84,7 +85,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     Title,
     AuthService,
     DictionaryService,
-    AlertService
+    AlertService,
+    SettingsService
   ],
   declarations: [
     UIToggleDirective,

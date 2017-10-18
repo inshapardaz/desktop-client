@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Inshapardaz.Data.Entities;
 using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;

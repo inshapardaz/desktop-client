@@ -1,3 +1,4 @@
+import { Settings } from 'http2';
 import { start } from 'repl';
 import * as _ from 'lodash';
 
@@ -12,6 +13,7 @@ import { Translation } from './models/Translation';
 import { MeaningContext } from './models/MeaningContext';
 import { Meaning } from './models/Meaning';
 import { Relation } from './models/relation';
+import { SettingModel } from './models/setting';
 
 export class Mapper{
     public static MapEntry(source : any) : Entry{
@@ -54,7 +56,8 @@ export class Mapper{
         dictionary.deleteLink = Mapper.findHrefWithRel(source.links, RelTypes.Delete);
         dictionary.createWordLink = Mapper.findHrefWithRel(source.links, RelTypes.CreateWord);
         dictionary.createDownloadLink = Mapper.findHrefWithRel(source.links, RelTypes.CreateDownload);
-
+        dictionary.downloadLink = Mapper.findHrefWithRel(source.links, RelTypes.Download);
+        
         var indexes = new Array<DictionaryIndex>();
         _.forEach(source.indexes, (i) => indexes.push(Mapper.MapDictionaryIndex(i)));
         dictionary.indexes = indexes;
@@ -199,6 +202,13 @@ export class Mapper{
         return relations;
     }
 
+    public static MapSettings(source: any) : SettingModel{
+        let setting = new SettingModel;
+        setting.userInterfaceLanguage = source.userInterfaceLanguage;
+        setting.useOffline = source.useOffline;
+        return setting;
+    }
+
     public static MapRelation(source: any) : Relation{
         let relation = new Relation();
         relation.id = source.id;
@@ -252,6 +262,7 @@ export class RelTypes{
     public static readonly Index = "index";
     public static readonly CreateWord = "create-word";
     public static readonly CreateDownload = "create-download";
+    public static readonly Download = "download";
 
     public static readonly Dictionaries = "dictionaries";
     public static readonly Thesaurus = "thesaurus";

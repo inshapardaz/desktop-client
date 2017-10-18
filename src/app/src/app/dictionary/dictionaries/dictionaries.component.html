@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<div class="bg-gray-light border-b">
+<!-- <div class="bg-gray-light border-b">
     <div class="content content-narrow">
         <ul class="js-media-filter nav nav-pills push">
             <li class="active">
@@ -41,7 +41,7 @@
             </li>
         </ul>
     </div>
-</div>
+</div> -->
 
 <section class="content content-boxed overflow-hidden">
     <!-- Section Content -->
@@ -104,6 +104,12 @@
                                     data-toggle="tooltip" data-placement="top" [attr.title]="translate.instant('DICTIONARIES.CREATE_DOWNLOAD')">
                                     <button type="button">
                                                 <i class="si si-cloud-download"></i>
+                                        </button>
+                                </li>
+                                <li *ngIf="dictionary.downloadLink" (click)="downloadDictionary(dictionary)"
+                                    data-toggle="tooltip" data-placement="top" [attr.title]="translate.instant('DICTIONARIES.ACTIONS.DOWNLOAD')">
+                                    <button type="button">
+                                                <i class="fa fa-download"></i>
                                         </button>
                                 </li>
                                 <li *ngIf="dictionary.updateLink"

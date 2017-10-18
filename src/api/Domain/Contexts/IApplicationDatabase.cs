@@ -1,3 +1,5 @@
+using System.Threading;
+using System.Threading.Tasks;
 using Inshapardaz.Desktop.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,5 +13,6 @@ namespace Inshapardaz.Desktop.Domain.Contexts
 
         int SaveChanges();
 
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

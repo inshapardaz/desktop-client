@@ -1,4 +1,4 @@
-﻿using Inshapardaz.Data.Entities;
+﻿using Inshapardaz.Desktop.Common.Models;
 
 namespace Inshapardaz.Desktop.Domain.Entities
 {
@@ -10,7 +10,7 @@ namespace Inshapardaz.Desktop.Domain.Entities
 
         public bool IsPublic { get; set; }
 
-        public Languages Language { get; set; }
+        public LanguageType Language { get; set; }
 
         public string FilePath { get; set; }
 
