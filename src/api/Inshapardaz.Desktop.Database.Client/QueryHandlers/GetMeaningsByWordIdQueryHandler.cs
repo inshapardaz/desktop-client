@@ -14,20 +14,23 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 {
     public class GetMeaningsByWordIdQueryHandler : QueryHandlerAsync<GetMeaningsByWordIdQuery, IEnumerable<MeaningModel>>
     {
-        private readonly IDictionaryDatabase _database;
+        private readonly IProvideDatabase _databaseProvider;
 
-        public GetMeaningsByWordIdQueryHandler(IDictionaryDatabase database)
+        public GetMeaningsByWordIdQueryHandler(IProvideDatabase databaseProvider)
         {
-            _database = database;
+            _databaseProvider = databaseProvider;
         }
 
         public override async Task<IEnumerable<MeaningModel>> ExecuteAsync(GetMeaningsByWordIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            var meanings = await _database.Meaning
-                                      .Where(t => t.WordDetail.WordInstanceId == query.WordId)
-                                      .ToListAsync(cancellationToken);
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
+            {
+                var meanings = await database.Meaning
+                                              .Where(t => t.WordDetail.WordInstanceId == query.WordId)
+                                              .ToListAsync(cancellationToken);
 
-            return meanings.Select(m => m.Map<Meaning, MeaningModel>());
+                return meanings.Select(m => m.Map<Meaning, MeaningModel>());
+            }
         }
     }
 }

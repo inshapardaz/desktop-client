@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Inshapardaz.Data.Entities;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
 using Inshapardaz.Desktop.Common.Models;
-using Inshapardaz.Desktop.Common.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Paramore.Darker;
 using WordView = Inshapardaz.Desktop.Api.Model.WordView;
@@ -23,8 +23,7 @@ namespace Inshapardaz.Desktop.Api.Controllers
             _wordRenderer = wordRenderer;
             _wordPageRenderer = wordPageRenderer;
         }
-
-        [Route("api/dictionaries/{id}/words", Name = "GetWords")]
+        [HttpGet("api/dictionaries/{id}/words", Name = "GetWords")]
         public async Task<PageView<WordView>> Get(int id, int pageNumber = 1, int pageSize = 10)
         {
             var words = await _queryProcessor.ExecuteAsync(new GetWordsByDictionaryIdQuery { Id = id, PageNumber = pageNumber, PageSize = pageSize });
@@ -36,11 +35,11 @@ namespace Inshapardaz.Desktop.Api.Controllers
                 RouteName = "GetWords"
             });
         }
-
-        [HttpGet("api/words/{id}", Name = "GetWordById")]
-        public async Task<IActionResult> Get(int id)
+        
+        [HttpGet("api/dictionaries/{id}/words/{wordId}", Name = "GetWordById")]
+        public async Task<IActionResult> Get(int id, int wordId)
         {
-            var model = await _queryProcessor.ExecuteAsync(new GetWordByIdQuery { Id = id });
+            var model = await _queryProcessor.ExecuteAsync(new GetWordByIdQuery { DictionaryId = id, Word });
             if (model == null)
             {
                 return NotFound();

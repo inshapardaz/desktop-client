@@ -12,17 +12,20 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 {
     public class GetRelationshipByIdQueryHandler : QueryHandlerAsync<GetRelationshipByIdQuery, RelationshipModel>
     {
-        private readonly IDictionaryDatabase _database;
+        private readonly IProvideDatabase _databaseProvider;
 
-        public GetRelationshipByIdQueryHandler(IDictionaryDatabase database)
+        public GetRelationshipByIdQueryHandler(IProvideDatabase databaseProvider)
         {
-            _database = database;
+            _databaseProvider = databaseProvider;
         }
 
         public override async Task<RelationshipModel> ExecuteAsync(GetRelationshipByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            var relation = await _database.WordRelation.SingleOrDefaultAsync(r => r.Id == query.RelationshipId, cancellationToken);
-            return relation.Map<WordRelation, RelationshipModel>();
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
+            {
+                var relation = await database.WordRelation.SingleOrDefaultAsync(r => r.Id == query.RelationshipId, cancellationToken);
+                return relation.Map<WordRelation, RelationshipModel>();
+            }
         }
     }
 }

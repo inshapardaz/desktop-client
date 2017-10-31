@@ -8,5 +8,7 @@ namespace Inshapardaz.Desktop.Common.Queries
     {
         public int Id { get; set; }
         public LanguageType Language { get; set; }
+
+        public int DictionaryId { get; set; }
     }
 }

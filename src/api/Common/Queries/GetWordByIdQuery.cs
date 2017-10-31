@@ -5,6 +5,8 @@ namespace Inshapardaz.Desktop.Common.Queries
 {
     public class GetWordByIdQuery : IQuery<WordModel>
     {
-        public int Id { get; set; }
+        public int WordId { get; set; }
+
+        public int DictionaryId { get; set; }
     }
 }

@@ -12,16 +12,19 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 {
     public class GetWordByIdQueryHandler : QueryHandlerAsync<GetWordByIdQuery, WordModel>
     {
-        private readonly IDictionaryDatabase _database;
+        private readonly IProvideDatabase _databaseProvider;
 
-        public GetWordByIdQueryHandler(IDictionaryDatabase database)
+        public GetWordByIdQueryHandler(IProvideDatabase databaseProvider)
         {
-            _database = database;
+            _databaseProvider = databaseProvider;
         }
         public override async Task<WordModel> ExecuteAsync(GetWordByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            var word = await _database.Word.SingleAsync(w => w.Id == query.Id, cancellationToken);
-            return word.Map<Word, WordModel>();
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
+            {
+                var word = await database.Word.SingleAsync(w => w.Id == query.WordId, cancellationToken);
+                return word.Map<Word, WordModel>();
+            }
         }
     }
 }

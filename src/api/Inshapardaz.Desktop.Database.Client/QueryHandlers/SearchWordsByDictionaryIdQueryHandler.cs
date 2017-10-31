@@ -13,34 +13,37 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 {
     public class SearchWordsByDictionaryIdQueryHandler : QueryHandlerAsync<SearchWordsByDictionaryIdQuery, PageModel<WordModel>>
     {
-        private readonly IDictionaryDatabase _database;
+        private readonly IProvideDatabase _databaseProvider;
 
-        public SearchWordsByDictionaryIdQueryHandler(IDictionaryDatabase database)
+        public SearchWordsByDictionaryIdQueryHandler(IProvideDatabase databaseProvider)
         {
-            _database = database;
+            _databaseProvider = databaseProvider;
         }
 
         public override async Task<PageModel<WordModel>> ExecuteAsync(SearchWordsByDictionaryIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            var wordIndices = query.Id > 0
-                ? _database.Word.Where(
-                    x => x.DictionaryId == query.Id && x.Title.Contains(query.Query))
-                : _database.Word.Where(x => x.Title.Contains(query.Query));
-
-            var count = wordIndices.Count();
-            var data = await wordIndices
-                .OrderBy(x => x.Title.Length)
-                .ThenBy(x => x.Title)
-                .Paginate(query.PageNumber, query.PageSize)
-                .ToListAsync(cancellationToken);
-
-            return new PageModel<WordModel>
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.Id))
             {
-                PageNumber = query.PageNumber,
-                PageSize = query.PageSize,
-                TotalCount = count,
-                Data = data.Select(w => w.Map<Word, WordModel>())
-            };
+                var wordIndices = query.Id > 0
+                    ? database.Word.Where(
+                        x => x.DictionaryId == query.Id && x.Title.Contains(query.Query))
+                    : database.Word.Where(x => x.Title.Contains(query.Query));
+
+                var count = wordIndices.Count();
+                var data = await wordIndices
+                    .OrderBy(x => x.Title.Length)
+                    .ThenBy(x => x.Title)
+                    .Paginate(query.PageNumber, query.PageSize)
+                    .ToListAsync(cancellationToken);
+
+                return new PageModel<WordModel>
+                {
+                    PageNumber = query.PageNumber,
+                    PageSize = query.PageSize,
+                    TotalCount = count,
+                    Data = data.Select(w => w.Map<Word, WordModel>())
+                };
+            }
         }
     }
 }

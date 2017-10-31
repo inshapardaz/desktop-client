@@ -12,17 +12,20 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 {
     public class GetMeaningByIdQueryHandler : QueryHandlerAsync<GetMeaningByIdQuery, MeaningModel>
     {
-        private readonly IDictionaryDatabase _database;
+        private readonly IProvideDatabase _databaseProvider;
 
-        public GetMeaningByIdQueryHandler(IDictionaryDatabase database)
+        public GetMeaningByIdQueryHandler(IProvideDatabase databaseProvider)
         {
-            _database = database;
+            _databaseProvider = databaseProvider;
         }
 
 
         public override async Task<MeaningModel> ExecuteAsync(GetMeaningByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return (await _database.Meaning.SingleOrDefaultAsync(m => m.Id == query.MeaningId, cancellationToken)).Map<Meaning, MeaningModel>();
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
+            {
+                return (await database.Meaning.SingleOrDefaultAsync(m => m.Id == query.MeaningId, cancellationToken)).Map<Meaning, MeaningModel>();
+            }
         }
     }
 }

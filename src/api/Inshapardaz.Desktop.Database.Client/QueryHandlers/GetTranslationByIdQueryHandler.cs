@@ -12,19 +12,22 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 {
     public class GetTranslationByIdQueryHandler : QueryHandlerAsync<GetTranslationByIdQuery, TranslationModel>
     {
-        private readonly IDictionaryDatabase _database;
+        private readonly IProvideDatabase _databaseProvider;
 
-        public GetTranslationByIdQueryHandler(IDictionaryDatabase database)
+        public GetTranslationByIdQueryHandler(IProvideDatabase databaseProvider)
         {
-            _database = database;
+            _databaseProvider = databaseProvider;
         }
 
         public override async Task<TranslationModel> ExecuteAsync(GetTranslationByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            var translation = await _database.Translation
-                                              .SingleOrDefaultAsync(t => t.Id == query.Id, cancellationToken);
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
+            {
+                var translation = await database.Translation
+                                                 .SingleOrDefaultAsync(t => t.Id == query.Id, cancellationToken);
 
-            return translation.Map<Translation, TranslationModel>();
+                return translation.Map<Translation, TranslationModel>();
+            }
         }
     }
 }

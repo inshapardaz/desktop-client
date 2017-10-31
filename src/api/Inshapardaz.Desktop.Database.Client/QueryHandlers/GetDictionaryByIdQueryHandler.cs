@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Inshapardaz.Data;
 using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
@@ -11,18 +10,21 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 {
     public class GetDictionaryByIdQueryHandler : QueryHandlerAsync<GetDictionaryByIdQuery, DictionaryModel>
     {
-        private readonly IDictionaryDatabase _database;
+        private readonly IProvideDatabase _databaseProvider;
 
-        public GetDictionaryByIdQueryHandler(IDictionaryDatabase database)
+        public GetDictionaryByIdQueryHandler(IProvideDatabase databaseProvider)
         {
-            _database = database;
+            _databaseProvider = databaseProvider;
         }
         public override async Task<DictionaryModel> ExecuteAsync(GetDictionaryByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            var dictionary = await _database.Dictionary.FirstOrDefaultAsync(d => d.Id == query.Id, cancellationToken);
-            var result = dictionary.Map<Data.Entities.Dictionary, DictionaryModel>();
-            result.WordCount = await _database.Word.CountAsync(w => w.DictionaryId == dictionary.Id, cancellationToken);
-            return result;
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.Id))
+            {
+                var dictionary = await database.Dictionary.FirstOrDefaultAsync(d => d.Id == query.Id, cancellationToken);
+                var result = dictionary.Map<Data.Entities.Dictionary, DictionaryModel>();
+                result.WordCount = await database.Word.CountAsync(w => w.DictionaryId == dictionary.Id, cancellationToken);
+                return result;
+            }
         }
     }
 }

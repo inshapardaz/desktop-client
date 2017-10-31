@@ -14,19 +14,22 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 {
     public class GetTranslationsByLanguageQueryHandler : QueryHandlerAsync<GetTranslationsByLanguageQuery, IEnumerable<TranslationModel>>
     {
-        private readonly IDictionaryDatabase _database;
+        private readonly IProvideDatabase _databaseProvider;
 
-        public GetTranslationsByLanguageQueryHandler(IDictionaryDatabase database)
+        public GetTranslationsByLanguageQueryHandler(IProvideDatabase databaseProvider)
         {
-            _database = database;
+            _databaseProvider = databaseProvider;
         }
 
         public override async Task<IEnumerable<TranslationModel>> ExecuteAsync(GetTranslationsByLanguageQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            var translations = await _database.Translation
-                                  .Where(t => t.WordDetail.WordInstanceId == query.Id && (int)t.Language == (int) query.Language)
-                                  .ToListAsync(cancellationToken);
-            return translations.Select(t => t.Map<Translation, TranslationModel>());
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
+            {
+                var translations = await database.Translation
+                                                  .Where(t => t.WordDetail.WordInstanceId == query.Id && (int) t.Language == (int) query.Language)
+                                                  .ToListAsync(cancellationToken);
+                return translations.Select(t => t.Map<Translation, TranslationModel>());
+            }
         }
     }
 }

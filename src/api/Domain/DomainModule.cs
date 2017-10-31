@@ -9,23 +9,32 @@ namespace Inshapardaz.Desktop.Domain
 {
     public static class DomainModule
     {
-        public static void UpdateDatabase(){
-            using (var context = new ApplicationDatabase())
+        public static void UpdateDatabase(IProvideUserSettings settings)
+        {
+            var connectionString = CreateApplicationConnectionString(settings);
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDatabase>();
+            optionsBuilder.UseSqlite(connectionString.ConnectionString);
+
+            using (var context = new ApplicationDatabase(optionsBuilder.Options))
             {
                 context.Database.Migrate();
             }
-        }       
+        }
 
         public static void RegisterDatabases(IServiceCollection services, IProvideUserSettings settings)
         {
-            var applicationDbFile = Path.Combine(settings.DataFolder, "application.dat");
-            var applicationConnectionString = new SqliteConnectionStringBuilder { DataSource = applicationDbFile };
-
             services.AddEntityFrameworkSqlite()
                     .AddDbContext<ApplicationDatabase>(
-                        options => options.UseSqlite(applicationConnectionString.ConnectionString));
+                        options => options.UseSqlite(CreateApplicationConnectionString(settings).ConnectionString));
             
             services.AddTransient<IApplicationDatabase, ApplicationDatabase>();
+        }
+
+        private static SqliteConnectionStringBuilder CreateApplicationConnectionString(IProvideUserSettings settings)
+        {
+            var applicationDbFile = Path.Combine(settings.DataFolder, "application.dat");
+            var connectionString = new SqliteConnectionStringBuilder {DataSource = applicationDbFile};
+            return connectionString;
         }
     }
 }

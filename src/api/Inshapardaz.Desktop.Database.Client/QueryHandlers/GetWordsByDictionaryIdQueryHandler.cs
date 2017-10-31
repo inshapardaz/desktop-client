@@ -12,28 +12,31 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 {
     public class GetWordsByDictionaryIdQueryHandler : QueryHandlerAsync<GetWordsByDictionaryIdQuery, PageModel<WordModel>>
     {
-        private readonly IDictionaryDatabase _database;
+        private readonly IProvideDatabase _databaseProvider;
 
-        public GetWordsByDictionaryIdQueryHandler(IDictionaryDatabase database)
+        public GetWordsByDictionaryIdQueryHandler(IProvideDatabase databaseProvider)
         {
-            _database = database;
+            _databaseProvider = databaseProvider;
         }
 
         public override async Task<PageModel<WordModel>> ExecuteAsync(GetWordsByDictionaryIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-                var data = await _database.Word
-                    .Where(w => w.DictionaryId == query.Id)
-                    .OrderBy(x => x.Title)
-                    .Paginate(query.PageNumber, query.PageSize)
-                    .ToListAsync(cancellationToken);
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.Id))
+            {
+                var data = await database.Word
+                                         .Where(w => w.DictionaryId == query.Id)
+                                         .OrderBy(x => x.Title)
+                                         .Paginate(query.PageNumber, query.PageSize)
+                                         .ToListAsync(cancellationToken);
                 return new PageModel<WordModel>
                 {
                     Data = data.Select(w => w.Map<Data.Entities.Word, WordModel>()),
                     PageNumber = query.PageNumber,
                     PageSize = query.PageSize,
-                    TotalCount = await _database.Word
-                                                .CountAsync(w => w.DictionaryId == query.Id, cancellationToken)
+                    TotalCount = await database.Word
+                                               .CountAsync(w => w.DictionaryId == query.Id, cancellationToken)
                 };
+            }
         }
     }
 }

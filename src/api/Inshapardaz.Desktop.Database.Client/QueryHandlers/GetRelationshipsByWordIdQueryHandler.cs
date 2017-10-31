@@ -14,22 +14,25 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 {
     public class GetRelationshipsByWordIdQueryHandler : QueryHandlerAsync<GetRelationshipsByWordIdQuery, IEnumerable<RelationshipModel>>
     {
-        private readonly IDictionaryDatabase _database;
+        private readonly IProvideDatabase _databaseProvider;
 
-        public GetRelationshipsByWordIdQueryHandler(IDictionaryDatabase database)
+        public GetRelationshipsByWordIdQueryHandler(IProvideDatabase databaseProvider)
         {
-            _database = database;
+            _databaseProvider = databaseProvider;
         }
 
         public override async Task<IEnumerable<RelationshipModel>> ExecuteAsync(GetRelationshipsByWordIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            var relations = await _database.WordRelation
-                                  .Include(r => r.RelatedWord)
-                                  .Include(r => r.SourceWord)
-                                  .Where(t => t.SourceWordId == query.WordId)
-                                  .ToListAsync(cancellationToken);
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
+            {
+                var relations = await database.WordRelation
+                                               .Include(r => r.RelatedWord)
+                                               .Include(r => r.SourceWord)
+                                               .Where(t => t.SourceWordId == query.WordId)
+                                               .ToListAsync(cancellationToken);
 
-            return relations.Select(r => r.Map<WordRelation, RelationshipModel>());
+                return relations.Select(r => r.Map<WordRelation, RelationshipModel>());
+            }
         }
     }
 }

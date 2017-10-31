@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Inshapardaz.Desktop.Api.Adapters;
 using Inshapardaz.Desktop.Api.Renderers;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
@@ -30,15 +31,20 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpGet("/api/dictionaries", Name = "GetDictionaries")]
-        public async Task<DictionariesView> Get()
+        [Produces(typeof(DictionariesView))]
+        public async Task<IActionResult> Get()
         {
-            return _dictionariesRenderer.Render(await _queryProcessor.ExecuteAsync(new GetDictionariesQuery()));
+            var request = new GetDictionariesRequest();
+            await _commandProcessor.SendAsync(request);
+            return Ok(request.Result);
         }
 
         [HttpGet("/api/dictionaries/{id}", Name = "GetDictionaryById")]
         public async Task<DictionaryView> Get(int id)
         {
-            return _dictionaryRenderer.Render(await _queryProcessor.ExecuteAsync(new GetDictionaryByIdQuery {Id = id}));
+            var request = new GetDictionaryByIdRequest(id);
+            await _commandProcessor.SendAsync(request);
+            return Ok(request.Result);
         }
 
         [HttpGet("/api/dictionary/{id}/download", Name = "DownloadDictionary")]

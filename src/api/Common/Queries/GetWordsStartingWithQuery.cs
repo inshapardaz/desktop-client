@@ -10,5 +10,7 @@ namespace Inshapardaz.Desktop.Common.Queries
 
         public int PageSize { get; set; } = 10;
         public string StartingWith { get; set; }
+
+        public int DictionaryId { get; set; }
     }
 }

@@ -115,7 +115,7 @@ namespace Inshapardaz.Desktop.Api
 
             app.UseMvc();
 
-            Domain.DomainModule.UpdateDatabase();
+            Domain.DomainModule.UpdateDatabase(new UserSettings());
         }
 
         public static void RegisterRenderers(IServiceCollection services)

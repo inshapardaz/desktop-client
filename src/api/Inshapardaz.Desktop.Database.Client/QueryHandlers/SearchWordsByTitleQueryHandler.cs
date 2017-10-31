@@ -13,31 +13,34 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 {
     public class SearchWordsByTitleQueryHandler : QueryHandlerAsync<SearchWordsByTitleQuery, PageModel<WordModel>>
     {
-        private readonly IDictionaryDatabase _database;
+        private readonly IProvideDatabase _databaseProvider;
 
-        public SearchWordsByTitleQueryHandler(IDictionaryDatabase database)
+        public SearchWordsByTitleQueryHandler(IProvideDatabase databaseProvider)
         {
-            _database = database;
+            _databaseProvider = databaseProvider;
         }
 
         public override async Task<PageModel<WordModel>> ExecuteAsync(SearchWordsByTitleQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            var wordIndices = _database.Word.Where(w => w.Title.Contains(query.Title));
-
-            var count = wordIndices.Count();
-            var data = await wordIndices
-                .OrderBy(x => x.Title.Length)
-                .ThenBy(x => x.Title)
-                .Paginate(query.PageNumber, query.PageSize)
-                .ToListAsync(cancellationToken);
-
-            return new PageModel<WordModel>
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
             {
-                PageNumber = query.PageNumber,
-                PageSize = query.PageSize,
-                TotalCount = count,
-                Data = data.Select(w => w.Map<Word, WordModel>())
-            };
+                var wordIndices = database.Word.Where(w => w.Title.Contains(query.Title));
+
+                var count = wordIndices.Count();
+                var data = await wordIndices
+                    .OrderBy(x => x.Title.Length)
+                    .ThenBy(x => x.Title)
+                    .Paginate(query.PageNumber, query.PageSize)
+                    .ToListAsync(cancellationToken);
+
+                return new PageModel<WordModel>
+                {
+                    PageNumber = query.PageNumber,
+                    PageSize = query.PageSize,
+                    TotalCount = count,
+                    Data = data.Select(w => w.Map<Word, WordModel>())
+                };
+            }
         }
     }
 }

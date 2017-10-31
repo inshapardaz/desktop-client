@@ -7,5 +7,7 @@ namespace Inshapardaz.Desktop.Common.Queries
     public class GetMeaningsByWordDetailIdQuery : IQuery<IEnumerable<MeaningModel>>
     {
         public int DetailId { get; set; }
+
+        public int DictionaryId { get; set; }
     }
 }

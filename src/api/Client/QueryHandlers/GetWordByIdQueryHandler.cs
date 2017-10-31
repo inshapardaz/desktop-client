@@ -17,7 +17,7 @@ namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
         }
         public override async Task<WordModel> ExecuteAsync(GetWordByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await _apiClient.Get<WordModel>($"api/words/{query.Id}");
+            return await _apiClient.Get<WordModel>($"api/words/{query.WordId}");
         }
     }
 }
