@@ -26,7 +26,7 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
             using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
             {
                 var meanings = await database.Meaning
-                                              .Where(t => t.WordDetail.WordInstanceId == query.WordId)
+                                              .Where(t => t.WordId == query.WordId)
                                               .ToListAsync(cancellationToken);
 
                 return meanings.Select(m => m.Map<Meaning, MeaningModel>());

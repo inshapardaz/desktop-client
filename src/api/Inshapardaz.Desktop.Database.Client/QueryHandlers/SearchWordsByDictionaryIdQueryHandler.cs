@@ -22,11 +22,11 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 
         public override async Task<PageModel<WordModel>> ExecuteAsync(SearchWordsByDictionaryIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            using (var database = _databaseProvider.GetDatabaseForDictionary(query.Id))
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
             {
-                var wordIndices = query.Id > 0
+                var wordIndices = query.DictionaryId > 0
                     ? database.Word.Where(
-                        x => x.DictionaryId == query.Id && x.Title.Contains(query.Query))
+                        x => x.DictionaryId == query.DictionaryId && x.Title.Contains(query.Query))
                     : database.Word.Where(x => x.Title.Contains(query.Query));
 
                 var count = wordIndices.Count();

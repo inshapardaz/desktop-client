@@ -39,7 +39,7 @@ namespace Inshapardaz.Desktop.Api.Controllers
         [HttpGet("api/dictionaries/{id}/words/{wordId}", Name = "GetWordById")]
         public async Task<IActionResult> Get(int id, int wordId)
         {
-            var model = await _queryProcessor.ExecuteAsync(new GetWordByIdQuery { DictionaryId = id, Word });
+            var model = await _queryProcessor.ExecuteAsync(new GetWordByIdQuery { DictionaryId = id, WordId = wordId });
             if (model == null)
             {
                 return NotFound();
@@ -74,7 +74,7 @@ namespace Inshapardaz.Desktop.Api.Controllers
         [HttpGet("api/words/search/{title}", Name = "WordSearch")]
         public async Task<PageView<WordView>> Search(string title, int pageNumber = 1, int pageSize = 10)
         {
-            var words = await _queryProcessor.ExecuteAsync(new SearchWordsByTitleQuery { Title = title, PageNumber = pageNumber, PageSize = pageSize });
+            var words = await _queryProcessor.ExecuteAsync(new GetSearchWordsByTitleQuery { Title = title, PageNumber = pageNumber, PageSize = pageSize });
             return _wordPageRenderer.Render(new PageRendererArgs<WordModel>
             {
                 Page = words,

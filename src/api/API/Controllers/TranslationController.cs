@@ -5,6 +5,7 @@ using Inshapardaz.Desktop.Api.Renderers;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language;
 using Paramore.Darker;
 using TranslationView = Inshapardaz.Desktop.Api.Model.TranslationView;
 
@@ -24,21 +25,15 @@ namespace Inshapardaz.Desktop.Api.Controllers
         [HttpGet("api/words/{id}/translations", Name = "GetWordTranslationsById")]
         public async Task<IActionResult> GetTranslationForWord(int id)
         {
-            var result = await _queryProcessor.ExecuteAsync(new GetTranslationsByWordIdQuery { Id = id });
+            var result = await _queryProcessor.ExecuteAsync(new GetTranslationsByWordIdQuery { WordId = id });
             return Ok(result.Select(t => _translationRenderer.Render(t)));
         }
-
-        [HttpGet("api/detail/{id}/translations", Name = "GetWordTranslationsByDetailId")]
-        public async Task<IActionResult> GetTranslationForWordDetail(int id)
-        {
-            var result = await _queryProcessor.ExecuteAsync(new GetTranslationsByWordDetailIdQuery { DetailId = id });
-            return Ok(result.Select(t => _translationRenderer.Render(t)));
-        }
+        
 
         [HttpGet("api/words/{id}/translations/languages/{language}", Name = "GetWordTranslationsByWordIdAndLanguage")]
         public async Task<IActionResult> GetTranslationForWord(int id, LanguageType language)
         {
-            var result = await _queryProcessor.ExecuteAsync(new GetTranslationsByLanguageQuery { Id = id, Language = (Common.Models.LanguageType)language });
+            var result = await _queryProcessor.ExecuteAsync(new GetTranslationsByLanguageQuery { WordId = id, Language = (LanguageType)language });
             return Ok(result.Select(t => _translationRenderer.Render(t)));
         }
 

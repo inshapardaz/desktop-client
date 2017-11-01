@@ -11,11 +11,19 @@ namespace Inshapardaz.Desktop.Common.Models
         public string TitleWithMovements { get; set; }
 
         public string Description { get; set; }
+        
+        public string Attributes { get; set; }
 
-        public IEnumerable<LinkModel> Links { get; set; }
+        public int AttributeValue { get; set; }
+
+        public string Language { get; set; }
+
+        public int LanguageId { get; set; }
 
         public string Pronunciation { get; set; }
 
-        public int DictionaryId { get; set;}
+        public int DictionaryId { get; set; }
+
+        public IEnumerable<LinkModel> Links { get; set; } 
     }
 }

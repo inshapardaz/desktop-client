@@ -18,7 +18,7 @@ namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
         }
         public override async Task<IEnumerable<TranslationModel>> ExecuteAsync(GetTranslationsByLanguageQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await _apiClient.Get<IEnumerable<TranslationModel>>($"api/words/{query.Id}/translations/languages/{query.Language}");
+            return await _apiClient.Get<IEnumerable<TranslationModel>>($"api/dictionaries/{query.DictionaryId}/words/{query.WordId}/translations/languages/{query.Language}");
         }
     }
 }

@@ -24,9 +24,9 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
         {
             using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
             {
-                var wordIndices = query.Id > 0
+                var wordIndices = query.DictionaryId > 0
                     ? database.Word.Where(
-                        x => x.DictionaryId == query.Id && x.Title.StartsWith(query.StartingWith))
+                        x => x.DictionaryId == query.DictionaryId && x.Title.StartsWith(query.StartingWith))
                     : database.Word.Where(x => x.Title.StartsWith(query.StartingWith));
 
                 var count = wordIndices.Count();

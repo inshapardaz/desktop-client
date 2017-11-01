@@ -5,7 +5,7 @@ namespace Inshapardaz.Desktop.Common.Queries
 {
     public class GetWordsByDictionaryIdQuery : IQuery<PageModel<WordModel>>
     {
-        public int Id { get; set; }
+        public int DictionaryId { get; set; }
         public int PageNumber { get; set; } = 1;
 
         public int PageSize { get; set; } = 10;

@@ -17,7 +17,7 @@ namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
         }
         public override async Task<RelationshipModel> ExecuteAsync(GetRelationshipByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await _apiClient.Get<RelationshipModel>($"/api/relationships/{query.RelationshipId}");
+            return await _apiClient.Get<RelationshipModel>($"/api/dictionaries/{query.DictionaryId}/relationships/{query.RelationshipId}");
         }
     }
 }

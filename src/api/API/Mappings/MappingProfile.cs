@@ -26,8 +26,6 @@ namespace Inshapardaz.Desktop.Api.Mappings
                 .ForMember(d => d.Links, o => o.Ignore());
             CreateMap<WordModel, WordView>()
                 .ForMember(d => d.Links, o => o.Ignore());
-            CreateMap<WordDetailModel, WordDetailView>()
-                .ForMember(d => d.Links, o => o.Ignore());
             CreateMap<MeaningModel, MeaningView>()
                 .ForMember(d => d.Links, o => o.Ignore());
             CreateMap<RelationshipModel, RelationshipView>()

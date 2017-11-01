@@ -19,11 +19,8 @@ namespace Inshapardaz.Desktop.Database.Client
             //    .ForMember(d => d.Links, o => o.Ignore())
             //    .ForMember(d => d.Indexes, o => o.Ignore());
             CreateMap<Word, WordModel>()
-                .ForMember(d => d.Links, o => o.Ignore());
-            CreateMap<WordDetail, WordDetailModel>()
                 .ForMember(d => d.AttributeValue, o => o.MapFrom(s => (int)s.Attributes))
                 .ForMember(d => d.LanguageId, o => o.MapFrom(s => (int)s.Language))
-                .ForMember(d => d.WordId, o => o.MapFrom(s => s.WordInstanceId))
                 .ForMember(d => d.Links, o => o.Ignore());
             CreateMap<Translation, TranslationModel>()
                 .ForMember(d => d.Links, o => o.Ignore())

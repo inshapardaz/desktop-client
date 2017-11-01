@@ -17,7 +17,7 @@ namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
         }
         public override async Task<PageModel<WordModel>> ExecuteAsync(GetWordsByDictionaryIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await _apiClient.Get<PageModel<WordModel>>($"api/dictionaries/{query.Id}/words?pageNumber={query.PageNumber}&pageSize={query.PageSize}");
+            return await _apiClient.Get<PageModel<WordModel>>($"api/dictionaries/{query.DictionaryId}/words?pageNumber={query.PageNumber}&pageSize={query.PageSize}");
         }
     }
 }

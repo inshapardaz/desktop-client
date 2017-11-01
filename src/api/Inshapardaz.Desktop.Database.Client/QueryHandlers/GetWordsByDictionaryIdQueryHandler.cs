@@ -21,10 +21,10 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 
         public override async Task<PageModel<WordModel>> ExecuteAsync(GetWordsByDictionaryIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            using (var database = _databaseProvider.GetDatabaseForDictionary(query.Id))
+            using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
             {
                 var data = await database.Word
-                                         .Where(w => w.DictionaryId == query.Id)
+                                         .Where(w => w.DictionaryId == query.DictionaryId)
                                          .OrderBy(x => x.Title)
                                          .Paginate(query.PageNumber, query.PageSize)
                                          .ToListAsync(cancellationToken);
@@ -34,7 +34,7 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
                     PageNumber = query.PageNumber,
                     PageSize = query.PageSize,
                     TotalCount = await database.Word
-                                               .CountAsync(w => w.DictionaryId == query.Id, cancellationToken)
+                                               .CountAsync(w => w.DictionaryId == query.DictionaryId, cancellationToken)
                 };
             }
         }

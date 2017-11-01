@@ -19,7 +19,7 @@ namespace Inshapardaz.Desktop.Api.Adapters
 
     public class GetDictionariesRequestHandler : RequestHandlerAsync<GetDictionariesRequest>
     {
-        private readonly IRenderResponseFromObject<DictionariesModel, DictionariesView> _dictionariesRenderer;
+        /*private readonly IRenderResponseFromObject<DictionariesModel, DictionariesView> _dictionariesRenderer;
         private readonly IQueryProcessor _queryProcessor;
 
         public GetDictionariesRequestHandler(IQueryProcessor queryProcessor, IRenderResponseFromObject<DictionariesModel, DictionariesView> dictionariesRenderer)
@@ -33,6 +33,6 @@ namespace Inshapardaz.Desktop.Api.Adapters
             var dictionaries = await _queryProcessor.ExecuteAsync(new GetDictionariesQuery(), cancellationToken);
             command.Result = _dictionariesRenderer.Render(dictionaries);
             return base.HandleAsync(command, cancellationToken);
-        }
+        }*/
     }
 }

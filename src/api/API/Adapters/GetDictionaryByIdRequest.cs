@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
 using Inshapardaz.Desktop.Common.Models;
+using Inshapardaz.Desktop.Common.Queries;
 using Paramore.Brighter;
 using Paramore.Darker;
 
@@ -28,15 +29,16 @@ namespace Inshapardaz.Desktop.Api.Adapters
         private readonly IRenderResponseFromObject<DictionaryModel, DictionaryView> _dictionaryRenderer;
         private readonly IQueryProcessor _queryProcessor;
 
-        public GetDictionaryByIdRequestHandler(IQueryProcessor queryProcessor)
+        public GetDictionaryByIdRequestHandler(IQueryProcessor queryProcessor, IRenderResponseFromObject<DictionaryModel, DictionaryView> dictionaryRenderer)
         {
             _queryProcessor = queryProcessor;
+            _dictionaryRenderer = dictionaryRenderer;
         }
 
         public override async Task<GetDictionaryByIdRequest> HandleAsync(GetDictionaryByIdRequest command, CancellationToken cancellationToken = new CancellationToken())
         {
-            command.Result = _dictionaryRenderer.Render(await _queryProcessor.ExecuteAsync(new GetDictionaryByIdQuery { Id = id}, cancellationToken));
-            return base.HandleAsync(command, cancellationToken);
+            command.Result = _dictionaryRenderer.Render(await _queryProcessor.ExecuteAsync(new GetDictionaryByIdQuery { Id = command.DictioaryId}, cancellationToken));
+            return await base.HandleAsync(command, cancellationToken);
         }
     }
 }

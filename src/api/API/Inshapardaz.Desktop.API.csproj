@@ -29,9 +29,9 @@
     <PackageReference Include="Paramore.Darker.QueryLogging" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Inshapardaz.Desktop.Common.csproj" />
     <ProjectReference Include="..\Domain\Inshapardaz.Desktop.Domain.csproj" />
     <ProjectReference Include="..\Client\Inshapardaz.Desktop.Api.Client.csproj" />
-    <ProjectReference Include="..\Common\Inshapardaz.Desktop.Common.csproj" />
     <ProjectReference Include="..\Inshapardaz.Desktop.Database.Client\Inshapardaz.Desktop.Database.Client.csproj" />
   </ItemGroup>
   <ItemGroup>

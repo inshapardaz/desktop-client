@@ -18,7 +18,7 @@ namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
         }
         public override async Task<IEnumerable<MeaningModel>> ExecuteAsync(GetMeaningsByWordIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await _apiClient.Get<IEnumerable<MeaningModel>>($"api/words/{query.WordId}/meanings");
+            return await _apiClient.Get<IEnumerable<MeaningModel>>($"api/dictionaries/{query.DictionaryId}/words/{query.WordId}/meanings");
         }
     }
 }

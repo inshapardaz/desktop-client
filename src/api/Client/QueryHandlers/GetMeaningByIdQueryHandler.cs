@@ -17,7 +17,7 @@ namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
         }
         public override async Task<MeaningModel> ExecuteAsync(GetMeaningByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await _apiClient.Get<MeaningModel>($"api/meanings/{query.MeaningId}");
+            return await _apiClient.Get<MeaningModel>($"api/dictionaries/{query.DictionaryId}/meanings/{query.MeaningId}");
         }
     }
 }

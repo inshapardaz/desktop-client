@@ -40,7 +40,8 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpGet("/api/dictionaries/{id}", Name = "GetDictionaryById")]
-        public async Task<DictionaryView> Get(int id)
+        [Produces(typeof(DictionaryView))]
+        public async Task<IActionResult> Get(int id)
         {
             var request = new GetDictionaryByIdRequest(id);
             await _commandProcessor.SendAsync(request);

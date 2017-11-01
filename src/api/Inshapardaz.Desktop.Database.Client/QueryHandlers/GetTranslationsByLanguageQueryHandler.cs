@@ -26,7 +26,7 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
             using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
             {
                 var translations = await database.Translation
-                                                  .Where(t => t.WordDetail.WordInstanceId == query.Id && (int) t.Language == (int) query.Language)
+                                                  .Where(t => t.WordId == query.WordId && (int) t.Language == (int) query.Language)
                                                   .ToListAsync(cancellationToken);
                 return translations.Select(t => t.Map<Translation, TranslationModel>());
             }

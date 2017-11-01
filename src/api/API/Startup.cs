@@ -127,7 +127,6 @@ namespace Inshapardaz.Desktop.Api
             services.AddTransient<IRenderResponseFromObject<PageRendererArgs<WordModel>, PageView<WordView>>, PageRenderer>();
             services.AddTransient<IRenderResponseFromObject<DictionaryModel, DictionaryView>, DictionaryRenderer>();
             services.AddTransient<IRenderResponseFromObject<WordModel, WordView>, WordRenderer>();
-            services.AddTransient<IRenderResponseFromObject<WordDetailModel, WordDetailView>, WordDetailRenderer>();
             services.AddTransient<IRenderResponseFromObject<MeaningModel, MeaningView>, MeaningRenderer>();
             services.AddTransient<IRenderResponseFromObject<RelationshipModel, RelationshipView>, RelationRenderer>();
             services.AddTransient<IRenderResponseFromObject<TranslationModel, TranslationView>, TranslationRenderer>();

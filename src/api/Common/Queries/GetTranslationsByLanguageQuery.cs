@@ -6,7 +6,7 @@ namespace Inshapardaz.Desktop.Common.Queries
 {
     public class GetTranslationsByLanguageQuery : IQuery<IEnumerable<TranslationModel>>
     {
-        public int Id { get; set; }
+        public int WordId { get; set; }
         public LanguageType Language { get; set; }
 
         public int DictionaryId { get; set; }

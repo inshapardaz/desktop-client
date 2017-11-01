@@ -25,14 +25,7 @@ namespace Inshapardaz.Desktop.Api.Controllers
             var result =  await _queryProcessor.ExecuteAsync(new GetMeaningsByWordIdQuery { WordId = id });
             return Ok(result.Select(x => _meaningRenderer.Render(x)));
         }
-
-        [HttpGet("api/details/{id}/meanings", Name = "GetWordMeaningByWordDetailId")]
-        public async Task<IActionResult> GetMeaningForWordDetail(int id)
-        {
-            var result = await _queryProcessor.ExecuteAsync(new GetMeaningsByWordDetailIdQuery { DetailId = id });
-            return Ok(result.Select(x => _meaningRenderer.Render(x)));
-        }
-
+        
         [HttpGet("api/words/{id}/meanings/contexts/{context}", Name = "GetWordMeaningByContext")]
         public async Task<IActionResult> GetMeaningForContext(int id, string context)
         {

@@ -17,7 +17,7 @@ namespace Inshapardaz.Desktop.Api.Client.QueryHandlers
         }
         public override async Task<TranslationModel> ExecuteAsync(GetTranslationByIdQuery query, CancellationToken cancellationToken = new CancellationToken())
         {
-            return await _apiClient.Get<TranslationModel>($"api/translations/{query.Id}");
+            return await _apiClient.Get<TranslationModel>($"api/dictionaries/{query.DictionaryId}/translations/{query.Id}");
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Inshapardaz.Desktop.API.Renderers
             var links = new List<LinkView>
             {
                 LinkRenderer.Render("GetTranslationById", "self", new { id = source.Id }),
-                LinkRenderer.Render("GetDetailsById", "worddetail", new { id = source.WordDetailId })
+                LinkRenderer.Render("GetWordById", "word", new { id = source.WordId })
             };
 
             var link = LinkRenderer.ReRoute(source.Links.WithRel(RelTypes.Update));
