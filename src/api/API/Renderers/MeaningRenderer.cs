@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Api.Model;
-using Inshapardaz.Desktop.Api.Renderers;
 using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
 
-namespace Inshapardaz.Desktop.API.Renderers
+namespace Inshapardaz.Desktop.Api.Renderers
 {
     public class MeaningRenderer : RendrerBase,
         IRenderResponseFromObject<MeaningModel, MeaningView>

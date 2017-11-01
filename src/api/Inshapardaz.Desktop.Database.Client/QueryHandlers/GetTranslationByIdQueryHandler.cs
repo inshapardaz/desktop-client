@@ -24,7 +24,7 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
             using (var database = _databaseProvider.GetDatabaseForDictionary(query.DictionaryId))
             {
                 var translation = await database.Translation
-                                                 .SingleOrDefaultAsync(t => t.Id == query.Id, cancellationToken);
+                                                 .SingleOrDefaultAsync(t => t.Id == query.TranslationId, cancellationToken);
 
                 return translation.Map<Translation, TranslationModel>();
             }

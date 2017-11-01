@@ -6,7 +6,6 @@ using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Api.Mappings;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
-using Inshapardaz.Desktop.API.Renderers;
 using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Http;
 using Inshapardaz.Desktop.Common.Models;

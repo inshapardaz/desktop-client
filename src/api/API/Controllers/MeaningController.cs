@@ -1,48 +1,62 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Inshapardaz.Desktop.Api.Renderers;
-using Inshapardaz.Desktop.Common.Models;
-using Inshapardaz.Desktop.Common.Queries;
+using Inshapardaz.Desktop.Api.Adapters;
 using Microsoft.AspNetCore.Mvc;
-using Paramore.Darker;
+using Paramore.Brighter;
 using MeaningView = Inshapardaz.Desktop.Api.Model.MeaningView;
 
 namespace Inshapardaz.Desktop.Api.Controllers
 {
     public class MeaningController : Controller
     {
-        private readonly IQueryProcessor _queryProcessor;
-        private readonly IRenderResponseFromObject<MeaningModel, MeaningView> _meaningRenderer;
-        public MeaningController(IQueryProcessor queryProcessor, IRenderResponseFromObject<MeaningModel, MeaningView> meaningRenderer)
+        private readonly IAmACommandProcessor _commandProcessor;
+
+        public MeaningController(IAmACommandProcessor commandProcessor)
         {
-            _queryProcessor = queryProcessor;
-            _meaningRenderer = meaningRenderer;
+            _commandProcessor = commandProcessor;
         }
 
-        [HttpGet("api/words/{id}/meanings", Name = "GetWordMeaningByWordId")]
-        public async Task<IActionResult> GetMeaningForWord(int id)
+        [HttpGet("api/dictionaries/{id}/words/{wordId}/meanings", Name = "GetWordMeaningByWordId")]
+        [Produces(typeof(IEnumerable<MeaningView>))]
+        public async Task<IActionResult> GetMeaningForWord(int id, int wordId)
         {
-            var result =  await _queryProcessor.ExecuteAsync(new GetMeaningsByWordIdQuery { WordId = id });
-            return Ok(result.Select(x => _meaningRenderer.Render(x)));
+            var request = new GetMeaningForWordRequest
+            {
+                DictionaryId = id,
+                WordId = wordId
+            };
+
+            await _commandProcessor.SendAsync(request);
+            return Ok(request.Result);
         }
         
-        [HttpGet("api/words/{id}/meanings/contexts/{context}", Name = "GetWordMeaningByContext")]
-        public async Task<IActionResult> GetMeaningForContext(int id, string context)
+        [HttpGet("api/dictionaries/{id}/words/{wordId}/meanings/contexts/{context}", Name = "GetWordMeaningByContext")]
+        [Produces(typeof(IEnumerable<MeaningView>))]
+        public async Task<IActionResult> GetMeaningForContext(int id, int wordId, string context)
         {
-            var result = await _queryProcessor.ExecuteAsync(new GetMeaningByContextQuery { WordId = id, Context = context });
-            return Ok(result.Select(x => _meaningRenderer.Render(x)));
+            var request = new GetMeaningForContextRequest
+            {
+                DictionaryId = id,
+                WordId = wordId,
+                Context = context
+            };
+
+            await _commandProcessor.SendAsync(request);
+            return Ok(request.Result);
         }
 
-        [HttpGet("api/meanings/{id}", Name = "GetMeaningById")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("api/dictionaries/{id}/meanings/{meaningId}", Name = "GetMeaningById")]
+        [Produces(typeof(MeaningView))]
+        public async Task<IActionResult> Get(int id, int meaningId)
         {
-            var result = await _queryProcessor.ExecuteAsync(new GetMeaningByIdQuery { MeaningId = id });
-            if (result == null)
+            var request = new GetMeaningByIdRequest
             {
-                return NotFound();
-            }
+                DictionaryId = id,
+                MeaningId = meaningId
+            };
 
-            return Ok(_meaningRenderer.Render(result));
+            await _commandProcessor.SendAsync(request);
+            return Ok(request.Result);
         }
     }
 }

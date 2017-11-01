@@ -1,59 +1,61 @@
-﻿using System;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Inshapardaz.Desktop.Api.Renderers;
+using Inshapardaz.Desktop.Api.Adapters;
+using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Common.Models;
-using Inshapardaz.Desktop.Common.Queries;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.Language;
-using Paramore.Darker;
-using TranslationView = Inshapardaz.Desktop.Api.Model.TranslationView;
+using Paramore.Brighter;
 
 namespace Inshapardaz.Desktop.Api.Controllers
 {
     public class TranslationController : Controller
     {
-        private readonly IQueryProcessor _queryProcessor;
-        private readonly IRenderResponseFromObject<TranslationModel, TranslationView> _translationRenderer;
+        private readonly IAmACommandProcessor _commandProcessor;
 
-        public TranslationController(IQueryProcessor queryProcessor, IRenderResponseFromObject<TranslationModel, TranslationView> translationRenderer)
+        public TranslationController(IAmACommandProcessor commandProcessor)
         {
-            _queryProcessor = queryProcessor;
-            _translationRenderer = translationRenderer;
+            _commandProcessor = commandProcessor;
         }
 
-        [HttpGet("api/words/{id}/translations", Name = "GetWordTranslationsById")]
-        public async Task<IActionResult> GetTranslationForWord(int id)
+        [HttpGet("api/dictionaries/{id}/words/{wordId}/translations", Name = "GetWordTranslationsById")]
+        [Produces(typeof(IEnumerable<TranslationView>))]
+        public async Task<IActionResult> GetTranslationsForWord(int id, int wordId)
         {
-            var result = await _queryProcessor.ExecuteAsync(new GetTranslationsByWordIdQuery { WordId = id });
-            return Ok(result.Select(t => _translationRenderer.Render(t)));
+            var request = new GetTranslationsForWordRequest
+            {
+                DictionaryId = id,
+                WordId = wordId
+            };
+            await _commandProcessor.SendAsync(request);
+            return Ok(request.Result);
         }
         
 
-        [HttpGet("api/words/{id}/translations/languages/{language}", Name = "GetWordTranslationsByWordIdAndLanguage")]
-        public async Task<IActionResult> GetTranslationForWord(int id, LanguageType language)
+        [HttpGet("api/dictionaries/{id}/words/{wordId}/translations/languages/{language}", Name = "GetWordTranslationsByWordIdAndLanguage")]
+        [Produces(typeof(IEnumerable<TranslationView>))]
+        public async Task<IActionResult> GetTranslationForWord(int id, int wordId, LanguageType language)
         {
-            var result = await _queryProcessor.ExecuteAsync(new GetTranslationsByLanguageQuery { WordId = id, Language = (LanguageType)language });
-            return Ok(result.Select(t => _translationRenderer.Render(t)));
-        }
-
-        [HttpGet("api/detail/{id}/translations/languages/{language}", Name = "GetWordTranslationsByDetailIdAndLanguage")]
-        public Task<IActionResult> GetTranslationForWordDetail(int id, LanguageType language)
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpGet("api/translations/{id}", Name = "GetTranslationById")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var result = await _queryProcessor.ExecuteAsync(new GetTranslationByIdQuery { Id = id });
-
-            if (result == null)
+            var request = new GetTranslationsForLanguageRequest
             {
-                return NotFound();
-            }
-
-            return Ok(_translationRenderer.Render(result));
+                DictionaryId = id,
+                WordId = wordId,
+                Language = language
+            };
+            await _commandProcessor.SendAsync(request);
+            return Ok(request.Result);
+        }
+        
+        [HttpGet("api/dictionaries/{id}/translations/{translationId}", Name = "GetTranslationById")]
+        [Produces(typeof(TranslationView))]
+        public async Task<IActionResult> Get(int id, int translationId)
+        {
+            var request = new GetTranslationByIdRequest
+            {
+                DictionaryId = id,
+                TranslationId = translationId
+            };
+            await _commandProcessor.SendAsync(request);
+            return Ok(request.Result);
         }
     }
 }
