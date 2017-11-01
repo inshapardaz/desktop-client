@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
-using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
 using Paramore.Brighter;
 using Paramore.Darker;
@@ -19,10 +18,10 @@ namespace Inshapardaz.Desktop.Api.Adapters
 
     public class GetDictionariesRequestHandler : RequestHandlerAsync<GetDictionariesRequest>
     {
-        private readonly IRenderResponseFromObject<DictionariesModel, DictionariesView> _dictionariesRenderer;
+        private readonly IRenderDictionaries _dictionariesRenderer;
         private readonly IQueryProcessor _queryProcessor;
 
-        public GetDictionariesRequestHandler(IQueryProcessor queryProcessor, IRenderResponseFromObject<DictionariesModel, DictionariesView> dictionariesRenderer)
+        public GetDictionariesRequestHandler(IQueryProcessor queryProcessor, IRenderDictionaries dictionariesRenderer)
         {
             _queryProcessor = queryProcessor;
             _dictionariesRenderer = dictionariesRenderer;

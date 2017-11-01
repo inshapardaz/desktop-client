@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
 using Inshapardaz.Desktop.Common.Exceptions;
-using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
 using Paramore.Brighter;
 using Paramore.Darker;
@@ -25,10 +24,10 @@ namespace Inshapardaz.Desktop.Api.Adapters
     public class GetWordByIdRequestHandler : RequestHandlerAsync<GetWordByIdRequest>
     {
         private readonly IQueryProcessor _queryProcessor;
-        private readonly IRenderResponseFromObject<WordModel, WordView> _wordRenderer;
+        private readonly IRenderWord _wordRenderer;
 
 
-        public GetWordByIdRequestHandler(IQueryProcessor queryProcessor, IRenderResponseFromObject<WordModel, WordView> wordRenderer)
+        public GetWordByIdRequestHandler(IQueryProcessor queryProcessor, IRenderWord wordRenderer)
         {
             _queryProcessor = queryProcessor;
             _wordRenderer = wordRenderer;

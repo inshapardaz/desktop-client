@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Common.Models;
-using LinkView = Inshapardaz.Desktop.Api.Model.LinkView;
 
 namespace Inshapardaz.Desktop.Api.Renderers
 {
@@ -20,20 +20,5 @@ namespace Inshapardaz.Desktop.Api.Renderers
         string Render<T>(T source);
 
         string RenderFlags<T>(T source);
-    }
-
-    public interface IRenderResponse<out T>
-    {
-        T Render();
-    }
-
-    public interface IRenderResponseFromObject<in TSource, out TDestination>
-    {
-        TDestination Render(TSource source);
-    }
-
-    public interface IRenderCollectionResponseFromObject<in TSource, out TDestination>
-    {
-        IEnumerable<TDestination> Render(IEnumerable<TSource> source);
     }
 }

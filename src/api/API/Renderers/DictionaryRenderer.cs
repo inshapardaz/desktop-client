@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
 
 namespace Inshapardaz.Desktop.Api.Renderers
 {
-    public class DictionaryRenderer : RendrerBase, IRenderResponseFromObject<DictionaryModel, DictionaryView>
+    public interface IRenderDictionary
+    {
+        DictionaryView Render(DictionaryModel source);
+    }
+
+    public class DictionaryRenderer : RendrerBase, IRenderDictionary
     {
         private readonly string[] _indexes =
         {

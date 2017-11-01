@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
-using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
 using Paramore.Brighter;
 using Paramore.Darker;
@@ -24,9 +23,9 @@ namespace Inshapardaz.Desktop.Api.Adapters
     public class GetTranslationByIdRequestHandler : RequestHandlerAsync<GetTranslationByIdRequest>
     {
         private readonly IQueryProcessor _queryProcessor;
-        private readonly IRenderResponseFromObject<TranslationModel, TranslationView> _translationRenderer;
+        private readonly IRenderTranslation _translationRenderer;
 
-        public GetTranslationByIdRequestHandler(IQueryProcessor queryProcessor, IRenderResponseFromObject<TranslationModel, TranslationView> translationRenderer)
+        public GetTranslationByIdRequestHandler(IQueryProcessor queryProcessor, IRenderTranslation translationRenderer)
         {
             _queryProcessor = queryProcessor;
             _translationRenderer = translationRenderer;
@@ -39,7 +38,7 @@ namespace Inshapardaz.Desktop.Api.Adapters
                 DictionaryId = command.DictionaryId, TranslationId  = command.TranslationId
             };
             var result = await _queryProcessor.ExecuteAsync(query, cancellationToken);
-            command.Result = _translationRenderer.Render(result);
+            command.Result = _translationRenderer.Render(result, command.DictionaryId);
 
             return await base.HandleAsync(command, cancellationToken);
         }

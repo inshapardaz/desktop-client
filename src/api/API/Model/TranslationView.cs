@@ -14,6 +14,6 @@ namespace Inshapardaz.Desktop.Api.Model
 
         public string Value { get; set; }
 
-        public long WordDetailId { get; set; }
+        public long WordId { get; set; }
     }
 }

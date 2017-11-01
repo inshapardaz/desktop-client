@@ -1,28 +1,27 @@
 ﻿using System.Threading.Tasks;
-using Inshapardaz.Desktop.Api.Renderers;
-using Inshapardaz.Desktop.Common.Models;
-using Inshapardaz.Desktop.Common.Queries;
+using Inshapardaz.Desktop.Api.Adapters;
+using Inshapardaz.Desktop.Api.Model;
 using Microsoft.AspNetCore.Mvc;
-using Paramore.Darker;
-using EntryView = Inshapardaz.Desktop.Api.Model.EntryView;
+using Paramore.Brighter;
 
 namespace Inshapardaz.Desktop.Api.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IQueryProcessor _queryProcessor;
-        private readonly IRenderResponseFromObject<EntryModel, EntryView> _entryRenderer;
+        private readonly IAmACommandProcessor _commandProcessor;
 
-        public HomeController(IQueryProcessor queryProcessor, IRenderResponseFromObject<EntryModel, EntryView> entryRenderer)
+        public HomeController(IAmACommandProcessor commandProcessor)
         {
-            _queryProcessor = queryProcessor;
-            _entryRenderer = entryRenderer;
+            _commandProcessor = commandProcessor;
         }
 
         [HttpGet("api", Name = "Entry")]
-        public async Task<EntryView> Index()
+        [Produces(typeof(EntryView))]
+        public async Task<IActionResult> Index()
         {
-            return _entryRenderer.Render(await _queryProcessor.ExecuteAsync(new GetEntryQuery()));
+            var request = new GetEntryRequest();
+            await _commandProcessor.SendAsync(request);
+            return Ok(request.Result);
         }
     }
 }

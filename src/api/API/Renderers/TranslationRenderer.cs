@@ -6,8 +6,12 @@ using Inshapardaz.Desktop.Common.Models;
 
 namespace Inshapardaz.Desktop.Api.Renderers
 {
-    public class TranslationRenderer : RendrerBase,
-        IRenderResponseFromObject<TranslationModel, TranslationView>
+    public interface IRenderTranslation
+    {
+        TranslationView Render(TranslationModel source, int dictionaryId);
+    }
+
+    public class TranslationRenderer : RendrerBase, IRenderTranslation
     {
         private readonly IRenderEnum _enumRenderer;
 
@@ -17,7 +21,7 @@ namespace Inshapardaz.Desktop.Api.Renderers
             _enumRenderer = enumRenderer;
         }
 
-        public TranslationView Render(TranslationModel source)
+        public TranslationView Render(TranslationModel source, int dictionaryId)
         {
             if (source == null)
             {
@@ -30,8 +34,8 @@ namespace Inshapardaz.Desktop.Api.Renderers
 
             var links = new List<LinkView>
             {
-                LinkRenderer.Render("GetTranslationById", "self", new { id = source.Id }),
-                LinkRenderer.Render("GetWordById", "word", new { id = source.WordId })
+                LinkRenderer.Render("GetTranslationById", RelTypes.Self, new { id = dictionaryId, translationId  = source.Id }),
+                LinkRenderer.Render("GetWordById", RelTypes.Word, new { id = dictionaryId, wordId = source.WordId })
             };
 
             var link = LinkRenderer.ReRoute(source.Links.WithRel(RelTypes.Update));

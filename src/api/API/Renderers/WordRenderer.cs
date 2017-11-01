@@ -6,7 +6,12 @@ using Inshapardaz.Desktop.Common.Models;
 
 namespace Inshapardaz.Desktop.Api.Renderers
 {
-    public class WordRenderer : RendrerBase, IRenderResponseFromObject<WordModel, WordView>
+    public interface IRenderWord
+    {
+        WordView Render(WordModel source);
+    }
+
+    public class WordRenderer : RendrerBase, IRenderWord
     {
         public WordRenderer(IRenderLink linkRenderer)
             : base(linkRenderer)
@@ -19,10 +24,11 @@ namespace Inshapardaz.Desktop.Api.Renderers
 
             var links = new List<LinkView>
             {
-                LinkRenderer.RenderOrReRoute(source.Links, "GetWordById", "self", new {id = result.Id}),
-                LinkRenderer.RenderOrReRoute(source.Links, "GetWordRelationsById", "relations", new {id = result.Id}),
-                LinkRenderer.RenderOrReRoute(source.Links, "GetWordDetailsById", "details", new {id = result.Id}),
-                LinkRenderer.RenderOrReRoute(source.Links, "GetDictionaryById", "dictionary", new {id = source.DictionaryId})
+                LinkRenderer.RenderOrReRoute(source.Links, "GetWordById", RelTypes.Self , new {id = source.DictionaryId, wordId = result.Id}),
+                LinkRenderer.RenderOrReRoute(source.Links, "GetWordMeaningByWordId", RelTypes.Meanings, new {id = source.DictionaryId, wordId = result.Id}),
+                LinkRenderer.RenderOrReRoute(source.Links, "GetWordTranslationsById", RelTypes.Translations, new {id = source.DictionaryId, wordId = result.Id}),
+                LinkRenderer.RenderOrReRoute(source.Links, "GetWordRelationsById", RelTypes.Relationships, new {id = source.DictionaryId, wordId = result.Id}),
+                LinkRenderer.RenderOrReRoute(source.Links, "GetDictionaryById", RelTypes.Dictionary, new {id = source.DictionaryId})
             };
 
             var link = LinkRenderer.ReRoute(source.Links.WithRel(RelTypes.Update));
@@ -32,7 +38,11 @@ namespace Inshapardaz.Desktop.Api.Renderers
             if (link != null)
                 links.Add(link);
 
-            link = LinkRenderer.ReRoute(source.Links.WithRel(RelTypes.AddDetail));
+            link = LinkRenderer.ReRoute(source.Links.WithRel(RelTypes.AddMeaning));
+            if (link != null)
+                links.Add(link);
+
+            link = LinkRenderer.ReRoute(source.Links.WithRel(RelTypes.AddTranslation));
             if (link != null)
                 links.Add(link);
 

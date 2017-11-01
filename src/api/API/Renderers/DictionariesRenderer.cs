@@ -1,18 +1,21 @@
 using System.Collections.Generic;
 using System.Linq;
-using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
 
 namespace Inshapardaz.Desktop.Api.Renderers
 {
-    public class DictionariesRenderer : RendrerBase, IRenderResponseFromObject<DictionariesModel, DictionariesView>
+    public interface IRenderDictionaries
     {
-        private readonly IRenderResponseFromObject<DictionaryModel, DictionaryView> _dictionaryRenderer;
+        DictionariesView Render(DictionariesModel source);
+    }
 
-        public DictionariesRenderer(IRenderLink linkRenderer,
-                                    IRenderResponseFromObject<DictionaryModel, DictionaryView> dictionaryRenderer)
+    public class DictionariesRenderer : RendrerBase, IRenderDictionaries
+    {
+        private readonly IRenderDictionary _dictionaryRenderer;
+
+        public DictionariesRenderer(IRenderLink linkRenderer, IRenderDictionary dictionaryRenderer)
             : base(linkRenderer)
         {
             _dictionaryRenderer = dictionaryRenderer;
@@ -22,7 +25,7 @@ namespace Inshapardaz.Desktop.Api.Renderers
         {
             var links = new List<LinkView>
             {
-                LinkRenderer.RenderOrReRoute(source.Links, "GetDictionaries", RelTypes.Self, null)
+                LinkRenderer.RenderOrReRoute(source.Links, "GetDictionaries", RelTypes.Self)
             };
 
 

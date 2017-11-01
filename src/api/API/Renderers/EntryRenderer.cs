@@ -5,7 +5,12 @@ using Inshapardaz.Desktop.Common.Models;
 
 namespace Inshapardaz.Desktop.Api.Renderers
 {
-    public class EntryRenderer : RendrerBase, IRenderResponseFromObject<EntryModel, EntryView>
+    public interface IRenderEntry
+    {
+        EntryView Render(EntryModel model);
+    }
+
+    public class EntryRenderer : RendrerBase, IRenderEntry
     {
         public EntryRenderer(IRenderLink linkRenderer)
             : base(linkRenderer)

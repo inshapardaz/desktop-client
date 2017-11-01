@@ -6,22 +6,26 @@ using Inshapardaz.Desktop.Common.Models;
 
 namespace Inshapardaz.Desktop.Api.Renderers
 {
-    public class MeaningRenderer : RendrerBase,
-        IRenderResponseFromObject<MeaningModel, MeaningView>
+    public interface IRenderMeaning
+    {
+        MeaningView Render(MeaningModel source, int dictionaryId);
+    }
+
+    public class MeaningRenderer : RendrerBase, IRenderMeaning
     {
         public MeaningRenderer(IRenderLink linkRenderer)
             : base(linkRenderer)
         {
         }
 
-        public MeaningView Render(MeaningModel source)
+        public MeaningView Render(MeaningModel source, int dictionaryId)
         {
             var result = source.Map<MeaningModel, MeaningView>();
 
             var links = new List<LinkView>
             {
-                LinkRenderer.Render("GetMeaningById", RelTypes.Self, new { id = source.Id }),
-                LinkRenderer.Render("GetWordById", "word", new { id = source.WordId })
+                LinkRenderer.Render("GetMeaningById", RelTypes.Self, new { id = dictionaryId, meaningId = source.Id }),
+                LinkRenderer.Render("GetWordById", RelTypes.Word, new { id = dictionaryId, wordId = source.WordId })
             };
 
             var link = LinkRenderer.ReRoute(source.Links.WithRel(RelTypes.Update));

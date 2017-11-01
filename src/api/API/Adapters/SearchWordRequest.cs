@@ -28,9 +28,9 @@ namespace Inshapardaz.Desktop.Api.Adapters
     public class SearchWordRequestHandler : RequestHandlerAsync<SearchWordRequest>
     {
         private readonly IQueryProcessor _queryProcessor;
-        private readonly IRenderResponseFromObject<PageRendererArgs<WordModel>, PageView<WordView>> _wordPageRenderer;
+        private readonly IRenderWordPage _wordPageRenderer;
 
-        public SearchWordRequestHandler(IQueryProcessor queryProcessor, IRenderResponseFromObject<PageRendererArgs<WordModel>, PageView<WordView>> wordPageRenderer)
+        public SearchWordRequestHandler(IQueryProcessor queryProcessor, IRenderWordPage wordPageRenderer)
         {
             _queryProcessor = queryProcessor;
             _wordPageRenderer = wordPageRenderer;

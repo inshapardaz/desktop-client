@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
-using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
 using Paramore.Brighter;
 using Paramore.Darker;
@@ -24,9 +23,9 @@ namespace Inshapardaz.Desktop.Api.Adapters
     public class GetRelationshipByIdRequestHandler : RequestHandlerAsync<GetRelationshipByIdRequest>
     {
         private readonly IQueryProcessor _queryProcessor;
-        private readonly IRenderResponseFromObject<RelationshipModel, RelationshipView> _relationRenderer;
+        private readonly IRenderRelationship _relationRenderer;
 
-        public GetRelationshipByIdRequestHandler(IQueryProcessor queryProcessor, IRenderResponseFromObject<RelationshipModel, RelationshipView> relationRenderer)
+        public GetRelationshipByIdRequestHandler(IQueryProcessor queryProcessor, IRenderRelationship relationRenderer)
         {
             _queryProcessor = queryProcessor;
             _relationRenderer = relationRenderer;
@@ -40,7 +39,7 @@ namespace Inshapardaz.Desktop.Api.Adapters
                 RelationshipId = command.RelationshipId
             };
             var result = await _queryProcessor.ExecuteAsync(query, cancellationToken);
-            command.Result = _relationRenderer.Render(result);
+            command.Result = _relationRenderer.Render(result, command.DictionaryId);
             return await base.HandleAsync(command, cancellationToken);
         }
     }
