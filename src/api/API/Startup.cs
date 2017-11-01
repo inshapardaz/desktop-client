@@ -19,7 +19,6 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Serialization;
 using Paramore.Brighter.AspNetCore;
 using Paramore.Darker.AspNetCore;
 using DictionariesView = Inshapardaz.Desktop.Api.Model.DictionariesView;

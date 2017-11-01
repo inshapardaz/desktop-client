@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Inshapardaz.Desktop.Api.Helpers;
+﻿using Inshapardaz.Desktop.Api.Helpers;
 
 namespace Inshapardaz.Desktop.Api.Renderers
 {

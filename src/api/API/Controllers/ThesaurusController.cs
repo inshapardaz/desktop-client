@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Inshapardaz.Desktop.Common.Models;
-using Inshapardaz.Desktop.Common.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Paramore.Darker;
 using WordView = Inshapardaz.Desktop.Api.Model.WordView;

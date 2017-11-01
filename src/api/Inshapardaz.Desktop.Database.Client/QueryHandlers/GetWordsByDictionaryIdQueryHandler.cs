@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Inshapardaz.Data;
 using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;

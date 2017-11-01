@@ -1,5 +1,3 @@
-using Inshapardaz.Desktop.Domain.Entities;
-
 namespace Inshapardaz.Desktop.Api.Model
 {
     public class SettingsModel

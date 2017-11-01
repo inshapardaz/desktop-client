@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Threading.Tasks;
 using AutoMapper;
 
 namespace Inshapardaz.Desktop.Common

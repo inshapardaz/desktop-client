@@ -1,6 +1,5 @@
 using Inshapardaz.Desktop.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 namespace Inshapardaz.Desktop.Domain.Contexts
 {
