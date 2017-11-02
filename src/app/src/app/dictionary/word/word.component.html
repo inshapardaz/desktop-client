@@ -24,10 +24,10 @@
                     </button>
                 </li>
                 <li *ngIf="word.dictionaryLink">
-                        <button type="button" (click)="backClicked()" title="{{'DICTIONARY.BACKTODICTIONARY'|translate}}">
-                            <i class="si si-arrow-left"></i> {{'ACTIONS.BACK'|translate}}
-                        </button>
-                    </li>
+                    <button type="button" (click)="backClicked()" title="{{'DICTIONARY.BACKTODICTIONARY'|translate}}">
+                        <i class="si si-arrow-left"></i> {{'ACTIONS.BACK'|translate}}
+                    </button>
+                </li>
             </ul>
         </div>
         <div class="block-content block-content-full text-center">
@@ -40,7 +40,7 @@
                 <h3 class="h4 font-w300" >{{word.description}}</h3>
             </div>
         </div>
-        <div class="block-content border-t" *ngIf="word.pronunciation || word.titleWithMovements">
+        <div class="block-content border-t">
             <div class="row items-push text-center">
                 <div class="col-xs-6 border-r" *ngIf="word.pronunciation">
                     <span class="h4 font-w300 push-5" href="javascript:void(0)">{{word.pronunciation}}</span>
@@ -48,14 +48,23 @@
                 <div class="col-xs-6" *ngIf="word.titleWithMovements">
                     <span class="h4 font-w300 push-5" href="javascript:void(0)">{{word.titleWithMovements}}</span>
                 </div>
+                <div class="col-xs-6" *ngIf="word.attributes">
+                    <span class="h4 font-w300 push-5" href="javascript:void(0)">{{word.attributes}}</span>
+                </div>
+                <div class="col-xs-6" *ngIf="word.language">
+                    <span class="h4 font-w300 push-5" href="javascript:void(0)">{{word.language}}</span>
+                </div>
             </div>
         </div>
     </div>
-    <word-detail *ngIf="word" [wordDetailLink]="word.detailsLink" [createLink]="word.addDetailLink"></word-detail>
+    <word-meanings *ngIf="word" [wordId]="word.id" [meaningsLink]="word.meaningsLink" [createLink]="word.createMeaningLink">
+    </word-meanings>
+    <word-translations *ngIf="word" [wordId]="word.id" [translationsLink]="word.translationsLink" [createLink]="word.createTranslationLink"></word-translations>
     <word-relations *ngIf="word" 
         [relationsLink]="word.relationsLink" 
         [dictionaryLink]="word.dictionaryLink" 
         [createRelationLink]="word.addRelationLink"
+        [dictionaryId]="dictionaryId"
         [sourceWord]="word"></word-relations>
 </div>
 <edit-word [modalId]="'edit-word'" [visible]="showEditDialog" [word]="word" (onClosed)="onEditClosed($event)"></edit-word>
