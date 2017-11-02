@@ -22,7 +22,7 @@ namespace Inshapardaz.Desktop.Api.Renderers
 
         public PageView<WordView> Render(PageRendererArgs<WordModel> source)
         {
-            var page = new PageView<WordView>(source.Page.TotalCount, source.Page.PageSize, source.Page.PageNumber)
+            var page = new PageView<WordView>(source.Page.PageCount, source.RouteArguments.PageSize, source.RouteArguments.PageNumber)
             {
                 Data = source.Page.Data.Select(x => _wordIndexRenderer.Render(x))
             };

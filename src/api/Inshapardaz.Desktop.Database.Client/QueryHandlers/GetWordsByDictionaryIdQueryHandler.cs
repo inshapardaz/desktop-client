@@ -30,9 +30,9 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
                 return new PageModel<WordModel>
                 {
                     Data = data.Select(w => w.Map<Data.Entities.Word, WordModel>()),
-                    PageNumber = query.PageNumber,
+                    CurrentPageIndex = query.PageNumber,
                     PageSize = query.PageSize,
-                    TotalCount = await database.Word
+                    PageCount = await database.Word
                                                .CountAsync(w => w.DictionaryId == query.DictionaryId, cancellationToken)
                 };
             }

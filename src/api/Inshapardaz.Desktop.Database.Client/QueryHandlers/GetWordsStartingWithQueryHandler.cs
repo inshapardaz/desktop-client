@@ -37,9 +37,9 @@ namespace Inshapardaz.Desktop.Database.Client.QueryHandlers
 
                 return new PageModel<WordModel>
                 {
-                    PageNumber = query.PageNumber,
+                    CurrentPageIndex = query.PageNumber,
                     PageSize = query.PageSize,
-                    TotalCount = count,
+                    PageCount = count,
                     Data = data.Select(w => w.Map<Word, WordModel>())
                 };
             }
