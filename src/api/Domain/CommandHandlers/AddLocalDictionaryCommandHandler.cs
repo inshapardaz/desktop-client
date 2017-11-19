@@ -28,7 +28,9 @@ namespace Inshapardaz.Desktop.Domain.CommandHandlers
             }
             else
             {
-                _applicationDatabase.Dictionaries.Add(command.Dictionary.Map<DictionaryModel, Dictionary>());
+                var entity = command.Dictionary.Map<DictionaryModel, Dictionary>();
+                entity.FilePath = command.FilePath;
+                _applicationDatabase.Dictionaries.Add(entity);
             }
 
             await _applicationDatabase.SaveChangesAsync(cancellationToken);

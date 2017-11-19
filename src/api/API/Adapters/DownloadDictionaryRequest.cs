@@ -37,7 +37,8 @@ namespace Inshapardaz.Desktop.Api.Adapters
 
             await _commandProcessor.SendAsync(new AddLocalDictionaryCommand
             {
-                Dictionary = downloadDictionaryCommand.Result
+                Dictionary = downloadDictionaryCommand.Result,
+                FilePath = downloadDictionaryCommand.FilePath
             }, cancellationToken: cancellationToken);
             return await  base.HandleAsync(command, cancellationToken);
         }

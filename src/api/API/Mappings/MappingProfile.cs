@@ -24,6 +24,14 @@ namespace Inshapardaz.Desktop.Api.Mappings
                 .ForMember(d => d.IsOffline, o => o.Ignore())
                 .ForMember(d => d.Indexes, o => o.Ignore())
                 .ForMember(d => d.Links, o => o.Ignore());
+
+            CreateMap<DictionaryModel, Dictionary>()
+                .ForMember(d => d.Name, o => o.MapFrom(s => s.Name))
+                .ForMember(d => d.Language, o => o.MapFrom(s => s.Language))
+                .ForMember(d => d.IsPublic, o => o.MapFrom(s => s.IsPublic))
+                .ForMember(d => d.WordCount, o => o.MapFrom(s => s.WordCount))
+                .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
+                .ForMember(d => d.FilePath, o => o.Ignore());
             CreateMap<WordModel, WordView>()
                 .ForMember(d => d.Links, o => o.Ignore());
             CreateMap<MeaningModel, MeaningView>()

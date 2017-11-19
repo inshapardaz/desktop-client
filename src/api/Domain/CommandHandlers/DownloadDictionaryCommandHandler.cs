@@ -24,7 +24,8 @@ namespace Inshapardaz.Desktop.Domain.CommandHandlers
             var dictionary = await _apiClient.Get<DictionaryModel>($"/api/dictionaries/{command.DictionaryId}");
 
             var stream = await _apiClient.GetSqlite($"/api/dictionary/{command.DictionaryId}/download");
-            using (var file = new FileStream(Path.Combine(_userSettings.DictionariesFolder, $"{command.DictionaryId}.dat"), FileMode.Create))
+            var filePath = Path.Combine(_userSettings.DictionariesFolder, $"{command.DictionaryId}.dat");
+            using (var file = new FileStream(filePath, FileMode.Create))
             {
                 stream.CopyTo(file);
             }
@@ -32,6 +33,7 @@ namespace Inshapardaz.Desktop.Domain.CommandHandlers
             stream.Dispose();
 
             command.Result = dictionary;
+            command.FilePath = filePath;
             return await base.HandleAsync(command, cancellationToken);
         }
     }

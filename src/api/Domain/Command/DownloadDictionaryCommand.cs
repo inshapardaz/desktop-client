@@ -15,5 +15,7 @@ namespace Inshapardaz.Desktop.Domain.Command
         public Guid Id { get; set; }
 
         public DictionaryModel Result { get; set; }
+
+        public string FilePath { get; set; }
     }
 }
