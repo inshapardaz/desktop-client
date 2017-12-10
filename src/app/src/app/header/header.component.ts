@@ -1,31 +1,32 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 
-import { AuthService } from '../../services/auth.service';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
-    selector: 'header',
-    templateUrl: './header.component.html'})
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
+})
+export class HeaderComponent implements OnInit {
+  @Input() miniHeader: Boolean = false;
+  searchText = '';
+  profile: any;
 
-export class HeaderComponent {
-    @Input() miniHeader: boolean = false;
-    searchText: string = "";
-    profile : any;
-    
-    constructor(
-        private router: Router,
-        private auth: AuthService,
-        public translate: TranslateService
-    ) {
-    }
+  constructor(
+      private router: Router,
+      public auth: AuthenticationService,
+      public translate: TranslateService
+  ) {
+  }
 
-    ngOnInit() {
-        
-    }
-    onSearch(event: any): void {
-        if (event.keyCode == 13) {
-            this.router.navigate(['/search', this.searchText]);
-        }
-    }
+  ngOnInit() {
+  }
+
+  onSearch(event: any): void {
+      if (event.keyCode === 13) {
+          this.router.navigate(['/search', this.searchText]);
+      }
+  }
 }

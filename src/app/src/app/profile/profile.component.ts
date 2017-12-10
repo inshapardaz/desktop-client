@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.html'
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+    profile: any;
+    constructor(public auth: AuthenticationService) { }
 
-  profile: any;
-
-  constructor(public auth: AuthService) { }
-
-  ngOnInit() {
-    this.auth.refreshToken();
-  }
+    ngOnInit() {
+      this.auth.refreshToken();
+    }
 
 }

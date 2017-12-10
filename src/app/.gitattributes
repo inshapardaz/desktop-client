@@ -5,3 +5,7 @@
 *.woff2 binary
 *.ttf binary
 *.eot binary
+*.otf binary
+*.icns binary
+*.ico binary
+*.svg binary

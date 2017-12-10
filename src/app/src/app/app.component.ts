@@ -1,60 +1,26 @@
 import { Component } from '@angular/core';
-import { ViewEncapsulation } from '@angular/core';
-import { RouterModule , Router, NavigationStart } from '@angular/router';
-import { Title }     from '@angular/platform-browser';
-
-import { TranslateService, LangChangeEvent} from '@ngx-translate/core';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { JwksValidationHandler } from 'angular-oauth2-oidc';
-
-import { authConfig, AuthService} from '../services/auth.service';
+import { ElectronService } from './providers/electron.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'my-app',
-    templateUrl: './app.component.html',
-    encapsulation: ViewEncapsulation.None
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
-
 export class AppComponent {
-    currentRoute: string = "";
-    isRtl : boolean = false;
-    constructor(private router: Router, 
-                private auth: AuthService, 
-                private oauthService: OAuthService,
-                private translate: TranslateService, 
-                private titleService: Title) {
-        this.configureOAuth();
-        this.setLanguages();
-        this.router.events
-        .subscribe(event => {
-            if (event instanceof NavigationStart){
-                 this.currentRoute = event.url;
-            }
-        });
-        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.isRtl = event.lang == 'ur';
-          });
+  constructor(public electronService: ElectronService,
+    private translate: TranslateService) {
+
+    translate.setDefaultLang('en');
+
+    if (electronService.isElectron()) {
+      console.log('Mode electron');
+      // Check if electron is correctly injected (see externals in webpack.config.js)
+      console.log('c', electronService.ipcRenderer);
+      // Check if nodeJs childProcess is correctly injected (see externals in webpack.config.js)
+      console.log('c', electronService.childProcess);
+    } else {
+      console.log('Mode web');
     }
-    
-    private configureOAuth() {
-        this.oauthService.configure(authConfig);
-        this.oauthService.setupAutomaticSilentRefresh();
-        this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-        this.oauthService.loadDiscoveryDocumentAndTryLogin();
-    }
-
-    private setLanguages(){
-        this.translate.addLangs(["en", "ur"]);
-        this.translate.setDefaultLang('en');
-
-        this.translate.get('APP.TITLE').subscribe((res: string) => {
-            this.titleService.setTitle(res);
-        });
-
-        let browserLang: string = this.translate.getBrowserLang();
-        var selectedLang = localStorage.getItem('ui-lang'); 
-
-        this.translate.use(selectedLang ? selectedLang : (browserLang.match(/en|ur/) ? browserLang : 'en'));
-        this.isRtl = selectedLang == 'ur';        
-    }
- }
+  }
+}

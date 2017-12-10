@@ -1,22 +1,33 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "module": "es2015",
-    "target": "es5",
-    "moduleResolution": "node",
+    "outDir": "./dist/out-tsc",
+    "baseUrl": "src",
     "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "removeComments": false,
-    "noImplicitAny": false,
-    "watch": false,
+    "allowJs": false,
+    "target": "es5",
+    "paths": {
+      "environments": [
+        "./environments"
+      ]
+    },
+    "types": [
+      "node",
+      "jasmine"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "lib": [
-      "ES5",
-      "ES2015",
-      "DOM",
-      "ScriptHost"]
+      "es2016",
+      "dom"
+    ]
   },
   "exclude": [
     "node_modules"
-  ],
-  "files": []
+  ]
 }
