@@ -46,7 +46,7 @@ build_script:
     
     npm install
     
-    npm run electron:prod
+    npm run electron:windows
 
 artifacts:
 
