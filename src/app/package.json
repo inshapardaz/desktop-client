@@ -2,10 +2,10 @@
   "name": "inshapardaz-desktop",
   "version": "2.4.0",
   "description": "Angular 5 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "homepage": "https://inshapardaz.github.io/",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Muhammad Umer Farooq",
+    "email": "omar.faruk@outlook.com"
   },
   "keywords": [
     "angular",

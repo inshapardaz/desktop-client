@@ -30,9 +30,11 @@ build_script:
 
     dotnet restore
     
-    dotnet publish --configuration release -r win10-x64 --output ../bin/dist/win
+    dotnet publish --configuration release --self-contained -r win10-x64 --output ../bin/dist/win
     
-    dotnet publish --configuration release -r osx.10.11-x64 --output ../bin/dist/osx
+    REM dotnet publish --configuration release --self-contained -r osx-x64 --output ../bin/dist/osx
+
+    REM dotnet publish --configuration release --self-contained -r linux-x64 --output ../bin/dist/linux64
     
     cd ..
     
@@ -50,4 +52,15 @@ artifacts:
 
 - path: .\dist\*.exe
 
-  name: Windows Installer
+  name: WindowsInstaller
+ deploy:
+    provider: GitHub
+    release: inshapardaz-desktop-v$(APPVEYOR_BUILD_VERSION)
+    description: 'Desktop App release'
+    auth_token:
+    secure: 153Lh3XfY/NdvU9RrlvPYJTH3LxG4MTWwLZMORx2d8u7FOfZ7EVfdLEYTFe0Ek4S # your encrypted token from GitHub
+    artifact: WindowsInstaller
+    draft: false
+    prerelease: false
+        on:
+    branch: master # release from master branch only
