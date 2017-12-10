@@ -14,21 +14,12 @@ if (serve) {
 }
 
 function createWindow() {
-
-  // const PROTOCOL = 'file';
-
-  // electron.protocol.interceptFileProtocol(PROTOCOL, (request, callback: Function) => {
-  //   let reqUrl = request.url.substr(PROTOCOL.length + 1);
-  //   reqUrl = path.join(__dirname, reqUrl);
-
-  //   reqUrl = path.normalize(reqUrl);
-
-  //   console.log(reqUrl);
-  //   callback({ path: reqUrl });
-  // });
-
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
+
+  if (!serve) {
+    startApi();
+  }
 
   // Create the browser window.
   win = new BrowserWindow({
@@ -41,14 +32,6 @@ function createWindow() {
 
   // and load the index.html of the app.
   win.loadURL('file://' + __dirname + '/index.html');
-
-  // setTimeout(() => win.loadURL(
-  //   url.format({
-  //     pathname: 'index.html',
-  //     protocol:  PROTOCOL + ':',
-  //     slashes: true
-  //   })
-  // ), 1000);
 
   // Open the DevTools.
   if (serve) {
@@ -70,23 +53,15 @@ function createWindow() {
 
 try {
 
-  // This method will be called when Electron has finished
-  // initialization and is ready to create browser windows.
-  // Some APIs can only be used after this event occurs.
   app.on('ready', createWindow);
 
-  // Quit when all windows are closed.
   app.on('window-all-closed', () => {
-    // On OS X it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
       app.quit();
     }
   });
 
   app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
     if (win === null) {
       createWindow();
     }
@@ -103,11 +78,13 @@ let apiProcess = null;
 
 function startApi() {
   const proc = require('child_process').spawn;
+
   //  run server
-  let apipath = path.join(__dirname, '..\\api\\bin\\dist\\win\\Inshapardaz.Desktop.API.exe')
+  let apipath = path.join(__dirname, '..\\..\\api\\bin\\dist\\win\\Inshapardaz.Desktop.API.exe')
   if (os.platform() === 'darwin') {
-    apipath = path.join(__dirname, '..//api//bin//dist//osx//Inshapardaz.Desktop.API')
+    apipath = path.join(__dirname, '..//..//api//bin//dist//osx//Inshapardaz.Desktop.API')
   }
+
   console.log(`INFO : API Starting from path ${apipath}`);
   apiProcess = proc(apipath)
 

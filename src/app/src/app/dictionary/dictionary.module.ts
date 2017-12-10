@@ -11,13 +11,13 @@ import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
 import { DictionaryRoutingModule } from './dictionary-routing.module';
 import { HomeComponent } from './home/home.component';
-// import { EditDictionaryComponent, EditDictionaryModalComponent } from './edit-dictionary/edit-dictionary.component';
-// import { WordsComponent, WordsByLinkComponent } from './words/words.component';
-// import { RelationsComponent } from './relations/relations.component';
-// import { TranslationsComponent } from './translations/translations.component';
-// import { MeaningsComponent } from './meanings/meanings.component';
-// import { WordComponent } from './word/word.component';
+import { WordsComponent, WordsByLinkComponent } from './words/words.component';
+import { RelationsComponent } from './relations/relations.component';
+import { TranslationsComponent } from './translations/translations.component';
+import { MeaningsComponent } from './meanings/meanings.component';
+import { WordComponent } from './word/word.component';
 // import { BsModalService, BsModalRef, ModalBackdropComponent } from 'ngx-bootstrap';
+// import { EditDictionaryComponent, EditDictionaryModalComponent } from './edit-dictionary/edit-dictionary.component';
 // import { EditWordComponent, EditWordModalComponent } from './edit-word/edit-word.component';
 // import { EditMeaningComponent, EditMeaningModalComponent } from './edit-meaning/edit-meaning.component';
 // import { EditTranslationComponent, EditTranslationModalComponent } from './edit-translation/edit-translation.component';
@@ -55,12 +55,12 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     HomeComponent,
     // EditDictionaryComponent,
-    // WordsComponent,
-    // WordsByLinkComponent,
-    // RelationsComponent,
-    // TranslationsComponent,
-    // MeaningsComponent,
-    // WordComponent,
+    WordsComponent,
+    WordsByLinkComponent,
+    RelationsComponent,
+    TranslationsComponent,
+    MeaningsComponent,
+    WordComponent,
     // EditWordComponent,
     // EditMeaningComponent,
     // EditTranslationComponent,
