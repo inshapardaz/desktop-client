@@ -59,7 +59,7 @@ deploy:
     release: inshapardaz-desktop-v$(APPVEYOR_BUILD_VERSION)
     description: 'Desktop App release'
     auth_token:
-    secure: 153Lh3XfY/NdvU9RrlvPYJTH3LxG4MTWwLZMORx2d8u7FOfZ7EVfdLEYTFe0Ek4S # your encrypted token from GitHub
+        secure: 9pGUKf/Hgy5/M1jMlfZtScSRwXspsTBc00gHihlg7P6zb66NDIQekq7D0usaiogk
     artifact: WindowsInstaller
     draft: false
     prerelease: false
