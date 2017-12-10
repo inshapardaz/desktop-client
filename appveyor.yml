@@ -1,0 +1,53 @@
+version: 1.0.{build}
+image: Visual Studio 2017 Preview
+install:
+- ps: Install-Product node 8.5.0 x64
+dotnet_csproj:
+    
+  patch: true
+
+  file: '**\*.csproj'
+
+  version: '{version}'
+
+  package_version: '{version}'
+
+  assembly_version: '{version}'
+
+  file_version: '{version}'
+
+  informational_version: '{version}'
+
+build_script:
+
+- cmd: >-
+
+    cd src
+
+    cd api
+
+    cd api
+
+    dotnet restore
+    
+    dotnet publish --configuration release -r win10-x64 --output ../bin/dist/win
+    
+    dotnet publish --configuration release -r osx.10.11-x64 --output ../bin/dist/osx
+    
+    cd ..
+    
+    cd ..
+    
+    cd app
+    
+    npm version %APPVEYOR_BUILD_VERSION% -m 'v%APPVEYOR_BUILD_VERSION
+    
+    npm install
+    
+    npm run electron:prod
+
+artifacts:
+
+- path: .\dist\*.exe
+
+  name: Windows Installer
