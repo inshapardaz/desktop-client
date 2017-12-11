@@ -92,10 +92,7 @@ function startApi() {
   apiProcess = proc(apiPath)
 
   apiProcess.stdout.on('data', (data) => {
-    writeLog(`API: ${data}`);
-    if (win == null) {
-      createWindow();
-    }
+    process.stdout.write(`API: ${data}`);
   });
 }
 

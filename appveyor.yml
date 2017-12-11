@@ -48,6 +48,7 @@ build_script:
     
     npm run electron:windows
 
+test: off
 artifacts:
 
 - path: .\dist\*.exe
