@@ -17,10 +17,6 @@ function createWindow() {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
-  if (!serve) {
-    startApi();
-  }
-
   // Create the browser window.
   win = new BrowserWindow({
     x: 0,
@@ -36,6 +32,10 @@ function createWindow() {
   // Open the DevTools.
   if (serve) {
     win.webContents.openDevTools();
+  }
+
+  if (!serve) {
+    startApi();
   }
 
   // Emitted when the window is closed.

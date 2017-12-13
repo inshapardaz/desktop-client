@@ -49,18 +49,20 @@ export class HomeComponent implements OnInit {
 
   getEntry() {
       this.isLoading = true;
+      this.errorLoadingDictionaries = false;
       this.dictionaryService.getEntry()
           .subscribe( entry => {
                   this.dictionariesLink = entry.dictionariesLink;
                   this.getDictionaries();
           }, e => {
               this.handlerError();
-              this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.LOADING_FAILURE'));
-              this.router.navigate(['/error/servererror']);
+              this.errorLoadingDictionaries = true;
+              // this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.LOADING_FAILURE'));
           });
   }
 
   getDictionaries() {
+        this.isLoading = true;
       this.errorLoadingDictionaries = false;
       this.dictionaryService.getDictionaries(this.dictionariesLink)
       .subscribe(data => {
@@ -70,7 +72,7 @@ export class HomeComponent implements OnInit {
       }, e => {
           this.handlerError();
           this.errorLoadingDictionaries = true;
-          this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.LOADING_FAILURE'));
+          // this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.LOADING_FAILURE'));
       });
   }
 
