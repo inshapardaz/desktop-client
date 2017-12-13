@@ -37,6 +37,7 @@ import { FooterComponent } from './footer/footer.component';
 // Services
 import { AuthenticationService } from './authentication.service';
 import { AlertingService } from './alerting.service';
+import { SettingsService } from './settings.service';
 import { DataService } from './data.service';
 import { HomeComponent } from './home/home.component';
 import { ErrorUnauthorisedComponent } from './error-unauthorised/error-unauthorised.component';
@@ -91,7 +92,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ElectronService,
     AuthenticationService,
     DataService,
-    AlertingService
+    AlertingService,
+    SettingsService
   ],
   bootstrap: [AppComponent]
 })

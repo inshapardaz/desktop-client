@@ -1,6 +1,9 @@
+import { Title } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +11,19 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public electronService: ElectronService,
-    private translate: TranslateService) {
+  isRtl: Boolean = false;
 
-    translate.setDefaultLang('en');
+  constructor(public electronService: ElectronService,
+    private translate: TranslateService,
+    private titleService: Title) {
+
+    this.setLanguages();
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.isRtl = event.lang === 'ur';
+    });
+
+    const lpageLoader = $('#page-loader');
+    lpageLoader.hide();
 
     if (electronService.isElectron()) {
       console.log('Mode electron');
@@ -23,4 +35,19 @@ export class AppComponent {
       console.log('Mode web');
     }
   }
+
+  private setLanguages() {
+    this.translate.addLangs(['en', 'ur']);
+    this.translate.setDefaultLang('en');
+
+    this.translate.get('APP.TITLE').subscribe((res: string) => {
+        this.titleService.setTitle(res);
+    });
+
+    const browserLang: string = this.translate.getBrowserLang();
+    const selectedLang = localStorage.getItem('ui-lang');
+
+    this.translate.use(selectedLang ? selectedLang : (browserLang.match(/en|ur/) ? browserLang : 'en'));
+    this.isRtl = selectedLang === 'ur';
+}
 }

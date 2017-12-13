@@ -1,3 +1,4 @@
+import { SettingModel } from './models/setting';
 import * as _ from 'lodash';
 
 import { Entry } from './models/entry';
@@ -35,7 +36,7 @@ export class Mapper {
     public static MapDictionaryList(source: any): Array<Dictionary> {
         const dictionariesCol = new Array<Dictionary>();
         _.forEach(source, (d) => dictionariesCol.push(Mapper.MapDictionary(d)));
-         return dictionariesCol;
+        return dictionariesCol;
     }
 
     public static MapDictionary(source: any): Dictionary {
@@ -44,7 +45,7 @@ export class Mapper {
         dictionary.name = source.name;
         dictionary.isPublic = source.isPublic;
         dictionary.wordCount = source.wordCount;
-        dictionary.language  = source.language;
+        dictionary.language = source.language;
 
         dictionary.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
         dictionary.searchLink = Mapper.findHrefWithRel(source.links, RelTypes.Search);
@@ -164,8 +165,8 @@ export class Mapper {
         meaning.wordId = source.wordId;
         meaning.value = source.value;
         meaning.example = source.example;
-        meaning.selfLink =  Mapper.findHrefWithRel(source.links, RelTypes.Self);
-        meaning.parentLink =  Mapper.findHrefWithRel(source.links, RelTypes.Word);
+        meaning.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
+        meaning.parentLink = Mapper.findHrefWithRel(source.links, RelTypes.Word);
         meaning.updateLink = Mapper.findHrefWithRel(source.links, RelTypes.Update);
         meaning.deleteLink = Mapper.findHrefWithRel(source.links, RelTypes.Delete);
 
@@ -188,12 +189,19 @@ export class Mapper {
         relation.relationType = source.relationType;
         relation.relationTypeId = source.relationTypeId;
 
-        relation.selfLink =  Mapper.findHrefWithRel(source.links, RelTypes.Self);
-        relation.relatedWordLink =  Mapper.findHrefWithRel(source.links, RelTypes.RelatedWord);
+        relation.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
+        relation.relatedWordLink = Mapper.findHrefWithRel(source.links, RelTypes.RelatedWord);
         relation.updateLink = Mapper.findHrefWithRel(source.links, RelTypes.Update);
         relation.deleteLink = Mapper.findHrefWithRel(source.links, RelTypes.Delete);
 
         return relation;
+    }
+
+    public static MapSettings(source: any): SettingModel {
+        const setting = new SettingModel;
+        setting.userInterfaceLanguage = source.userInterfaceLanguage;
+        setting.useOffline = source.useOffline;
+        return setting;
     }
 
     private static findHrefWithRel(links: any, rel: string) {

@@ -6,6 +6,7 @@ import { environment } from '../environments/index';
 
 import 'rxjs/add/operator/filter';
 import { Observable } from 'rxjs/Observable';
+import { retry } from 'rxjs/operators/retry';
 
 @Injectable()
 export class AuthenticationService {
@@ -50,7 +51,6 @@ export class AuthenticationService {
     this.oauthService.silentRefresh()
     .then(info => console.log('token refresh ok', info))
     .catch(err => console.error('token refresh error', err));
-
   }
 
   public loadUserProfile(): void {
@@ -61,75 +61,43 @@ export class AuthenticationService {
           console.log(up);
           this.userProfile = up;
         });
-
   }
 
   AuthGet(url: string, options?: RequestOptions): Observable<Response> {
-
-    if (options) {
-      options = this._setRequestOptions(options);
-    } else {
-      options = this._setRequestOptions();
-    }
+    options = this.setRequestOptions(options);
     return this.http.get(url, options);
   }
 
   AuthPut(url: string, data: any, options?: RequestOptions): Observable<Response> {
-
     const body = JSON.stringify(data);
-
-    if (options) {
-      options = this._setRequestOptions(options);
-    } else {
-      options = this._setRequestOptions();
-    }
+    options = this.setRequestOptions(options);
     return this.http.put(url, body, options);
   }
 
   AuthDelete(url: string, options?: RequestOptions): Observable<Response> {
-
-    if (options) {
-      options = this._setRequestOptions(options);
-    } else {
-      options = this._setRequestOptions();
-    }
+    options = this.setRequestOptions(options);
     return this.http.delete(url, options);
   }
 
   AuthPost(url: string, data: any, options?: RequestOptions): Observable<Response> {
-
     const body = JSON.stringify(data);
-
-    if (options) {
-      options = this._setRequestOptions(options);
-    } else {
-      options = this._setRequestOptions();
-    }
+    this.setRequestOptions(options);
     return this.http.post(url, body, options);
   }
 
-
-  private _setAuthHeaders(): Headers {
-    const authHeaders = new Headers();
-    authHeaders.append('Authorization', 'Bearer ' + this.oauthService.getIdToken());
-    if (authHeaders.get('Content-Type')) {
-
-    } else {
-      authHeaders.append('Content-Type', 'application/json');
-    }
-    return  authHeaders;
-  }
-  private _setRequestOptions(options?: RequestOptions) {
-    let authHeaders: Headers;
-    if (this.isAuthenticated()) {
-      authHeaders = this._setAuthHeaders();
-    }
+  private setRequestOptions(options?: RequestOptions) {
     if (options) {
-      options.headers.append(authHeaders.keys[0], authHeaders.values[0]);
-    } else {
-      options = new RequestOptions({ headers: authHeaders });
-    }
+      if (this.isAuthenticated()) {
+        options.headers.append('Authorization', 'Bearer ' + this.oauthService.getIdToken());
+      }
 
+      options.headers.append('Content-Type', 'application/json');
+    } else {
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Authorization', 'Bearer ' + this.oauthService.getIdToken());
+      options = new RequestOptions({ headers: headers });
+    }
     return options;
   }
 }
