@@ -85,6 +85,11 @@ export class DataService {
       .catch(this.handleError);
   }
 
+  addDownload(downloadLink: string): Observable<void> {
+    return this.auth.AuthGet(downloadLink)
+      .catch(this.handleError);
+  }
+
   searchWords(url: string, query: string, pageNumber: number = 1, pageSize: number = 10): Observable<WordPage> {
     return this.auth.AuthGet(`${url}?query=${query}&pageNumber=${pageNumber}&pageSize=${pageSize}`)
       .map(r => this.extractData(r, Mapper.MapWordPage))
@@ -228,7 +233,7 @@ export class DataService {
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.error(errMsg); // log to console instead
     if (error.stack) {
-        console.error(error.stack);
+      console.error(error.stack);
     }
     return Observable.throw(errMsg);
   }

@@ -54,6 +54,7 @@ export class Mapper {
         dictionary.deleteLink = Mapper.findHrefWithRel(source.links, RelTypes.Delete);
         dictionary.createWordLink = Mapper.findHrefWithRel(source.links, RelTypes.CreateWord);
         dictionary.createDownloadLink = Mapper.findHrefWithRel(source.links, RelTypes.CreateDownload);
+        dictionary.downloadLink = Mapper.findHrefWithRel(source.links, RelTypes.Download);
 
         const indexes = new Array<DictionaryIndex>();
         _.forEach(source.indexes, (i) => indexes.push(Mapper.MapDictionaryIndex(i)));

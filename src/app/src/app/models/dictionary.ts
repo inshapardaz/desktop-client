@@ -14,6 +14,7 @@ export class Dictionary {
     public deleteLink: string;
     public createWordLink: string;
     public createDownloadLink: string;
+    public downloadLink: string;
 }
 
 export class DictionaryIndex {

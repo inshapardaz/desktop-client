@@ -16,7 +16,7 @@
     <div class="content-grid">
         <div class="row">
             <div class="content bg-white text-center" *ngIf="isLoading">
-                <div class="row">                            
+                <div class="row">
                     <div class="font-s64 text-gray push-30-t push-50">
                         <i class="fa fa-spin fa-spinner"></i>
                     </div>
@@ -121,6 +121,10 @@
                                                 <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" class="btn btn-xs btn-default" *ngIf="dictionary.updateLink"
                                                     [attr.title]="translate.instant('DICTIONARIES.EDIT_DICTIONARY')" (click)="editDictionary(dictionary)">
                                                     <i class="fa fa-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" class="btn btn-xs btn-default" *ngIf="dictionary.downloadLink" 
+                                                    [attr.title]="translate.instant('DICTIONARIES.ACTIONS.DOWNLOAD')" (click)="downloadDictionary(dictionary)">
+                                                    <i class="fa fa-download"></i>
                                                 </button>
                                                 <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" *ngIf="dictionary.deleteLink" [attr.title]="translate.instant('DICTIONARIES.DELETE_DICTIONARY')"
                                                     [swal]="{title : translate.instant('DICTIONARIES.DELETE_DICTIONARY_TITLE'), 

@@ -23,6 +23,7 @@ export class RelTypes {
     public static readonly Index = 'index';
     public static readonly CreateWord = 'create-word';
     public static readonly CreateDownload = 'create-download';
+    public static readonly Download = 'download';
 
     public static readonly Dictionaries = 'dictionaries';
     public static readonly Thesaurus = 'thesaurus';
