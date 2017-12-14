@@ -58,16 +58,15 @@
                             {{'ACTIONS.REFRESH' | translate}}
                         </button>
                     </li>
-                    <li class="dropdown">
-                        <button data-toggle="dropdown">
-                            {{ 'DICTIONARY.INDEX' | translate}}
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right" *ngIf="dictionary">
-                            <li class="col-lg-3 col-md-3 col-sm-6" *ngFor="let idx of dictionary.indexes">
-                                <a tabindex="-1" href="javascript:void(0)" (click)="gotoIndex(idx)">{{idx.title}}</a>
-                            </li>
-                        </ul>
+                    <li class="dropdown" dropdown *ngIf="dictionary">
+                            <button dropdownToggle type="button">
+                                    {{ 'DICTIONARY.INDEX' | translate}} <span class="caret"></span>
+                            </button>
+                            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                                <li class="col-lg-3 col-md-3 col-sm-6" *ngFor="let idx of dictionary.indexes" role="menuitem">
+                                    <a class="dropdown-item" href="javascript:void(0)" (click)="gotoIndex(idx)">{{idx.title}}</a>
+                                </li>
+                            </ul>
                     </li>
                 </ul>
                 <div class="block-title text-normal" *ngIf="wordPage && wordPage.pageCount > 1">

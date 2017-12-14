@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+
 import { PaginationModule } from 'ngx-bootstrap';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -42,7 +44,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     // Ng2AutoCompleteModule,
     SweetAlert2Module,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   providers: [
     // EditDictionaryModalComponent,
