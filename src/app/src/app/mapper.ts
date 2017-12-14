@@ -44,6 +44,7 @@ export class Mapper {
         dictionary.id = source.id;
         dictionary.name = source.name;
         dictionary.isPublic = source.isPublic;
+        dictionary.isOffline = source.isOffline;
         dictionary.wordCount = source.wordCount;
         dictionary.language = source.language;
 

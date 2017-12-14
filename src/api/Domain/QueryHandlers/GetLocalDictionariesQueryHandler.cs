@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Inshapardaz.Desktop.Common;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Common.Queries;
 using Inshapardaz.Desktop.Domain.Contexts;
@@ -25,7 +26,7 @@ namespace Inshapardaz.Desktop.Domain.QueryHandlers
             ;
             foreach (var dictionary in _applicationDatabase.Dictionaries)
             {
-                dictionaries.Add(await _queryProcessor.ExecuteAsync(new GetDictionaryByIdQuery{ Id = dictionary.Id }, cancellationToken));
+                dictionaries.Add(dictionary.Map<Entities.Dictionary, DictionaryModel>());
             }
 
 

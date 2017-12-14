@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
             }, e => {
                 this.handlerError();
                 this.errorLoadingDictionaries = true;
-                // this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.LOADING_FAILURE'));
+                this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.LOADING_FAILURE'));
             });
     }
 
@@ -72,21 +72,38 @@ export class HomeComponent implements OnInit {
             }, e => {
                 this.handlerError();
                 this.errorLoadingDictionaries = true;
-                // this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.LOADING_FAILURE'));
+                this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.LOADING_FAILURE'));
             });
     }
 
     downloadDictionary(dictionary: Dictionary) {
-        this.isLoading = true;
+        dictionary.isDownloading = true;
         this.dictionaryService.addDownload(dictionary.downloadLink)
             .subscribe(data => {
-                this.isLoading = false;
+                dictionary.isDownloading = false;
                 this.alertService.success(this.translate.instant('DICTIONARY.MESSAGES.DOWNLOAD_STARTED'));
+                this.getDictionaries();
             }, e => {
+                dictionary.isDownloading = false;
                 this.handlerError();
                 this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_REQUEST_FAILURE'));
             });
     }
+
+    removeDownload(dictionary: Dictionary) {
+        dictionary.isDownloading = true;
+        this.dictionaryService.removeDownload(dictionary.downloadLink)
+            .subscribe(data => {
+                dictionary.isDownloading = false;
+                this.alertService.success(this.translate.instant('DICTIONARY.MESSAGES.DOWNLOAD_STARTED'));
+                this.getDictionaries();
+            }, e => {
+                dictionary.isDownloading = false;
+                this.handlerError();
+                this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_REQUEST_FAILURE'));
+            });
+    }
+
     createDictionary() {
         this.selectedDictionary = null;
         // this.modalService.createNewDictionary(this.selectedDictionary, this.createLink, EditDictionaryComponent,
@@ -101,10 +118,12 @@ export class HomeComponent implements OnInit {
     createDictionaryDownload(dictionary: Dictionary) {
         this.dictionaryService.createDictionaryDownload(dictionary.createDownloadLink)
             .subscribe(data => {
-                this.alertService.success(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_CREATION_SUCCESS', { name: dictionary.name }));
+                this.alertService.success(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_CREATION_SUCCESS',
+                 { name: dictionary.name }));
             }, e => {
                 this.handlerError();
-                this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_REQUEST_FAILURE', { name: dictionary.name }));
+                this.alertService.error(this.translate.instant('DICTIONARIES.MESSAGES.DOWNLOAD_REQUEST_FAILURE', 
+                { name: dictionary.name }));
             });
     }
 

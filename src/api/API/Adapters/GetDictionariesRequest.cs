@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Inshapardaz.Desktop.Api.Model;
@@ -30,6 +31,15 @@ namespace Inshapardaz.Desktop.Api.Adapters
         public override async Task<GetDictionariesRequest> HandleAsync(GetDictionariesRequest command, CancellationToken cancellationToken = new CancellationToken())
         {
             var dictionaries = await _queryProcessor.ExecuteAsync(new GetDictionariesQuery(), cancellationToken);
+            var localDictionaries = await _queryProcessor.ExecuteAsync(new GetLocalDictionariesQuery(), cancellationToken);
+            foreach (var dictionary in dictionaries.Items)
+            {
+                if (localDictionaries.Items.Any(d => d.Id == dictionary.Id))
+                {
+                    dictionary.IsOffline = true;
+                }
+            }
+
             command.Result = _dictionariesRenderer.Render(dictionaries);
             return await base.HandleAsync(command, cancellationToken);
         }

@@ -47,7 +47,13 @@
       "DELETION_FAILURE": "لغّت '{{name}}' حذف نہیں کی جا سکی۔",
       "LOADING_FAILURE": "لغّات کے حصول میں ناکامی۔ برائے مہربانی دوبارہ کوشش کریں۔",
       "DOWNLOAD_REQUEST_SUCCESS": "لغّت '{{name}}' ڈاؤنلوڈ کے لیے بھجوا دی گئی ہے۔",
-      "DOWNLOAD_REQUEST_FAILURE": "لغّت '{{name}}' ڈاؤنلوڈ کے لیے نہیں بھجوائی جا سکی۔ برائے مہربانی دوبارہ کوشش کریں۔"
+      "DOWNLOAD_REQUEST_FAILURE": "لغّت '{{name}}' ڈاؤنلوڈ کے لیے نہیں بھجوائی جا سکی۔ برائے مہربانی دوبارہ کوشش کریں۔",
+      "REMOVE_OFFLINE_REQUEST_SUCCESS": "آف‌لائن لغّت '{{name}}' ہٹا دی گئی ہے۔",
+      "REMOVE_OFFLINE_REQUEST_FAILURE": "آف‌لائن لغّت '{{name}}' ہٹائی نہیں جا سکی۔ برائے مہربانی دوبارہ کوشش کریں۔"
+    },
+    "ACTIONS": {
+      "MAKEOFFLINE" : "آف‌لائن بنائیں",
+      "REMOVEOFFLINE" : "آف‌لائن بٹائیں"
     },
     "VALIDATION": {
       "NAME": "نام ضروری ہے۔",

@@ -4,6 +4,7 @@ import { DOCUMENT } from "@angular/common";
 
 import { SettingsService } from '../settings.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AlertingService } from '../alerting.service';
 
 @Component({
   selector: 'app-settings',
@@ -18,7 +19,8 @@ export class SettingsComponent {
   constructor(
     public translate: TranslateService,
     public settingsService: SettingsService,
-    @Inject(DOCUMENT) private document
+    public alertService: AlertingService,
+        @Inject(DOCUMENT) private document
   ) {
   }
 
@@ -49,10 +51,10 @@ export class SettingsComponent {
     setting.userInterfaceLanguage = this.translate.currentLang;
     this.settingsService.updateSettings(setting)
       .subscribe(r => {
-        // this.alertService.success(this.translate.instant('SETTINGS.MESSAGES.SAVE_SUCCESS'));
+        this.alertService.success(this.translate.instant('SETTINGS.MESSAGES.SAVE_SUCCESS'));
       },
       error => {
-        // this.alertService.error(this.translate.instant('SETTINGS.MESSAGES.SAVE_FAILURE'));
+        this.alertService.error(this.translate.instant('SETTINGS.MESSAGES.SAVE_FAILURE'));
       });
   }
 }

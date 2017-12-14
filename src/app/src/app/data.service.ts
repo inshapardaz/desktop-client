@@ -90,6 +90,11 @@ export class DataService {
       .catch(this.handleError);
   }
 
+  removeDownload(downloadLink: string): Observable<void> {
+    return this.auth.AuthDelete(downloadLink)
+      .catch(this.handleError);
+  }
+
   searchWords(url: string, query: string, pageNumber: number = 1, pageSize: number = 10): Observable<WordPage> {
     return this.auth.AuthGet(`${url}?query=${query}&pageNumber=${pageNumber}&pageSize=${pageSize}`)
       .map(r => this.extractData(r, Mapper.MapWordPage))

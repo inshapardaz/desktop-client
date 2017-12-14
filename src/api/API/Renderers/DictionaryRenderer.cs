@@ -34,10 +34,9 @@ namespace Inshapardaz.Desktop.Api.Renderers
                 LinkRenderer.RenderOrReRoute(source.Links, "SearchDictionary", RelTypes.Search, new {id = source.Id}),
             };
 
-            if (source.IsPublic)
-            {
-                links.Add(LinkRenderer.RenderOrReRoute(source.Links, "DownloadDictionary", RelTypes.Download, new { id = source.Id, format = "dat" }));
-            }
+            links.AddRange(source.Links
+                .Where(l => l.Rel == RelTypes.Download)
+                .Select(downloadLink => LinkRenderer.RenderOrReRoute(source.Links, "DownloadDictionary", RelTypes.Download, new {id = source.Id, format = downloadLink.Type})));
 
             var indexes = new List<LinkView>(_indexes.Select(i => LinkRenderer.RenderOrReRoute(source.Indexes, "GetWordsListStartWith", i,
                                                                                       new { id = source.Id, startingWith = i })));

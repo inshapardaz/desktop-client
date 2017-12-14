@@ -24,7 +24,7 @@ export class AlertingService {
   }
 
   private showNotification(notifyIcon: string, notifyMessage: string, notifyType: string, notifyFrom: string, notifyAlign: string) {
-      $['notify']({
+      /*$['notify']({
           icon: notifyIcon,
           message: notifyMessage
       },
@@ -47,7 +47,7 @@ export class AlertingService {
               enter: 'animated fadeIn',
               exit: 'animated fadeOutDown'
           }
-      });
+      });*/
   }
 
   success(message: string) {

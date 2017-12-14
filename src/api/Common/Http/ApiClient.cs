@@ -27,9 +27,10 @@ namespace Inshapardaz.Desktop.Common.Http
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(stringTask);
         }
 
-        public async Task<Stream> GetSqlite(string url)
+        public async Task<Stream> GetStream(string url)
         {
             var client = new HttpClient();
+            url = url.Replace(LocalApiUrl, BaseUrl.ToString());
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-sqlite3"));
             return await client.GetStreamAsync(new Uri(BaseUrl, url));
         }

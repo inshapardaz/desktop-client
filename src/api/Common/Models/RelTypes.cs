@@ -1,4 +1,4 @@
-﻿namespace Inshapardaz.Desktop.Api.Model
+﻿namespace Inshapardaz.Desktop.Common.Models
 {
     public static class RelTypes
     {

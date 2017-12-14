@@ -7,5 +7,7 @@ namespace Inshapardaz.Desktop.Common.Models
         public Uri Href { get; set; }
 
         public string Rel { get; set; }
+
+        public string Type { get; set; }
     }
 }

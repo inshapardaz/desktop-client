@@ -47,7 +47,13 @@
       "DELETION_FAILURE": "Unable to delete dictionary '{{name}}'.",
       "LOADING_FAILURE": "Unable to load dictionaries. Please try again",
       "DOWNLOAD_REQUEST_SUCCESS": "Dictionary '{{name}}' download request sent.",
-      "DOWNLOAD_REQUEST_FAILURE": "Dictionary '{{name}}' download request failed. Please try again."
+      "DOWNLOAD_REQUEST_FAILURE": "Dictionary '{{name}}' download request failed. Please try again.",
+      "REMOVE_OFFLINE_REQUEST_SUCCESS": "Offline dictionary '{{name}}' removed successfully.",
+      "REMOVE_OFFLINE_REQUEST_FAILURE": "Offline dictionary '{{name}}' cannot be removed. Please try again."
+    },
+    "ACTIONS": {
+        "MAKEOFFLINE" : "Make available offline",
+        "REMOVEOFFLINE" : "Remove offline"
     },
     "VALIDATION": {
       "NAME": "Name is required",

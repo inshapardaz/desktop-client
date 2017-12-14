@@ -1,7 +1,9 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Inshapardaz.Desktop.Common;
+using Inshapardaz.Desktop.Common.Exceptions;
 using Inshapardaz.Desktop.Common.Http;
 using Inshapardaz.Desktop.Common.Models;
 using Inshapardaz.Desktop.Domain.Command;
@@ -21,9 +23,14 @@ namespace Inshapardaz.Desktop.Domain.CommandHandlers
         }
         public override async Task<DownloadDictionaryCommand> HandleAsync(DownloadDictionaryCommand command, CancellationToken cancellationToken = new CancellationToken())
         {
-            var dictionary = await _apiClient.Get<DictionaryModel>($"/api/dictionaries/{command.DictionaryId}");
+            var dictionary = await _apiClient.Get<DictionaryModel>($"api/dictionaries/{command.DictionaryId}");
+            var downloadLink = dictionary.Links.SingleOrDefault(l => l.Rel == RelTypes.Download);
+            if (downloadLink == null)
+            {
+                throw new NotFoundException();
+            }
 
-            var stream = await _apiClient.GetSqlite($"/api/dictionary/{command.DictionaryId}/download");
+            var stream = await _apiClient.GetStream(downloadLink.Href.AbsoluteUri);
             var filePath = Path.Combine(_userSettings.DictionariesFolder, $"{command.DictionaryId}.dat");
             using (var file = new FileStream(filePath, FileMode.Create))
             {

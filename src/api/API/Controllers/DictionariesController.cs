@@ -40,5 +40,13 @@ namespace Inshapardaz.Desktop.Api.Controllers
             await _commandProcessor.SendAsync(request);
             return Ok();
         }
+
+        [HttpDelete("/api/dictionary/{id}/download", Name = "RemoveDownloadDictionary")]
+        public async Task<IActionResult> RemoveDictionaryDownload(int id, [FromHeader(Name = "Accept")] string accept = "")
+        {
+            var request = new RemoveDictionaryDownloadRequest(id);
+            await _commandProcessor.SendAsync(request);
+            return Ok();
+        }
     }
 }

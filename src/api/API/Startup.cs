@@ -30,8 +30,11 @@ namespace Inshapardaz.Desktop.Api
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder();
-            builder.AddJsonFile("appsettings.json", false, true)
-                   .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
+            builder.AddJsonFile("appsettings.json", false, true);
+            if (env.IsDevelopment())
+            {
+                builder.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
+            }
             Configuration = builder.Build();
         }
 

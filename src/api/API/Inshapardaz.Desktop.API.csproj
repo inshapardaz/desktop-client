@@ -35,6 +35,9 @@
     <ProjectReference Include="..\Inshapardaz.Desktop.Database.Client\Inshapardaz.Desktop.Database.Client.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="appsettings.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

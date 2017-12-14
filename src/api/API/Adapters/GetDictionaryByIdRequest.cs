@@ -36,7 +36,10 @@ namespace Inshapardaz.Desktop.Api.Adapters
 
         public override async Task<GetDictionaryByIdRequest> HandleAsync(GetDictionaryByIdRequest command, CancellationToken cancellationToken = new CancellationToken())
         {
-            command.Result = _dictionaryRenderer.Render(await _queryProcessor.ExecuteAsync(new GetDictionaryByIdQuery { Id = command.DictioaryId}, cancellationToken));
+            var dictionaryView = _dictionaryRenderer.Render(await _queryProcessor.ExecuteAsync(new GetDictionaryByIdQuery { Id = command.DictioaryId}, cancellationToken));
+            var localDictionary = await _queryProcessor.ExecuteAsync(new GetLocalDictionaryQuery {DictionaryId = dictionaryView.Id}, cancellationToken);
+            dictionaryView.IsOffline = localDictionary != null;
+            command.Result = dictionaryView;
             return await base.HandleAsync(command, cancellationToken);
         }
     }
