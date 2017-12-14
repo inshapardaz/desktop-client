@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { FormsModule, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+
 import { TranslateService } from '@ngx-translate/core';
 
 import { Languages } from '../../models/language';
@@ -12,7 +13,8 @@ import { Word } from '../../models/word';
 import { WordPage } from '../../models/WordPage';
 import { DictionaryIndex } from '../../models/Dictionary';
 import { AlertingService } from '../../alerting.service';
-// import { EditWordComponent, EditWordModalComponent } from '../edit-word/edit-word.component';
+
+import * as _ from 'lodash';
 
 export class Index {
   title: string;
@@ -54,87 +56,110 @@ export class WordsByLinkComponent implements OnInit, OnDestroy {
 })
 
 export class WordsComponent implements OnInit, OnDestroy {
-  private sub: Subscription;
-  isInSearch: Boolean = false;
+  numPages = 0;
+
+  private sub1: Subscription;
+  private sub2: Subscription;
+
+  // Page data
   isLoading: Boolean = false;
   errorMessage: string;
   id: number;
   dictionary: Dictionary;
-  searchText: Observable<string>;
-  selectedIndex: Observable<string>;
   index: DictionaryIndex;
   wordPage: WordPage;
   loadedLink: string;
   indexes: Array<string>;
-  pageNumber = 0;
-
   selectedWord: Word = null;
   createWordLink: string;
-  showCreateDialog: Boolean = false;
-
   Languages = Languages;
 
-  public searchForm = this.fb.group({
-    query: ['']
-  });
+  // Search
+  isInSearch: Boolean = false;
+  searchText: Observable<string>;
+  searchQuery: string;
+
+  // Index
+  selectedIndex: string;
+
+  // Pagination
+  currentPage = 0;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    public fb: FormBuilder,
     private alertService: AlertingService,
     private translate: TranslateService,
-    private dictionaryService: DataService,
-    // private modalService: EditWordModalComponent
-  ) {
+    private dictionaryService: DataService) {
   }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.id = params['id'];
-      this.pageNumber = params['page'] || 1;
-      if (this.dictionary == null) {
-        this.getDictionary(d => {
-          this.getWords(d.indexLink);
-        });
-      } else {
-        this.getWords(this.dictionary.indexLink);
-      }
-    });
-
-    this.searchText = this.route.queryParams
-      .map(params => params['search'] || '');
-    this.searchText.subscribe(
-      (val) => {
-        if (val != null && val !== '') {
-          this.searchForm.controls.query.setValue(val);
-          if (this.dictionary == null) {
-            this.getDictionary(d => {
-              this.doSearch();
-            });
-          } else {
-            this.doSearch();
-          }
+    this.sub1 = this.route
+      .params.subscribe(params => {
+        this.id = params['id'];
+        console.log('Id changed loading data');
+        this.loadData();
+      });
+    this.sub2 = this.route
+      .queryParams
+      .subscribe(params => {
+        this.currentPage = +params['pageNumber'] || 1;
+        this.searchQuery = params['search'] || '';
+        if (this.searchQuery === '') {
+          this.selectedIndex = params['index'] || null;
         }
+
+        this.loadData();
       });
 
-    this.selectedIndex = this.route.queryParams
-      .map(params => params['startWith'] || '');
-    this.selectedIndex.subscribe(
-      (val) => {
-        if (val !== '') {
-          this.getIndex(val);
-        }
-      });
+    // this.searchText = this.route.queryParams
+    //   .map(params => params['query'] || '');
+
+    // this.searchText.subscribe(
+    //   (val) => {
+    //     if (val != null && val !== '') {
+    //       this.searchForm.controls.query.setValue(val);
+    //       if (this.dictionary == null) {
+    //         this.getDictionary(d => {
+    //           this.doSearch();
+    //         });
+    //       } else {
+    //         this.doSearch();
+    //       }
+    //     }
+    //   });
+
+    // this.selectedIndex = this.route.queryParams
+    //   .map(params => params['index'] || '');
+    // this.selectedIndex.subscribe(
+    //   (val) => {
+    //     if (val !== '') {
+    //       this.getIndex(val);
+    //     }
+    //   });
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
+  }
+
+  // Data loading functions
+  loadData() {
+    if (this.id < 1) {
+      return;
+    }
+
+    if (this.dictionary == null) {
+      this.getDictionaryAndWords();
+    } else {
+      this.getWords();
+    }
   }
 
   getIndex(index: string) {
     this.isInSearch = false;
     this.isLoading = true;
-    this.dictionaryService.getWordStartingWith(index, this.pageNumber)
+    this.dictionaryService.getWordStartingWith(index, this.currentPage)
       .subscribe(
       words => {
         this.wordPage = words;
@@ -147,7 +172,7 @@ export class WordsComponent implements OnInit, OnDestroy {
       });
   }
 
-  getDictionary(callback) {
+  getDictionaryAndWords() {
     this.isLoading = true;
     this.dictionaryService.getDictionary(this.id)
       .subscribe(
@@ -155,7 +180,7 @@ export class WordsComponent implements OnInit, OnDestroy {
         this.dictionary = dict;
         this.isLoading = false;
         this.createWordLink = dict.createWordLink;
-        callback(dict);
+        this.getWords();
       },
       error => {
         this.isLoading = false;
@@ -164,123 +189,98 @@ export class WordsComponent implements OnInit, OnDestroy {
       });
   }
 
-  getWords(link) {
+  getWords() {
     this.isInSearch = false;
     this.isLoading = true;
-    this.dictionaryService.getWords(link, this.pageNumber)
-      .subscribe(
-      words => {
-        this.wordPage = words;
-        this.isLoading = false;
-        this.loadedLink = link;
-      },
-      error => {
-        this.isLoading = false;
-        this.alertService.error(this.translate.instant('DICTIONARY.MESSAGES.WORDS_LOADING_FAILURE'));
-        this.errorMessage = <any>error;
-      });
-  }
 
-  goNext() {
-    this.pageNumber++;
-    this.navigateToPage();
-  }
-  goPrevious() {
-    this.pageNumber--;
-    this.navigateToPage();
-  }
-
-  gotoIndex(index: DictionaryIndex) {
-    const navigationExtras: NavigationExtras = {
-      queryParams: { 'startWith': index.link },
-    };
-    this.router.navigate(['/dictionary', this.id], navigationExtras);
-  }
-
-  gotoSearch() {
-    const query = this.searchForm.controls.query.value;
-
-    if (query == null || query.length < 0) {
-      return;
-    }
-
-    const navigationExtras: NavigationExtras = {
-      queryParams: { 'search': query }
-    };
-    this.router.navigate(['/dictionary', this.id], navigationExtras);
-  }
-
-  navigateToPage() {
-    const startWith = this.route.snapshot.queryParams['startWith'];
-    const search = this.route.snapshot.queryParams['search'];
-    if (startWith != null && startWith !== '') {
-      const navigationExtras: NavigationExtras = {
-        queryParams: { 'startWith': startWith }
-      };
-      this.router.navigate(['dictionary', this.id, this.pageNumber], navigationExtras);
-    } else if (search != null && search !== '') {
-      const navigationExtras: NavigationExtras = {
-        queryParams: { 'search': search }
-      };
-      this.router.navigate(['dictionary', this.id, this.pageNumber], navigationExtras);
-    } else {
-      this.router.navigate(['dictionary', this.id, this.pageNumber]);
-    }
-  }
-
-  reloadPage() {
-    this.getWords(this.loadedLink);
-  }
-
-  clearSearch() {
-    this.searchForm.setValue({ query: '' });
-    this.isInSearch = false;
-    this.reloadPage();
-  }
-
-  doSearch() {
-    const searchValue = this.searchForm.controls.query.value;
-    if (searchValue != null && searchValue.length > 0) {
-      this.isInSearch = true;
-      this.isLoading = true;
-      this.dictionaryService.searchWords(this.dictionary.searchLink, searchValue, this.pageNumber)
+    if (this.searchQuery !== '') {
+      this.dictionaryService.searchWords(this.dictionary.searchLink, this.searchQuery, this.currentPage)
         .subscribe(words => {
           this.wordPage = words;
           this.isLoading = false;
+          this.isInSearch = true;
         },
         error => {
           this.isLoading = false;
           this.alertService.error(this.translate.instant('DICTIONARY.MESSAGES.SEARCH_LOADING_FAILURE'));
           this.errorMessage = <any>error;
+          this.isInSearch = true;
+        });
+    } else {
+      let link = this.dictionary.indexLink;
+      if (this.selectedIndex != null) {
+        const index = _.find(this.dictionary.indexes, ['title', this.selectedIndex]);
+        link = index.link;
+      }
+
+      this.dictionaryService.getWords(link, this.currentPage)
+        .subscribe(
+        words => {
+          this.wordPage = words;
+          this.isLoading = false;
+          this.loadedLink = link;
+        },
+        error => {
+          this.isLoading = false;
+          this.alertService.error(this.translate.instant('DICTIONARY.MESSAGES.WORDS_LOADING_FAILURE'));
+          this.errorMessage = <any>error;
         });
     }
   }
 
-  addWord() {
-    this.selectedWord = null;
-    // this.modalService.createNewWord(this.selectedWord, this.createWordLink, EditWordComponent, () => this.onCreateClosed());
+  // Page Functions
+  reloadPage() {
+    this.getWords();
   }
 
-  editWord(word: Word) {
-    this.selectedWord = word;
-    // this.modalService.editWord(this.selectedWord, EditWordComponent, () => this.onCreateClosed());
+  wordSelected(word: Word) {
+    this.router.navigate(['word', this.id, word.id]);
   }
 
-  onCreateClosed() {
-    this.selectedWord = null;
-    this.reloadPage();
+  // Search Functions
+  clearSearch() {
+    this.searchQuery = '';
+    this.currentPage = 1;
+    this.selectedIndex = '';
+    this.isInSearch = false;
+    this.navigateToPage();
   }
 
-  deleteWord(word: Word) {
-    this.isLoading = true;
-    this.dictionaryService.deleteWord(word.deleteLink)
-      .subscribe(r => {
-        this.alertService.success(this.translate.instant('WORD.MESSAGES.DELETE_SUCCESS', { title: word.title }));
-        this.reloadPage();
-      }, e => {
-        this.errorMessage = <any>e;
-        this.isLoading = false;
-        this.alertService.error(this.translate.instant('WORD.MESSAGES.DELETE_FAILURE', { title: word.title }));
-      });
+  search() {
+    this.currentPage = 1;
+    this.navigateToPage();
+  }
+
+  // Navigation Code
+
+  gotoIndex(index: DictionaryIndex) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: { 'index': index.title },
+    };
+    this.router.navigate(['/dictionary', this.id], navigationExtras);
+  }
+
+  navigateToPage() {
+    let navigationExtras: NavigationExtras;
+    if (this.searchQuery != null && this.searchQuery !== '') {
+      navigationExtras = {
+        queryParams: { 'search': this.searchQuery, 'pageNumber': this.currentPage }
+      };
+    } else if (this.selectedIndex != null && this.selectedIndex !== '') {
+      navigationExtras = {
+        queryParams: { 'index': this.selectedIndex, 'pageNumber': this.currentPage }
+      };
+    } else {
+      navigationExtras = {
+        queryParams: { 'pageNumber': this.currentPage }
+      };
+    }
+
+    this.router.navigate(['dictionary', this.id], navigationExtras);
+  }
+
+  pageChanged(event: any): void {
+    this.currentPage = event.page;
+    this.navigateToPage();
   }
 }

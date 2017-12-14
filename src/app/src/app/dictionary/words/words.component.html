@@ -8,35 +8,32 @@
             </h1>
         </div>
         <div class="col-sm-5 text-right hidden-xs">
-          <ol class="breadcrumb push-10-t" *ngIf="!isLoading">
-              <li><a class="link-effect" href="javascript:void(0)" [routerLink]="['/dictionaries']"> {{'DICTIONARIES.TITLE' | translate}}</a></li>
-              <li>{{dictionary.name}}</li>
-          </ol>
-      </div>
+            <ol class="breadcrumb push-10-t" *ngIf="dictionary">
+                <li>
+                    <a class="link-effect" href="javascript:void(0)" [routerLink]="['/dictionaries']"> {{'DICTIONARIES.TITLE' | translate}}</a>
+                </li>
+                <li>{{dictionary.name}}</li>
+            </ol>
+        </div>
     </div>
 </div>
 
 <section class="content">
     <div class="row">
         <div class="col-sm-12">
-            <div class="btn-group">
-                <form #searchForm (ngSubmit)="gotoSearch()">
-                    <div class="input-group">
-                        <input class="form-control text-right" type="text" placeholder="{{'DICTIONARY.SEARCH_IN_DICTIONARY' | translate}}" name="query"
-                            id="query">
-                        <div class="input-group-btn">
-                            <button class="btn btn-default" type="submit">
-                                <i class="fa fa-search"></i> {{ 'ACTIONS.SEARCH' | translate }}</button>
-                            <a class="btn btn-default" *ngIf="isInSearch" (click)="clearSearch()">
-                                <i class="fa fa-close"></i>
-                            </a>
-                            <a class="btn btn-default" href="javascript:void(0)" (click)="addWord()" *ngIf="dictionary && dictionary.createWordLink">
-                                <i class="fa fa-fw fa-plus push-5-r"></i> {{ 'DICTIONARY.ADD_WORD' | translate}}
-                            </a>
-                        </div>
+            <form #searchForm="ngForm" (ngSubmit)="search()">
+                <div class="input-group input-group-lg">
+                    <input class="form-control" type="text" id="searchText" name="searchText" #searchText="ngModel" required [(ngModel)]="searchQuery" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" *ngIf="isInSearch" (click)="clearSearch()">
+                            <i class="fa fa-close"></i>
+                        </button>
+                        <button class="btn btn-default" type="submit" [disabled]="!searchForm.form.valid || isLoading">
+                            <i class="fa fa-search"></i>
+                        </button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </section>
@@ -46,6 +43,11 @@
         <div class="block" [class.block-opt-refresh]="isLoading">
             <div class="block-header bg-gray-lighter">
                 <ul class="block-options">
+                    <li>
+                        <button type="button" (click)="addWord()" [disabled]="isLoading" *ngIf="dictionary && dictionary.createWordLink">
+                            <i class="fa fa-fw fa-plus push-5-r"></i> {{ 'DICTIONARY.ADD_WORD' | translate}}
+                        </button>
+                    </li>
                     <li>
                         <button type="button" data-toggle="block-option" data-action="fullscreen_toggle"></button>
                     </li>
@@ -72,21 +74,14 @@
                     <span class="font-w400" [innerHTML]="'DICTIONARY.PAGE' | translate:{current : wordPage.currentPageIndex, total :wordPage.pageCount }"></span>
                 </div>
             </div>
+            <div class="block-content text-center" *ngIf="wordPage && wordPage.words.length > 0">
+                <pagination *ngIf="wordPage" [totalItems]="wordPage.pageCount * wordPage.pageSize" [(ngModel)]="currentPage" [maxSize]="5"
+                    [firstText]="translate.instant('ACTIONS.FIRST_PAGE')" [nextText]="translate.instant('ACTIONS.NEXT_PAGE')"
+                    [previousText]="translate.instant('ACTIONS.PREVIOUS_PAGE')" [lastText]="translate.instant('ACTIONS.LAST_PAGE')"
+                    [rotate]="false" (numPages)="numPages = $event" (pageChanged)="pageChanged($event)" class="pagination-sm"
+                    [boundaryLinks]="true"></pagination>
+            </div>
             <div class="block-content">
-                <nav>
-                    <ul class="pager">
-                        <li class="previous" *ngIf="wordPage && wordPage.words.length > 0 && wordPage.prevLink">
-                            <a href="javascript:void(0)" (click)="!isLoading && goPrevious()" data-toggle="tooltip" title="{{'ACTIONS.PREVIOUS_PAGE' | translate}}">
-                                <i class="fa fa-arrow-left"></i>
-                            </a>
-                        </li>
-                        <li class="next" *ngIf="wordPage && wordPage.words.length > 0 && wordPage.nextLink">
-                            <a href="javascript:void(0)" (click)="!isLoading && goNext()" data-toggle="tooltip" title="{{'ACTIONS.NEXT_PAGE' | translate}}">
-                                <i class="fa fa-arrow-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
                 <table class="table table-hover table-striped table-vcenter" *ngIf="wordPage && wordPage.words.length > 0">
                     <tbody>
                         <tr *ngFor="let word of wordPage.words">
@@ -121,21 +116,16 @@
                         </tr>
                     </tbody>
                 </table>
-                <nav>
-                    <ul class="pager">
-                        <li class="previous" *ngIf="wordPage && wordPage.words.length > 0 && wordPage.prevLink">
-                            <a href="javascript:void(0)" (click)="!isLoading && goPrevious()" data-toggle="tooltip" title="{{'ACTIONS.PREVIOUS_PAGE' | translate}}">
-                                <i class="fa fa-arrow-left"></i>
-                            </a>
-                        </li>
-                        <li class="next" *ngIf="wordPage && wordPage.words.length > 0 && wordPage.nextLink">
-                            <a href="javascript:void(0)" (click)="!isLoading && goNext()" data-toggle="tooltip" title="{{'ACTIONS.NEXT_PAGE' | translate}}">
-                                <i class="fa fa-arrow-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="content bg-white text-center overflow-hidden" *ngIf="wordPage && wordPage.words.length < 1">
+            </div>
+            <div class="block-content text-center" *ngIf="wordPage && wordPage.words.length > 0">
+                <pagination *ngIf="wordPage" [totalItems]="wordPage.pageCount * wordPage.pageSize" [(ngModel)]="currentPage" [maxSize]="5"
+                    [firstText]="translate.instant('ACTIONS.FIRST_PAGE')" [nextText]="translate.instant('ACTIONS.NEXT_PAGE')"
+                    [previousText]="translate.instant('ACTIONS.PREVIOUS_PAGE')" [lastText]="translate.instant('ACTIONS.LAST_PAGE')"
+                    [rotate]="false" (numPages)="numPages = $event" (pageChanged)="pageChanged($event)" class="pagination-sm"
+                    [boundaryLinks]="true"></pagination>
+            </div>
+            <div class="block-content" *ngIf="wordPage && wordPage.words.length < 1">
+                <div class="content bg-white text-center overflow-hidden">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3">
                             <h1 class="font-s128 font-w300 text-amethyst animated fadeInDown">
@@ -158,4 +148,3 @@
         </div>
     </div>
 </div>
-<!-- <edit-word [modalId]="'create-word'" [createLink]="createWordLink" [visible]="showCreateDialog" [word]="selectedWord" (onClosed)="onCreateClosed($event)"></edit-word> -->
