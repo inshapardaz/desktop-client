@@ -1,11 +1,11 @@
-import { Mapper } from './mapper';
 import { AuthenticationService } from './authentication.service';
 import { Observable } from 'rxjs/Rx';
-import { SettingModel } from './models/setting';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
-import { environment } from '../environments/index';
+import { Mapper } from '../models/mapper';
+import { SettingModel } from '../models/setting';
+import { environment } from '../../environments/index';
 
 @Injectable()
 export class SettingsService {

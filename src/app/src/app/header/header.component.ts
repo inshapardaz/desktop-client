@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../providers/authentication.service';
 
 @Component({
   selector: 'app-header',

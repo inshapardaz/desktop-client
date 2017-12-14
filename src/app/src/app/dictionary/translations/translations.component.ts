@@ -1,10 +1,11 @@
 import { Component, Input, transition } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+
 import { TranslateService } from '@ngx-translate/core';
 
-import { AlertingService } from '../../alerting.service';
-import { Subscription } from 'rxjs/Subscription';
-import { DataService } from '../../data.service';
+import { AlertingService } from '../../providers/alerting.service';
+import { DataService } from '../../providers/data.service';
 import { Translation } from '../../models/translation';
 import { RelationTypes } from '../../models/relationTypes';
 // import { EditTranslationComponent, EditTranslationModalComponent } from '../edit-translation/edit-translation.component';

@@ -35,10 +35,11 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
 
 // Services
-import { AuthenticationService } from './authentication.service';
-import { AlertingService } from './alerting.service';
-import { SettingsService } from './settings.service';
-import { DataService } from './data.service';
+import { AuthenticationService } from './providers/authentication.service';
+import { AlertingService } from './providers/alerting.service';
+import { SettingsService } from './providers/settings.service';
+import { DataService } from './providers/data.service';
+
 import { HomeComponent } from './home/home.component';
 import { ErrorUnauthorisedComponent } from './error-unauthorised/error-unauthorised.component';
 import { ErrorUnexpectedComponent } from './error-unexpected/error-unexpected.component';

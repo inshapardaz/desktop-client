@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { AuthConfig, OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
-import { environment } from '../environments/index';
+import { environment } from '../../environments/index';
 
 import 'rxjs/add/operator/filter';
 import { Observable } from 'rxjs/Observable';

@@ -3,9 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { FormsModule , FormBuilder } from '@angular/forms';
 
-import { DataService } from '../../data.service';
 import { Word } from '../../models/Word';
-import { AlertingService } from '../../alerting.service';
+import { AlertingService } from '../../providers/alerting.service';
+import { DataService } from '../../providers/data.service';
 import { TranslateService } from '@ngx-translate/core';
 // import { EditWordComponent, EditWordModalComponent } from '../edit-word/edit-word.component';
 

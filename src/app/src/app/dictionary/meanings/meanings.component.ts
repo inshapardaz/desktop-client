@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AlertingService } from '../../alerting.service';
-import { DataService } from '../../data.service';
+import { AlertingService } from '../../providers/alerting.service';
+import { DataService } from '../../providers/data.service';
 import { Meaning } from '../../models/meaning';
 import { RelationTypes } from '../../models/relationTypes';
 // import { EditMeaningModalComponent, EditMeaningComponent } from '../edit-meaning/edit-meaning.component';

@@ -2,9 +2,9 @@ import { SettingModel } from '../models/setting';
 import { Component, Inject } from '@angular/core';
 import { DOCUMENT } from "@angular/common";
 
-import { SettingsService } from '../settings.service';
+import { SettingsService } from '../providers/settings.service';
 import { TranslateService } from '@ngx-translate/core';
-import { AlertingService } from '../alerting.service';
+import { AlertingService } from '../providers/alerting.service';
 
 @Component({
   selector: 'app-settings',

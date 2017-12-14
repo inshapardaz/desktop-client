@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
-import { DataService } from '../../data.service';
-import { AuthenticationService } from '../../authentication.service';
-import { AlertingService } from '../../alerting.service';
+import { DataService } from '../../providers/data.service';
+import { AuthenticationService } from '../../providers/authentication.service';
+import { AlertingService } from '../../providers/alerting.service';
 
 import { Languages } from '../../models/language';
 import { Dictionary } from '../../models/dictionary';

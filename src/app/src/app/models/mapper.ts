@@ -1,17 +1,17 @@
-import { SettingModel } from './models/setting';
 import * as _ from 'lodash';
 
-import { Entry } from './models/entry';
-import { Link } from './models/link';
-import { Dictionaries } from './models/dictionaries';
-import { Dictionary, DictionaryIndex } from './models/Dictionary';
-import { Word } from './models/Word';
-import { WordPage } from './models/wordPage';
-import { Translation } from './models/Translation';
-import { MeaningContext } from './models/MeaningContext';
-import { Meaning } from './models/Meaning';
-import { Relation } from './models/relation';
-import { RelTypes } from './models/relTypes';
+import { Entry } from './entry';
+import { Link } from './link';
+import { Dictionaries } from './dictionaries';
+import { Dictionary, DictionaryIndex } from './Dictionary';
+import { Word } from './Word';
+import { WordPage } from './wordPage';
+import { Translation } from './Translation';
+import { MeaningContext } from './MeaningContext';
+import { Meaning } from './Meaning';
+import { Relation } from './relation';
+import { RelTypes } from './relTypes';
+import { SettingModel } from './setting';
 
 export class Mapper {
     public static MapEntry(source: any): Entry {

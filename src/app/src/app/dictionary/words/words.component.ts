@@ -6,13 +6,13 @@ import { Observable } from 'rxjs/Observable';
 
 import { TranslateService } from '@ngx-translate/core';
 
+import { DataService } from '../../providers/data.service';
+import { AlertingService } from '../../providers/alerting.service';
 import { Languages } from '../../models/language';
-import { DataService } from '../../data.service';
 import { Dictionary } from '../../models/dictionary';
 import { Word } from '../../models/word';
 import { WordPage } from '../../models/WordPage';
 import { DictionaryIndex } from '../../models/Dictionary';
-import { AlertingService } from '../../alerting.service';
 
 import * as _ from 'lodash';
 

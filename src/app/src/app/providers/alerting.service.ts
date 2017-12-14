@@ -3,7 +3,7 @@ import { Router, NavigationStart } from '@angular/router';
 import 'rxjs/add/operator/first';
 import {Subject} from 'rxjs/Subject';
 
-import { Alert, AlertType } from './models/alert';
+import { Alert, AlertType } from '../models/alert';
 import * as $ from 'jquery';
 
 @Injectable()

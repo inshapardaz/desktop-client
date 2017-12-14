@@ -6,18 +6,18 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import * as _ from 'lodash';
-import { environment } from '../environments/index';
+import { environment } from '../../environments/index';
 
-import { Mapper } from './mapper';
-import { Dictionaries } from './models/dictionaries';
-import { Dictionary } from './models/dictionary';
-import { Link } from './models/link';
-import { Word } from './models/word';
-import { WordPage } from './models/wordPage';
-import { Meaning } from './models/meaning';
-import { Relation } from './models/relation';
-import { Translation } from './models/translation';
-import { Entry } from './models/entry';
+import { Mapper } from '../models/mapper';
+import { Dictionaries } from '../models/dictionaries';
+import { Dictionary } from '../models/dictionary';
+import { Link } from '../models/link';
+import { Word } from '../models/word';
+import { WordPage } from '../models/wordPage';
+import { Meaning } from '../models/meaning';
+import { Relation } from '../models/relation';
+import { Translation } from '../models/translation';
+import { Entry } from '../models/entry';
 
 
 @Injectable()
