@@ -1,5 +1,6 @@
 version: 1.0.{build}
 image: Visual Studio 2017 Preview
+skip_tags: true
 install:
 - ps: Install-Product node 8.5.0 x64
 dotnet_csproj:
