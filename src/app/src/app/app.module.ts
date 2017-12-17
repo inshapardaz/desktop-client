@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +18,7 @@ import { ElectronService } from './providers/electron.service';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap';
+// import { ToastModule } from 'ng2-toast';
 
 // Directives
 import { UIToggleDirective } from './directives/ui-toggle.directive';
@@ -86,6 +87,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    // BrowserAnimationsModule,
+    // ToastModule.forRoot(),
     DictionaryModule
   ],
   providers: [

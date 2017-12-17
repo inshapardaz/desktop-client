@@ -12,7 +12,8 @@
   },
   "SIDEBAR": {
     "SECTIONS": "Sections",
-    "MISC": "Misc"
+    "MISC": "Misc",
+    "WEBHOME" : "Visit us on web"
   },
   "HOME": {
     "TITLE": "Home"

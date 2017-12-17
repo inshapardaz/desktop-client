@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ElectronService } from '../providers/electron.service';
+import { SettingsService } from '../providers/settings.service';
+import { settings } from 'cluster';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private electronService: ElectronService,
+              private settingService: SettingsService) { }
 
   ngOnInit() {
   }
 
+  openWebHome() {
+    this.settingService.getSettings()
+        .subscribe((s) => {
+          if (s != null && s.webHomeUrl != null) {
+            this.electronService.shell.openExternal(s.webHomeUrl);
+          }
+        });
+  }
 }

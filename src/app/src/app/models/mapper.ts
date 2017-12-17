@@ -203,6 +203,7 @@ export class Mapper {
         const setting = new SettingModel;
         setting.userInterfaceLanguage = source.userInterfaceLanguage;
         setting.useOffline = source.useOffline;
+        setting.webHomeUrl = source.webHomeUrl;
         return setting;
     }
 

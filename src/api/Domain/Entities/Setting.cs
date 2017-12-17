@@ -10,5 +10,6 @@ namespace Inshapardaz.Desktop.Domain.Entities
         public string UserInterfaceLanguage { get; set; }
         
         public bool UseOffline { get; set; }
+
     }
 }

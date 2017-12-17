@@ -7,6 +7,7 @@ using Inshapardaz.Desktop.Domain.Entities;
 using Inshapardaz.Desktop.Domain.Queries;
 using Paramore.Brighter;
 using Paramore.Darker;
+using Microsoft.Extensions.Configuration;
 
 namespace Inshapardaz.Desktop.Api.Controllers
 {
@@ -16,17 +17,22 @@ namespace Inshapardaz.Desktop.Api.Controllers
         private readonly IQueryProcessor _queryProcessor;
         private readonly IAmACommandProcessor _commandProcessor;
 
-        public SettingsController(IQueryProcessor queryProcessor, IAmACommandProcessor commandProcessor)
+        private readonly IConfigurationRoot _configuration;
+
+        public SettingsController(IQueryProcessor queryProcessor, IAmACommandProcessor commandProcessor, IConfigurationRoot configuration)
         {
             _queryProcessor = queryProcessor;
             _commandProcessor = commandProcessor;
+            _configuration = configuration;
         }
 
         [HttpGet]
         public async Task<SettingsModel> Get()
         {
             var result = await _queryProcessor.ExecuteAsync(new GetSettingsQuery()) ?? new Setting();
-            return result.Map<Setting,SettingsModel>();
+            var retval = result.Map<Setting,SettingsModel>();
+            retval.WebHomeUrl = _configuration["webHomeUrl"];
+            return retval;
         }
 
         [HttpPut]
