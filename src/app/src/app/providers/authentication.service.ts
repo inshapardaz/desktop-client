@@ -86,18 +86,19 @@ export class AuthenticationService {
   }
 
   private setRequestOptions(options?: RequestOptions) {
-    if (options) {
-      if (this.isAuthenticated()) {
-        options.headers.append('Authorization', 'Bearer ' + this.oauthService.getIdToken());
-      }
-
-      options.headers.append('Content-Type', 'application/json');
-    } else {
+    if (options == null) {
       const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('Authorization', 'Bearer ' + this.oauthService.getIdToken());
       options = new RequestOptions({ headers: headers });
     }
+
+    this.setAuthOnOption(options);
     return options;
+  }
+
+  private setAuthOnOption(options: RequestOptions) {
+    options.headers.append('Content-Type', 'application/json');
+    if (this.isAuthenticated() && this.oauthService.getIdToken() != null) {
+      options.headers.append('Authorization', 'Bearer ' + this.oauthService.getIdToken());
+    }
   }
 }
