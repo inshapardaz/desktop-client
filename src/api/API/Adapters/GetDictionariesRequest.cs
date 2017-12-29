@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Inshapardaz.Desktop.Api.Model;
 using Inshapardaz.Desktop.Api.Renderers;
 using Inshapardaz.Desktop.Common.Queries;
+using Inshapardaz.Desktop.Domain.Queries;
 using Paramore.Brighter;
 using Paramore.Darker;
 
@@ -34,10 +35,15 @@ namespace Inshapardaz.Desktop.Api.Adapters
             var localDictionaries = await _queryProcessor.ExecuteAsync(new GetLocalDictionariesQuery(), cancellationToken);
             foreach (var dictionary in dictionaries.Items)
             {
+                var isDownloading = await _queryProcessor.ExecuteAsync(new GetDictionaryDownloadJobQuery(dictionary.Id));
+                dictionary.IsDownloading = isDownloading;
+
                 if (localDictionaries.Items.Any(d => d.Id == dictionary.Id))
                 {
                     dictionary.IsOffline = true;
                 }
+
+
             }
 
             command.Result = _dictionariesRenderer.Render(dictionaries);

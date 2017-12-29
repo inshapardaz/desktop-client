@@ -1,6 +1,8 @@
 using System.IO;
 using System.Reflection;
 using AutoMapper;
+using Hangfire;
+using Hangfire.SQLite;
 using Inshapardaz.Desktop.Api.Client;
 using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Api.Mappings;
@@ -46,7 +48,8 @@ namespace Inshapardaz.Desktop.Api
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
             services.AddSingleton<IProvideUserSettings, UserSettings>();
-            
+
+            services.AddHangfire(c => c.UseSQLiteStorage(GetJobsDbConnectionString()));
             DomainModule.RegisterDatabases(services, new UserSettings());
             RegisterRenderers(services);
 
@@ -108,6 +111,12 @@ namespace Inshapardaz.Desktop.Api
                 }
             });
 
+            DomainModule.UpdateDatabase(new UserSettings());
+
+            GlobalConfiguration.Configuration.UseSQLiteStorage(GetJobsDbConnectionString());
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+
             app.UseCors(policy => policy.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -115,9 +124,8 @@ namespace Inshapardaz.Desktop.Api
 
             app.UseMvc();
 
-            Domain.DomainModule.UpdateDatabase(new UserSettings());
         }
-
+        
         public static void RegisterRenderers(IServiceCollection services)
         {
             services.AddTransient<IRenderLink, LinkRenderer>();
@@ -130,6 +138,11 @@ namespace Inshapardaz.Desktop.Api
             services.AddTransient<IRenderMeaning, MeaningRenderer>();
             services.AddTransient<IRenderRelationship, RelationshipRenderer>();
             services.AddTransient<IRenderTranslation, TranslationRenderer>();
+        }
+        
+        private static string GetJobsDbConnectionString()
+        {
+            return DomainModule.CreateSqliteConnectionString(new UserSettings(), "jobs.db").ConnectionString + ";";
         }
     }
 }

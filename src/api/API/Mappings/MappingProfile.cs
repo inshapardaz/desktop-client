@@ -25,6 +25,7 @@ namespace Inshapardaz.Desktop.Api.Mappings
                 .ForMember(d => d.WordCount, o => o.Ignore())
                 .ForMember(d => d.UserId, o => o.MapFrom(s => s.UserId))
                 .ForMember(d => d.IsOffline, o => o.UseValue(true))
+                .ForMember(d => d.IsDownloading, o => o.UseValue(false))
                 .ForMember(d => d.Links, o => o.Ignore())
                 .ForMember(d => d.Indexes, o => o.Ignore());
 
@@ -34,6 +35,7 @@ namespace Inshapardaz.Desktop.Api.Mappings
             CreateMap<DictionaryModel, DictionaryView>()
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
                 .ForMember(d => d.IsOffline, o => o.MapFrom(s => s.IsOffline))
+                .ForMember(d => d.IsDownloading, o => o.MapFrom(s => s.IsDownloading))
                 .ForMember(d => d.Indexes, o => o.Ignore())
                 .ForMember(d => d.Links, o => o.Ignore());
 

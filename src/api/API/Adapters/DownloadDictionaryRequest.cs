@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Hangfire;
 using Inshapardaz.Desktop.Domain.Command;
+using Inshapardaz.Desktop.Domain.Jobs;
 using Paramore.Brighter;
 
 namespace Inshapardaz.Desktop.Api.Adapters
@@ -20,27 +22,17 @@ namespace Inshapardaz.Desktop.Api.Adapters
 
     public class DownloadDictionaryRequestHandler : RequestHandlerAsync<DownloadDictionaryRequest>
     {
-        private readonly IAmACommandProcessor _commandProcessor;
+        private readonly IBackgroundJobClient _backgroundJobClient;
 
-        public DownloadDictionaryRequestHandler(IAmACommandProcessor commandProcessor)
+        public DownloadDictionaryRequestHandler(IBackgroundJobClient backgroundJobClient)
         {
-            _commandProcessor = commandProcessor;
+            _backgroundJobClient = backgroundJobClient;
         }
 
         public override async Task<DownloadDictionaryRequest> HandleAsync(DownloadDictionaryRequest command, CancellationToken cancellationToken = new CancellationToken())
         {
-            var downloadDictionaryCommand = new DownloadDictionaryCommand
-            {
-                DictionaryId = command.DictionaryId
-            };
-            await _commandProcessor.SendAsync(downloadDictionaryCommand, cancellationToken: cancellationToken);
-
-            await _commandProcessor.SendAsync(new AddLocalDictionaryCommand
-            {
-                Dictionary = downloadDictionaryCommand.Result,
-                FilePath = downloadDictionaryCommand.FilePath
-            }, cancellationToken: cancellationToken);
-            return await  base.HandleAsync(command, cancellationToken);
+            var jobId = _backgroundJobClient.Enqueue<DownloadDictionaryJob>(x => x.Execute(command.DictionaryId));
+            return await base.HandleAsync(command, cancellationToken);
         }
     }
 }

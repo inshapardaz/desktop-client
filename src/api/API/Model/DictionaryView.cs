@@ -18,6 +18,8 @@ namespace Inshapardaz.Desktop.Api.Model
 
         public bool IsOffline { get; set; }
 
+        public bool IsDownloading { get; set; }
+
         public IEnumerable<LinkView> Links { get; set; }
 
         public IEnumerable<LinkView> Indexes { get; set; }

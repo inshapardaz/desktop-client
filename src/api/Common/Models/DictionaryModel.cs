@@ -21,5 +21,6 @@ namespace Inshapardaz.Desktop.Common.Models
         public IEnumerable<LinkModel> Links { get; set; }
 
         public IEnumerable<LinkModel> Indexes { get; set; }
+        public bool IsDownloading { get; set; }
     }
 }
