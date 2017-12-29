@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="content text-center overflow-hidden" *ngIf="!errorLoadingDictionaries && dictionaries && dictionaries.length > 0">
+            <div class="content text-center overflow-hidden" *ngIf="!isLoading &&!errorLoadingDictionaries && dictionaries && dictionaries.length > 0">
                 <div class="block block-bordered">
                     <div class="block-header bg-gray-lighter">
                         <ul class="block-options block-options-left hidden-xs hidden-sm" *ngIf="createLink">
@@ -63,6 +63,11 @@
                                 <a class="btn" href="javascript:void(0)" (click)="createDictionary()">
                                     <i class="fa fa-fw fa-plus push-5-r"></i> {{'DICTIONARIES.CREATENEW' | translate}}
                                 </a>
+                            </li>
+                        </ul>
+                        <ul class="block-options">
+                            <li>
+                                <button type="button" (click)="getDictionaries()"><i class="si si-refresh"></i></button>
                             </li>
                         </ul>
                     </div>
@@ -101,6 +106,8 @@
                                                 <i class="fa fa-lock"></i>Private</span>
                                             <span class="label label-info" *ngIf="dictionary.isOffline">
                                                 <i class="fa fa-download"></i> Offline</span>
+                                            <span class="label label-info" *ngIf="dictionary.isDownloading">
+                                                <i class="fa fa-download"></i> Downloading...</span>
                                             </p>
                                         </td>
                                         <td class="text-center" style="width: 15%;">
@@ -118,7 +125,7 @@
                                                     <i class="fa fa-pencil"></i>
                                                 </button>
                                                 <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" class="btn btn-xs btn-default" 
-                                                    *ngIf="dictionary.downloadLink && !dictionary.isOffline" 
+                                                    *ngIf="dictionary.downloadLink && !dictionary.isOffline && !dictionary.isDownloading" 
                                                     [attr.title]="translate.instant('DICTIONARIES.ACTIONS.MAKEOFFLINE')" 
                                                     [disabled]="dictionary.isDownloading"  
                                                     (click)="downloadDictionary(dictionary)">
@@ -126,7 +133,7 @@
                                                 </button>
 
                                                 <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" class="btn btn-xs btn-default" 
-                                                    *ngIf="dictionary.downloadLink && dictionary.isOffline" 
+                                                    *ngIf="dictionary.downloadLink && dictionary.isOffline && !dictionary.isDownloading" 
                                                     [attr.title]="translate.instant('DICTIONARIES.ACTIONS.REMOVEOFFLINE')"  
                                                     [disabled]="dictionary.isDownloading" 
                                                     (click)="removeDownload(dictionary)">

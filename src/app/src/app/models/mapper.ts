@@ -47,6 +47,7 @@ export class Mapper {
         dictionary.isOffline = source.isOffline;
         dictionary.wordCount = source.wordCount;
         dictionary.language = source.language;
+        dictionary.isDownloading = source.isDownloading;
 
         dictionary.selfLink = Mapper.findHrefWithRel(source.links, RelTypes.Self);
         dictionary.searchLink = Mapper.findHrefWithRel(source.links, RelTypes.Search);

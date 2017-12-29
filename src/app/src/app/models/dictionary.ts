@@ -7,6 +7,7 @@ export class Dictionary {
     public language: Languages;
     public isPublic: Boolean;
     public isOffline: Boolean;
+    public isDownloading: Boolean;
     public wordCount: Number;
     public searchLink: string;
     public indexLink: string;
@@ -16,7 +17,6 @@ export class Dictionary {
     public createWordLink: string;
     public createDownloadLink: string;
     public downloadLink: string;
-    public isDownloading: boolean;
 }
 
 export class DictionaryIndex {

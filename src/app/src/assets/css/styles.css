@@ -194,3 +194,7 @@ body.urdu .h6{
 .vertical-align-bottom {
   vertical-align: bottom;
 }
+
+.label {
+  margin: 2px;
+}

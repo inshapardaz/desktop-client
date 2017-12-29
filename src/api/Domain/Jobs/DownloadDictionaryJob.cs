@@ -15,7 +15,6 @@ namespace Inshapardaz.Desktop.Domain.Jobs
 
         public void Execute(int dictionaryId)
         {
-            throw new System.NotImplementedException();
             var downloadDictionaryCommand = new DownloadDictionaryCommand
             {
                 DictionaryId = dictionaryId
