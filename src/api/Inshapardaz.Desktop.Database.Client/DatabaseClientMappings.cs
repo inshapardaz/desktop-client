@@ -16,6 +16,7 @@ namespace Inshapardaz.Desktop.Database.Client
                 .ForMember(d => d.WordCount, o => o.Ignore())
                 .ForMember(d => d.UserId, o => o.MapFrom(s => s.UserId))
                 .ForMember(d => d.IsOffline, o => o.UseValue(true))
+                .ForMember(d => d.IsDownloading, o => o.UseValue(false))
                 .ForMember(d => d.Links, o => o.Ignore())
                 .ForMember(d => d.Indexes, o => o.Ignore());
             CreateMap<Word, WordModel>()

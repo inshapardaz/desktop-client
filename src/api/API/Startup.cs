@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Reflection;
 using AutoMapper;
@@ -111,19 +112,23 @@ namespace Inshapardaz.Desktop.Api
                 }
             });
 
+            Console.WriteLine("Starting database migration");
             DomainModule.UpdateDatabase(new UserSettings());
+            Console.WriteLine("Database migration finished");
 
+            Console.WriteLine("Starting job server");
             GlobalConfiguration.Configuration.UseSQLiteStorage(GetJobsDbConnectionString());
             app.UseHangfireDashboard();
             app.UseHangfireServer();
 
+            Console.WriteLine("Starting api server");
             app.UseCors(policy => policy.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
 
             app.UseMvc();
-
+            Console.WriteLine("Application ready");
         }
         
         public static void RegisterRenderers(IServiceCollection services)
@@ -142,7 +147,7 @@ namespace Inshapardaz.Desktop.Api
         
         private static string GetJobsDbConnectionString()
         {
-            return DomainModule.CreateSqliteConnectionString(new UserSettings(), "jobs.db").ConnectionString + ";";
+            return DomainModule.CreateSqliteConnectionString(new UserSettings(), "jobs.dat").ConnectionString + ";";
         }
     }
 }

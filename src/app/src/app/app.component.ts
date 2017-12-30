@@ -2,7 +2,7 @@ import { Title } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-
+import { DataService } from './providers/data.service'
 import * as $ from 'jquery';
 
 @Component({
@@ -15,15 +15,13 @@ export class AppComponent {
 
   constructor(public electronService: ElectronService,
     private translate: TranslateService,
-    private titleService: Title) {
+    private titleService: Title,
+    private dataServices: DataService) {
 
     this.setLanguages();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.isRtl = event.lang === 'ur';
-    });
-
-    const lpageLoader = $('#page-loader');
-    lpageLoader.hide();
+    });    
 
     if (electronService.isElectron()) {
       console.log('Mode electron');
