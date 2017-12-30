@@ -21,7 +21,10 @@ export class AppComponent {
     this.setLanguages();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.isRtl = event.lang === 'ur';
-    });    
+    });
+
+    const lpageLoader = $('#page-loader');
+    lpageLoader.hide();    
 
     if (electronService.isElectron()) {
       console.log('Mode electron');
