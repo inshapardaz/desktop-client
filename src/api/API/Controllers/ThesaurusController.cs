@@ -16,7 +16,7 @@ namespace Inshapardaz.Desktop.Api.Controllers
         }
 
         [HttpGet("api/alternates/{word}", Name = "GetWordAlternatives")]
-        public async Task<Model.PageView<WordView>> Get(string word, int pageNumber = 1, int pageSize = 10)
+        public Model.PageView<WordView> Get(string word, int pageNumber = 1, int pageSize = 10)
         {
             throw new NotImplementedException();
             //return await _queryProcessor.ExecuteAsync(new GetAlternatesByWordIdQuery { Word = word, PageNumber = pageNumber, PageSize = pageSize });

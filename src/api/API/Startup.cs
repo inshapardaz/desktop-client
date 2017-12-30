@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using AutoMapper;
 using Hangfire;
-using Hangfire.SQLite;
+using Hangfire.MemoryStorage;
 using Inshapardaz.Desktop.Api.Client;
 using Inshapardaz.Desktop.Api.Helpers;
 using Inshapardaz.Desktop.Api.Mappings;
@@ -50,7 +50,7 @@ namespace Inshapardaz.Desktop.Api
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
             services.AddSingleton<IProvideUserSettings, UserSettings>();
 
-            services.AddHangfire(c => c.UseSQLiteStorage(GetJobsDbConnectionString()));
+            services.AddHangfire(c => c.UseMemoryStorage());
             DomainModule.RegisterDatabases(services, new UserSettings());
             RegisterRenderers(services);
 
@@ -117,7 +117,7 @@ namespace Inshapardaz.Desktop.Api
             Console.WriteLine("Database migration finished");
 
             Console.WriteLine("Starting job server");
-            GlobalConfiguration.Configuration.UseSQLiteStorage(GetJobsDbConnectionString());
+            GlobalConfiguration.Configuration.UseMemoryStorage();
             app.UseHangfireDashboard();
             app.UseHangfireServer();
 
@@ -143,11 +143,6 @@ namespace Inshapardaz.Desktop.Api
             services.AddTransient<IRenderMeaning, MeaningRenderer>();
             services.AddTransient<IRenderRelationship, RelationshipRenderer>();
             services.AddTransient<IRenderTranslation, TranslationRenderer>();
-        }
-        
-        private static string GetJobsDbConnectionString()
-        {
-            return DomainModule.CreateSqliteConnectionString(new UserSettings(), "jobs.dat").ConnectionString + ";";
         }
     }
 }
