@@ -31,7 +31,7 @@ build_script:
 
     dotnet restore
     
-    dotnet publish --configuration release --self-contained -r win10-x64 --output ../bin/dist/win
+    dotnet publish --configuration release --self-contained -r win-x86 --output ../bin/dist/win
     
     REM dotnet publish --configuration release --self-contained -r osx-x64 --output ../bin/dist/osx
 
