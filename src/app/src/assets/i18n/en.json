@@ -201,6 +201,7 @@
     "COLOR_THEMES": "Color Themes",
     "OFFLINE": "Use application offline",
     "REQUIRE_RESTART": "Requires restart",
+    "FONT": "User Interface Font",
     "MESSAGES": {
       "LOAD_FAILURE": "Error loading settings. Please try again.",
       "SAVE_SUCCESS": "Settings saved successfully. Please restart the application before settings are applied completely",

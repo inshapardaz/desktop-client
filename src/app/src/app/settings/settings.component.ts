@@ -22,6 +22,13 @@ export class SettingsComponent {
     public alertService: AlertingService,
         @Inject(DOCUMENT) private document
   ) {
+    this.settingsService.getSettings()
+    .subscribe(s => {
+      this.isOffline = s.useOffline;
+    },
+    error => {
+      this.alertService.error(this.translate.instant('SETTINGS.MESSAGES.LOAD_FAILURE'));
+    });
   }
 
   public setLanguage(lang: string) {
