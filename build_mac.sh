@@ -6,6 +6,6 @@ dotnet publish --configuration release --self-contained -r osx-x64 --output ../b
 cd ..
 cd ..
 cd app
-npm version %TRAVIS_BUILD_NUMBER% -m 'v%TRAVIS_BUILD_NUMBER
+npm version %TRAVIS_BUILD_NUMBER% -m 'v%TRAVIS_BUILD_NUMBER'
 npm install
 npm run electron:mac
