@@ -14,4 +14,4 @@ addons:
     - dotnet-sharedframework-microsoft.netcore.app-1.0.5
 
 script:
-  - build_mac.sh
+  - ./build_mac.sh
