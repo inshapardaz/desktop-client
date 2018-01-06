@@ -25,3 +25,12 @@ before_install:
 - chmod +x build_mac.sh
 script:
 - "./build_mac.sh"
+deploy:
+  provider: releases
+  api_key:
+    secure: ikgtoHxws4Uq55SMvHDVyIB0XBhYoDejEBikB7Bc+sLzca55HksKsciQNP6JJmqWKUZYWeohVOTc7COr44ljjRvc/UPiY2Qu3nQWHgQ7ycmX6vJ9qgJQSxWm7c3rND/UTPL6eosACc6xr2YZxuFxGP5n7itSaEAU1ZpOfKUwyZSDKxgGY/zFZ7lmNzeqjP+F9EM6mr9xV4rbwTJkmguZQYVUE9KiBhEN8OPcs7WOVmuEOxG9LaU3uRg6vI7zfXp5ol5zmeDsCBBeKlIa+Dv7D13e+/R0sCtE6g+ge+yOUH+vgT8RJPk3RtRpO1JaNXon9uPqLAHq4jGzgWTqo4Vs2h0KBn4gGoeVaEtuBjTi5mXHT8QL4AR0xlChKQYsGWHnKFssKG/v3eF9M5kVCXRTzCqXJoSpM3EMTw3OfXqaoGMnWmO+xolBqjc0cOpA2ZNjlvrH0XlOExSCEeKs4g/VLKvXceKz2rAc0fbUm8VRli0i/tGUDjf6Z9poRLkEykwif322csFHquc5+QT0y3kYEDSkBCD7Lo0lnKgn19oIMFLHSNK7LDHjRRCy05jic4Puxv/2mgzaH3b1QPGnaLVlhcCkChC/zJU0cCUCStXjMkR8rZggt3wh+0BsGPg/yoUfUCJfebNxr+iw+YBQAnCJeLIka6VAcvmIKhVHTFws9ns=
+  file:
+    - "./dist/*.dmg"
+  skip_cleanup: true
+  on:
+    branch: master
