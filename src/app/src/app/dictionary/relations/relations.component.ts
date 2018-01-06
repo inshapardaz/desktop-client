@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertingService } from '../../providers/alerting.service';
 import { DataService } from '../../providers/data.service';
 import { Relation } from '../../models/relation';
-import { Word } from '../../models/Word';
+import { Word } from '../../models/word';
 import { RelationTypes } from '../../models/relationTypes';
 // import { EditRelationshipTranslationComponent, EditRelationshipComponent } from '../edit-relationship/edit-relationship.component';
 

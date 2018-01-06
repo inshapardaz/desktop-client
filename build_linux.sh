@@ -6,6 +6,7 @@ dotnet publish --configuration release --self-contained -r linux-x64 --output ..
 cd ..
 cd ..
 cd app
-npm version %APPVEYOR_BUILD_VERSION% -m 'v%APPVEYOR_BUILD_VERSION
+sudo apt install icnsutils
+# if [ -z ${APPVEYOR_BUILD_VERSION+x} ]; then npm version $APPVEYOR_BUILD_VERSION -m 'v$APPVEYOR_BUILD_VERSION'
 npm install
 npm run electron:linux

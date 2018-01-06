@@ -1,5 +1,5 @@
-import { Translation } from './Translation';
-import { MeaningContext } from './MeaningContext';
+import { Translation } from './translation';
+import { MeaningContext } from './meaningcontext';
 
 export class Word {
     public id: Number;

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { FormsModule , FormBuilder } from '@angular/forms';
 
-import { Word } from '../../models/Word';
+import { Word } from '../../models/word';
 import { AlertingService } from '../../providers/alerting.service';
 import { DataService } from '../../providers/data.service';
 import { TranslateService } from '@ngx-translate/core';

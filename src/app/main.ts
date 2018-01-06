@@ -23,7 +23,7 @@ function createWindow() {
     y: 0,
     width: size.width,
     height: size.height,
-    icon: path.join(__dirname, 'images/favicons/favicon-96x96.png')
+    icon: path.join(__dirname, 'images/favicons/96x96.png')
   });
 
   // and load the index.html of the app.

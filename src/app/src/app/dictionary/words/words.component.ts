@@ -11,8 +11,8 @@ import { AlertingService } from '../../providers/alerting.service';
 import { Languages } from '../../models/language';
 import { Dictionary } from '../../models/dictionary';
 import { Word } from '../../models/word';
-import { WordPage } from '../../models/WordPage';
-import { DictionaryIndex } from '../../models/Dictionary';
+import { WordPage } from '../../models/wordPage';
+import { DictionaryIndex } from '../../models/dictionary';
 
 import * as _ from 'lodash';
 

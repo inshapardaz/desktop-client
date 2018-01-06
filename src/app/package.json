@@ -1,7 +1,7 @@
 {
   "name": "inshapardaz-desktop",
   "version": "2.4.0",
-  "description": "Angular 5 with Electron (Typescript + SASS + Hot Reload)",
+  "description": "Urdu utilities with offline functionality",
   "homepage": "https://inshapardaz.github.io/",
   "author": {
     "name": "Muhammad Umer Farooq",

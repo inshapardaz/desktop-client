@@ -1,4 +1,4 @@
-import {Dictionary } from './Dictionary';
+import {Dictionary } from './dictionary';
 
 export class Dictionaries {
     public selfLink: string;
