@@ -14,6 +14,6 @@ addons:
     - dotnet-sharedframework-microsoft.netcore.app-1.0.5
 
 before_install:
-  - chmod +x build.sh
+  - chmod +x build_mac.sh
 script:
   - ./build_mac.sh
