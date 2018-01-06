@@ -23,6 +23,7 @@ before_install:
 - nvm install 8
 - node --version
 - chmod +x build_mac.sh
+- chmod +x build_linux.sh
 script:
 - "./build_linux.sh"
 - "./build_mac.sh"
