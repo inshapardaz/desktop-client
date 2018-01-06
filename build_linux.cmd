@@ -7,7 +7,6 @@ cd ..
 cd ..
 cd app
 sudo apt install icnsutils
-echo $TRAVIS_BUILD_NUMBER
-npm version 1.1.$TRAVIS_BUILD_NUMBER -m 'v1.1.$TRAVIS_BUILD_NUMBER'
-npm install
-npm run electron:linux
+@IF NOT "%APPVEYOR_BUILD_VERSION%"=="" then npm version %APPVEYOR_BUILD_VERSION% -m 'v%APPVEYOR_BUILD_VERSION%'
+call npm install
+call npm run electron:linux

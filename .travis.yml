@@ -24,6 +24,7 @@ before_install:
 - node --version
 - chmod +x build_mac.sh
 script:
+- "./build_linux.sh"
 - "./build_mac.sh"
 deploy:
   provider: releases
