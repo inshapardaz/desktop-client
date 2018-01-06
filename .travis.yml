@@ -4,21 +4,24 @@ mono: none
 dotnet: 2.0.0
 dist: trusty
 env:
+  matrix:
   - NODE_VERSION="8.5.0"
+  global:
+    secure: ikgtoHxws4Uq55SMvHDVyIB0XBhYoDejEBikB7Bc+sLzca55HksKsciQNP6JJmqWKUZYWeohVOTc7COr44ljjRvc/UPiY2Qu3nQWHgQ7ycmX6vJ9qgJQSxWm7c3rND/UTPL6eosACc6xr2YZxuFxGP5n7itSaEAU1ZpOfKUwyZSDKxgGY/zFZ7lmNzeqjP+F9EM6mr9xV4rbwTJkmguZQYVUE9KiBhEN8OPcs7WOVmuEOxG9LaU3uRg6vI7zfXp5ol5zmeDsCBBeKlIa+Dv7D13e+/R0sCtE6g+ge+yOUH+vgT8RJPk3RtRpO1JaNXon9uPqLAHq4jGzgWTqo4Vs2h0KBn4gGoeVaEtuBjTi5mXHT8QL4AR0xlChKQYsGWHnKFssKG/v3eF9M5kVCXRTzCqXJoSpM3EMTw3OfXqaoGMnWmO+xolBqjc0cOpA2ZNjlvrH0XlOExSCEeKs4g/VLKvXceKz2rAc0fbUm8VRli0i/tGUDjf6Z9poRLkEykwif322csFHquc5+QT0y3kYEDSkBCD7Lo0lnKgn19oIMFLHSNK7LDHjRRCy05jic4Puxv/2mgzaH3b1QPGnaLVlhcCkChC/zJU0cCUCStXjMkR8rZggt3wh+0BsGPg/yoUfUCJfebNxr+iw+YBQAnCJeLIka6VAcvmIKhVHTFws9ns=
 addons:
   apt:
     sources:
-    - sourceline: 'deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main'
-      key_url: 'https://packages.microsoft.com/keys/microsoft.asc'
+    - sourceline: deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod
+        trusty main
+      key_url: https://packages.microsoft.com/keys/microsoft.asc
     packages:
     - dotnet-hostfxr-1.0.1
     - dotnet-sharedframework-microsoft.netcore.app-1.0.5
-
 before_install:
-  - wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh
-  - source ~/.nvm/nvm.sh
-  - nvm install 8 # for Node v5
-  - node --version
-  - chmod +x build_mac.sh
+- wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh
+- source ~/.nvm/nvm.sh
+- nvm install 8
+- node --version
+- chmod +x build_mac.sh
 script:
-  - ./build_mac.sh
+- "./build_mac.sh"
