@@ -13,7 +13,7 @@ namespace Inshapardaz.Desktop.Api.Helpers
             {
                 var userFolder = Environment.GetEnvironmentVariable(
                                         RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
-                                            "localappdata" : "$HOME");
+                                            "localappdata" : "HOME");
                 return EnsureDirectory(Path.Combine(userFolder, ".Inshapardaz"));
             }
         }
