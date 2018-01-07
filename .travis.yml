@@ -33,6 +33,8 @@ deploy:
     secure: VlUR37gZyaCqCTyaoHWuZ+Dxoy12k/DEpK5xoXoqPYOewLXoYh47lguPGER9vP9r7FaJCQLlQxJ1cZOgiJ8r7zstsEVL2FGMWiM1W+sHLPoBa5NXmximbDRTNBYrUc8+PAncdGdfnlo4AWR0/+wbIQJ8/cg/ri11BCOkpxe4ZT9jgp6Pd1Lsiq9V2Phqoaz/g+hxxLPfMCzkMSWo5ya53S4tr5DGFRRm/8UlhdU4j4wBDEXLiWNP5erTFvJRamcltjdkBBPMoVNVR5BqF7Vu+Lm2CzJZsIS5pn0/FLirKV8DuzZoqn2J1Ia8bU9AadjzzSgtmGbMk8pJrZloVOv2m/A7LNF1s3smRQrtHcfz/Byna66zwvfnjezR3tEE8oHGjRG+xoM1rzya1j5uUbH6SUcf2Rbm/zNVB74gFJOsMJEYsYNRWzbrdT/1SBQiOfMMO5i5jokPAS4GC6dikbg/G1CPhNUjQuWfjl8O/k2ItGNSZ/LEVvGjYXaH3vYkNLhU/CrGDplIaTL2Gw0INILHGSNbWHPZVRhImT2RAjIEQqPl3tYOgZPB9YHYl52TpUbpxBBLVhgr63YvBDHSU1IA4tegrwWL3JXDPcfljep2uVNs9gSKdeQy+rxuBJKicoQAJ0/+5qpXrnDK15Q4uY21zqycqZbPfui05yQdGmifrHA=
   file:
   - "./dist/*.dmg"
+  - "./dist/*.AppImage"
+  - "./dist/*.deb"
   skip_cleanup: true
   on:
     branch: master
