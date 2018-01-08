@@ -12,7 +12,7 @@
     ],
     "extraResources": {
       "from": "../api/bin/dist/win",
-      "to": "api/bin",
+      "to": "api",
       "filter": [
         "**/*"
       ]
@@ -24,7 +24,7 @@
     ],
     "extraResources": {
       "from": "../api/bin/dist/osx",
-      "to": "api/bin",
+      "to": "api",
       "filter": [
         "**/*"
       ]
@@ -38,7 +38,7 @@
     ],
     "extraResources": {
       "from": "../api/bin/dist/linux64",
-      "to": "api/bin",
+      "to": "api",
       "filter": [
         "**/*"
       ]

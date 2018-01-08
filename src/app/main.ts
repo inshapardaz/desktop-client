@@ -80,12 +80,13 @@ function startApi() {
   const proc = require('child_process').spawn;
 
   //  run server
-  let apiPath = path.join(__dirname, '..\\..\\api\\bin\\dist\\win\\Inshapardaz.Desktop.API.exe')
+  console.log(`Running on ${os.platform()}`);
+  let apiPath = path.join(__dirname, './../api/Inshapardaz.Desktop.API.exe');
   if (os.platform() === 'darwin') {
-    apiPath = path.join(__dirname, '..//..//api//bin//dist//osx//Inshapardaz.Desktop.API')
+    apiPath = path.join(__dirname, './/..//api//Inshapardaz.Desktop.API')
   }
-  if (!serve) {
-    apiPath = path.join(__dirname, '../../resources/api/bin/Inshapardaz.Desktop.API.exe');
+  else if (os.platform() === 'linux'){
+    apiPath = path.join(__dirname, './/..//api//Inshapardaz.Desktop.API')
   }
 
   console.log(`INFO : API Starting from path ${apiPath}`);
