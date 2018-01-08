@@ -22,11 +22,28 @@ before_install:
 - source ~/.nvm/nvm.sh
 - nvm install 8
 - node --version
-- chmod +x build_mac.sh
-- chmod +x build_linux.sh
+# - chmod +x build_mac.sh
+# - chmod +x build_linux.sh
 script:
-- "./build_linux.sh"
-- "./build_mac.sh"
+- cd src
+- cd api
+- cd api
+- dotnet restore
+- dotnet publish --configuration release --self-contained -r win-x86 --output ../bin/dist/win
+- dotnet publish --configuration release --self-contained -r linux-x64 --output ../bin/dist/linux64
+- dotnet publish --configuration release --self-contained -r osx-x64 --output ../bin/dist/osx
+- cd ..
+- cd ..
+- cd app
+- sudo apt install icnsutils
+- echo $TRAVIS_BUILD_NUMBER
+- npm version 1.1.$TRAVIS_BUILD_NUMBER -m 'v1.1.$TRAVIS_BUILD_NUMBER'
+- npm install
+- npm run electron:macnpm run electron:windows
+- npm run electron:linux
+- npm run electron:mac
+# - "./build_linux.sh"
+# - "./build_mac.sh"
 deploy:
   provider: releases
   api_key:
