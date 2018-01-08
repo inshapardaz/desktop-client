@@ -35,11 +35,11 @@ script:
 - cd ..
 - cd ..
 - cd app
-- sudo apt install icnsutils
+# - sudo apt install icnsutils
 - echo $TRAVIS_BUILD_NUMBER
 - npm version 1.1.$TRAVIS_BUILD_NUMBER -m 'v1.1.$TRAVIS_BUILD_NUMBER'
 - npm install
-- npm run electron:macnpm run electron:windows
+- npm run electron:windows
 - npm run electron:linux
 - npm run electron:mac
 # - "./build_linux.sh"
@@ -52,6 +52,7 @@ deploy:
   - "./dist/*.dmg"
   - "./dist/*.AppImage"
   - "./dist/*.deb"
+  - "./dist/*.exe"
   skip_cleanup: true
   on:
     branch: master
