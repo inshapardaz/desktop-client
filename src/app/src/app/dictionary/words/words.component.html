@@ -1,42 +1,4 @@
-<div class="content bg-gray-lighter">
-    <div class="row items-push">
-        <div class="col-sm-7">
-            <h1 class="page-heading" *ngIf="dictionary">
-                <!-- <i class="si si-book-open"></i> -->
-                {{dictionary.name}}
-                <small>{{'DICTIONARY.TITLE' | translate: {lang: Languages[dictionary.language], count : dictionary.wordCount } }}</small>
-            </h1>
-        </div>
-        <div class="col-sm-5 text-right hidden-xs">
-            <ol class="breadcrumb push-10-t" *ngIf="dictionary">
-                <li>
-                    <a class="link-effect" href="javascript:void(0)" [routerLink]="['/dictionaries']"> {{'DICTIONARIES.TITLE' | translate}}</a>
-                </li>
-                <li>{{dictionary.name}}</li>
-            </ol>
-        </div>
-    </div>
-</div>
-
-<section class="content">
-    <div class="row">
-        <div class="col-sm-12">
-            <form #searchForm="ngForm" (ngSubmit)="search()">
-                <div class="input-group input-group-lg">
-                    <input class="form-control" type="text" id="searchText" name="searchText" #searchText="ngModel" required [(ngModel)]="searchQuery" />
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" *ngIf="isInSearch" (click)="clearSearch()">
-                            <i class="fa fa-close"></i>
-                        </button>
-                        <button class="btn btn-default" type="submit" [disabled]="!searchForm.form.valid || isLoading">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</section>
+<app-header id="header-navbar" class="content-mini content-mini-full" [dictionary]="dictionary" ></app-header>
 
 <div class="content">
     <div class="row">

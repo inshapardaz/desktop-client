@@ -1,0 +1,29 @@
+<ul class="nav-header pull-right">
+    <li class="js-header-search header-search">
+        <form class="form-horizontal" #searchForm="ngForm">
+            <div class="form-material form-material-primary input-group remove-margin-t remove-margin-b">
+                <input class="form-control" type="text" id="base-material-text" name="base-material-text" placeholder="{{ 'HEADER.SEARCH' | translate}}"
+                    id="searchText" name="searchText" #searchText="ngModel" [(ngModel)]="searchQuery" (keyup.enter)="search()">
+                <span class="input-group-addon">
+                    <i class="si si-magnifier"></i>
+                </span>
+            </div>
+        </form>
+    </li>
+    <li class="visible-xs">
+        <button class="btn btn-default" ui-toggle data-toggle="class-toggle" data-target=".js-header-search" data-class="header-search-xs-visible"
+            type="button">
+            <i class="fa fa-search"></i>
+        </button>
+    </li>
+</ul>
+<ul class="nav-header pull-left">
+    <li *ngIf="dictionary">
+        <h3>{{dictionary.name}}</h3>
+    </li>
+    <li class="hidden-md hidden-lg">
+        <button class="btn btn-default" sidebar-toggle data-action="sidebar_toggle" type="button">
+            <i class="fa fa-navicon"></i>
+        </button>
+    </li>
+</ul>

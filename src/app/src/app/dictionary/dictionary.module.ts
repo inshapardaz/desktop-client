@@ -7,9 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { PaginationModule } from 'ngx-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
+import { HeaderComponent } from './header/header.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-// import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
 import { DictionaryRoutingModule } from './dictionary-routing.module';
@@ -19,12 +19,6 @@ import { RelationsComponent } from './relations/relations.component';
 import { TranslationsComponent } from './translations/translations.component';
 import { MeaningsComponent } from './meanings/meanings.component';
 import { WordComponent } from './word/word.component';
-// import { BsModalService, BsModalRef, ModalBackdropComponent } from 'ngx-bootstrap';
-// import { EditDictionaryComponent, EditDictionaryModalComponent } from './edit-dictionary/edit-dictionary.component';
-// import { EditWordComponent, EditWordModalComponent } from './edit-word/edit-word.component';
-// import { EditMeaningComponent, EditMeaningModalComponent } from './edit-meaning/edit-meaning.component';
-// import { EditTranslationComponent, EditTranslationModalComponent } from './edit-translation/edit-translation.component';
-// import { EditRelationshipComponent, EditRelationshipTranslationComponent } from './edit-relationship/edit-relationship.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -42,46 +36,23 @@ export function HttpLoaderFactory(http: HttpClient) {
           deps: [HttpClient]
       }
     }),
-    // Ng2AutoCompleteModule,
     SweetAlert2Module,
     PaginationModule.forRoot(),
     BsDropdownModule.forRoot()
   ],
   providers: [
-    // EditDictionaryModalComponent,
-    // EditWordModalComponent,
-    // EditMeaningModalComponent,
-    // EditTranslationModalComponent,
-    // EditRelationshipTranslationComponent,
-    // BsModalService,
-    // BsModalRef,
-    // ModalBackdropComponent
   ],
   declarations: [
     HomeComponent,
-    // EditDictionaryComponent,
     WordsComponent,
     WordsByLinkComponent,
     RelationsComponent,
     TranslationsComponent,
     MeaningsComponent,
     WordComponent,
-    // EditWordComponent,
-    // EditMeaningComponent,
-    // EditTranslationComponent,
-    // EditRelationshipComponent,
-    // EditDictionaryModalComponent,
-    // EditWordModalComponent,
-    // EditMeaningModalComponent,
-    // EditTranslationModalComponent,
-    // EditRelationshipTranslationComponent,
+    HeaderComponent
   ],
   entryComponents: [
-    // EditDictionaryComponent,
-    // EditWordComponent,
-    // EditMeaningComponent,
-    // EditTranslationComponent,
-    // EditRelationshipComponent
   ]
 })
 export class DictionaryModule { }
