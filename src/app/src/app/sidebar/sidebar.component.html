@@ -4,7 +4,7 @@
             <button class="btn btn-link text-gray pull-right hidden-md hidden-lg" type="button" sidebar-toggle data-action="sidebar_close">
                 <i class="fa fa-times"></i>
             </button>
-            <a class="h5 text-white" [routerLink]="['/home']">
+            <a class="h3 text-white" [routerLink]="['/home']">
                 {{ 'APP.TITLE' | translate}}
             </a>
         </div>
@@ -31,11 +31,19 @@
                 <li class="nav-main-heading">
                     <span class="sidebar-mini-hide">{{ 'SIDEBAR.SECTIONS' | translate}}</span>
                 </li>
-                <li>
-                    <a [routerLink]="['/dictionaries']">
+                <li *ngIf="!errorLoadingDictionaries && dictionaries && dictionaries.length > 0">
+                    <a class="nav-submenu" data-toggle="nav-submenu" href="#" sidebar-menu-toggle>
                         <i class="si si-book-open"></i>
                         <span class="sidebar-mini-hide">{{ 'DICTIONARIES.TITLE' | translate}}</span>
                     </a>
+                    <ul class="sidebar-right-padding">
+                        <li *ngFor="let dictionary of dictionaries">
+                            <a [routerLink]="['/dictionary', dictionary.id]">
+                                <span class="sidebar-mini-hide">{{dictionary.name}}</span>
+                                <i class="si si-book-open"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-main-heading">
                     <span class="sidebar-mini-hide">{{ 'SIDEBAR.MISC' | translate}}</span>

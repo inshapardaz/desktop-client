@@ -25,6 +25,7 @@ import { UIToggleDirective } from './directives/ui-toggle.directive';
 import { SideBarToggleDirective } from './directives/side-bar-toggle.directive';
 import { AppearDirective } from './directives/appear.directive';
 import { RightToLeftDirective } from './directives/right-to-left.directive';
+import { SidebarMenuToggleDirective } from './directives/sidebar-menu-toggle.directive';
 
 //  Modules
 import { DictionaryModule } from './dictionary/dictionary.module';
@@ -67,7 +68,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     UIToggleDirective,
     SideBarToggleDirective,
     RightToLeftDirective,
-    AppearDirective
+    AppearDirective,
+    SidebarMenuToggleDirective
   ],
   imports: [
     BrowserModule,
