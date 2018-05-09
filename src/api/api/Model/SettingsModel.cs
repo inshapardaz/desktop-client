@@ -7,5 +7,7 @@ namespace Inshapardaz.Desktop.Api.Model
         public bool UseOffline { get; set; }
         
         public string WebHomeUrl { get; set; }
+
+        public string UIFont {get; set; }
     }
 }

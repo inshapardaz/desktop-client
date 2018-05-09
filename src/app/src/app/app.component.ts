@@ -1,8 +1,11 @@
 import { Title } from '@angular/platform-browser';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { DOCUMENT } from "@angular/common";
 import { ElectronService } from './providers/electron.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { DataService } from './providers/data.service'
+import { SettingsService } from './providers/settings.service';
+import { AlertingService } from './providers/alerting.service';
 import * as $ from 'jquery';
 
 @Component({
@@ -16,11 +19,22 @@ export class AppComponent {
   constructor(public electronService: ElectronService,
     private translate: TranslateService,
     private titleService: Title,
-    private dataServices: DataService) {
+    private dataServices: DataService,
+    public settingsService: SettingsService,
+    public alertService: AlertingService,
+    @Inject(DOCUMENT) private document) {
 
     this.setLanguages();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.isRtl = event.lang === 'ur';
+    });
+
+    this.settingsService.getSettings()
+    .subscribe(s => {
+      this.document.body.style.cssText= `--custom-font: ${s.uIFont}`;
+    },
+    error => {
+      this.alertService.error(this.translate.instant('SETTINGS.MESSAGES.LOAD_FAILURE'));
     });
 
     const lpageLoader = $('#page-loader');

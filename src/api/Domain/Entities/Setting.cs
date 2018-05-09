@@ -11,5 +11,7 @@ namespace Inshapardaz.Desktop.Domain.Entities
         
         public bool UseOffline { get; set; }
 
+        public string UIFont  {get; set;}
+
     }
 }

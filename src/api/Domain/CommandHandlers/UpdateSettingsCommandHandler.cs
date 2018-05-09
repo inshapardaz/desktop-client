@@ -35,6 +35,7 @@ namespace Inshapardaz.Desktop.Domain.CommandHandlers
             {
                 setting.UseOffline = command.Setting.UseOffline;
                 setting.UserInterfaceLanguage = command.Setting.UserInterfaceLanguage;
+                setting.UIFont = command.Setting.UIFont;
                 command.HasAdded = false;
             }
 

@@ -23,70 +23,29 @@
     </div>
 </div>
 
-<!-- <div class="content">
-    <div class="content-heading">{{ 'SETTINGS.OFFLINE' | translate}}</div>
-</div>
-<div class="content bg-white">
-    <div class="row items-push text-center">
-        <div col-xs-6 col-sm-6 col-lg-2>
-            <label class="css-input switch switch-success">
-                <input type="checkbox" [checked]="isOffline === true" (change)="setOffline($event.target.checked)">
-                <span></span> {{'SETTINGS.OFFLINE' | translate}}
-            </label>
-        </div>
-    </div>
-</div> -->
-
-<!-- <div class="content">
-    <div class="content-heading">{{'SETTINGS.COLOR_THEMES' | translate}}</div>
-</div>
-
-
 <div class="content">
-    <div class="content-heading">{{'SETTINGS.COLOR_THEMES' | translate}}</div>
+    <div class="content-heading">{{ 'SETTINGS.FONT' | translate}}</div>
 </div>
 <div class="content bg-white">
-    <div class="row items-push text-center">
-        <div class="col-xs-6 col-sm-6 col-lg-2">
-            <a class="item item-circle bg-default text-white-op center-block" data-toggle="theme" data-theme="default" href="javascript:void(0)">
-                <i class="si si-drop"></i>
-            </a>
-            <div class="push-10-t font-w600">Default</div>
-        </div>
-        <div class="col-xs-6 col-sm-6 col-lg-2">
-            <a class="item item-circle bg-amethyst text-white-op center-block" data-toggle="theme" data-theme="assets/css/themes/amethyst.min.css"
-                href="javascript:void(0)">
-                <i class="si si-drop"></i>
-            </a>
-            <div class="push-10-t font-w600">Amethyst</div>
-        </div>
-        <div class="col-xs-6 col-sm-6 col-lg-2">
-            <a class="item item-circle bg-city text-white-op center-block" data-toggle="theme" data-theme="assets/css/themes/city.min.css"
-                href="javascript:void(0)">
-                <i class="si si-drop"></i>
-            </a>
-            <div class="push-10-t font-w600">City</div>
-        </div>
-        <div class="col-xs-6 col-sm-6 col-lg-2">
-            <a class="item item-circle bg-flat text-white-op center-block" data-toggle="theme" data-theme="assets/css/themes/flat.min.css"
-                href="javascript:void(0)">
-                <i class="si si-drop"></i>
-            </a>
-            <div class="push-10-t font-w600">Flat</div>
-        </div>
-        <div class="col-xs-6 col-sm-6 col-lg-2">
-            <a class="item item-circle bg-modern text-white-op center-block" data-toggle="theme" data-theme="assets/css/themes/modern.min.css"
-                href="javascript:void(0)">
-                <i class="si si-drop"></i>
-            </a>
-            <div class="push-10-t font-w600">Modern</div>
-        </div>
-        <div class="col-xs-6 col-sm-6 col-lg-2">
-            <a class="item item-circle bg-smooth text-white-op center-block" data-toggle="theme" data-theme="assets/css/themes/smooth.min.css"
-                href="javascript:void(0)">
-                <i class="si si-drop"></i>
-            </a>
-            <div class="push-10-t font-w600">Smooth</div>
+    <div class="row">
+        <div class="col-sm-6 col-lg-3" *ngFor="let font of fonts">
+            <div class="block block-bordered">
+                <div class="block-header" [ngClass]="{'bg-primary' : font == selectedFont , 'bg-gray-lighter' : font != selectedFont}" >
+                    <ul class="block-options block-options-left" *ngIf="!font.isSelected">
+                        <li>
+                            <button type="button" class="btn btn-xs"
+                                data-toggle="tooltip"  
+                                title="Use this font" (click)="setFont(font)">
+                                <i class="fa fa-check" ></i>
+                            </button>
+                        </li>
+                    </ul>
+                    <h3>{{font.title}}</h3>
+                </div>
+                <div class="block-content" [style.font-family]="font.fontFamily">
+                    <p class="lead">جہاں تیرا نقش قدم دیکھتے ہیں</p>
+                </div>
+            </div>
         </div>
     </div>
-</div> -->
+</div>

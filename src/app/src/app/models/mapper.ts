@@ -205,6 +205,7 @@ export class Mapper {
         setting.userInterfaceLanguage = source.userInterfaceLanguage;
         setting.useOffline = source.useOffline;
         setting.webHomeUrl = source.webHomeUrl;
+        setting.uIFont = source.uiFont;
         return setting;
     }
 

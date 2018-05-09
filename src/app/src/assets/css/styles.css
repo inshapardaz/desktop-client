@@ -92,6 +92,10 @@
   font-size: 140%;  
 }
 
+body{
+  --custom-font: UrduNaskhAsiatype;
+}
+
 body.urdu, 
 body.urdu h1, 
 body.urdu h2, 
@@ -105,7 +109,7 @@ body.urdu .h3,
 body.urdu .h4,
 body.urdu .h5,
 body.urdu .h6{
-  font-family:  "UrduNaskhAsiatype", "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif; 
+  font-family:  var(--custom-font), "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif; 
 }
 
 .sidebar-o[dir='rtl'] .nav-main a > i {

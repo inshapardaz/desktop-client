@@ -13,6 +13,7 @@ namespace Inshapardaz.Desktop.Api.Mappings
                 .ForMember(d => d.UserInterfaceLanguage, o => o.MapFrom(s => s.UserInterfaceLanguage))
                 .ForMember(d => d.UseOffline, o => o.MapFrom(s => s.UseOffline))
                 .ForMember(d => d.WebHomeUrl, o => o.Ignore())
+                .ForMember(d => d.UIFont, o => o.MapFrom(s => s.UIFont))
                 .ReverseMap()
                 .ForMember(d => d.UserInterfaceLanguage, o => o.MapFrom(s => s.UserInterfaceLanguage))
                 .ForMember(d => d.UseOffline, o => o.MapFrom(s => s.UseOffline));
