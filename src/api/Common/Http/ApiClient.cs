@@ -18,10 +18,13 @@ namespace Inshapardaz.Desktop.Common.Http
         private Uri BaseUrl { get => new Uri(_configuration["apiAddress"]); }
         private string LocalApiUrl { get => _configuration["localApiAddress"]; }
 
-        public async Task<T> Get<T>(string url)
+        public async Task<T> Get<T>(string url, string accept = "application/json")
         {
             var client = new HttpClient();
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            if (!string.IsNullOrWhiteSpace(accept))
+            {
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(accept));
+            }
             var stringTask = await client.GetStringAsync(new Uri(BaseUrl, url));
             stringTask = stringTask.Replace(BaseUrl.ToString(), LocalApiUrl);
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(stringTask);

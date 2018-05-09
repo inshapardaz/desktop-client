@@ -49,7 +49,8 @@ namespace Inshapardaz.Desktop.Api
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
             services.AddSingleton<IProvideUserSettings, UserSettings>();
-
+            services.AddTransient<IApiClient, ApiClient>();
+            
             services.AddHangfire(c => c.UseMemoryStorage());
             DomainModule.RegisterDatabases(services, new UserSettings());
             RegisterRenderers(services);
@@ -77,7 +78,6 @@ namespace Inshapardaz.Desktop.Api
             }
             else
             {
-                services.AddTransient<IApiClient, ApiClient>();
                 services.AddBrighter()
                         .AsyncHandlersFromAssemblies(
                             typeof(Startup).GetTypeInfo().Assembly,
